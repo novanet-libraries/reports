@@ -1,0 +1,84 @@
+
+<select id="order-unit" class="form-control" data-placeholder="Order unit">
+  <option></option>
+  <!-- javascript will fill in the rest of the options -->
+</select>
+<select id="budget-year" class="form-control" data-placeholder="Budget Year">
+  <option></option>
+  <!-- javascript will fill in the rest of the options -->
+</select>
+<hr>
+<select id="budget-number" class="form-control" data-place-holder="Budget">
+  <option></option>
+  <!-- javascript will fill in the rest of the options -->
+</select>
+
+<script>
+
+$(document).ready(function() {
+  var report = novanet.allreports["spent-ytd-list"],
+      $orderUnitSelect = $('#order-unit'),
+      $yearSelect = $('#budget-year').prop("disabled", true).chosen({
+        disable_search: true,
+        width: '10em'
+      }),
+      $budgetSelect = $('#budget-number').prop("disabled", true).chosen({
+        search_contains: true,
+        width: "100%"
+      });
+ 
+  //add options to the orderUnit select box: 
+  $.each(Object.keys(novanet.data.allOrderUnits).sort(), function(idx, code){
+    var text = novanet.data.allOrderUnits[code];
+    if ($.inArray(code, Object.keys(novanet.data.allBudgets)) > -1){
+      $orderUnitSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
+    }
+  });
+  
+  $orderUnitSelect.chosen({
+    no_results_text: "No matching order unit",
+    width: "20em"
+  });
+  
+  //changing Order Unit changes which years/budgets are available.
+  $orderUnitSelect.on("change", function(){
+    var orderUnit = $orderUnitSelect.val();
+    
+    $yearSelect.prop("disabled", true).empty().html("<option></option>");
+    $budgetSelect.prop("disabled", true).empty().html("<option></option>");
+    
+    $.each(Object.keys(novanet.data.allBudgets[orderUnit]).sort().reverse(), function(idx, year){
+      $yearSelect.append("<option>" + year +"</option>");
+    });
+    $yearSelect.prop("disabled", false).trigger("chosen:updated");
+  });
+  
+  //changing year changes which budgets are available.
+  $yearSelect.on("change", function(){
+    var orderUnit = $orderUnitSelect.val(), year = $yearSelect.val();
+    
+    $budgetSelect.prop("disabled", true).empty().html("<option></option>");
+    
+    $.each(Object.keys(novanet.data.allBudgets[orderUnit][year]).sort(), function(idx, budget){
+      $budgetSelect.append(
+        $("<option>").attr("value", budget).html(
+          budget + " - " + novanet.data.allBudgets[orderUnit][year][budget]
+        )
+      );
+    });
+    $budgetSelect.prop("disabled", false).trigger("chosen:updated");
+  });
+  
+  $budgetSelect.on("change", function(evt){
+    var data = {
+      "order-unit"    : $orderUnitSelect.val(),
+      "budget-year"   : $yearSelect.val(),
+      "budget-number" : $budgetSelect.val()
+    };
+
+    novanet.fn.loadResults(report, data);
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>

@@ -1,0 +1,12 @@
+;
+; Connection data for MySQL reports_cache
+;
+[DataSourceName]
+host    = localhost
+port    = 3306
+dbname  = reports_cache
+charset = utf8
+
+[Credentials]
+user = reports
+pass = BXLGqFDQSseqA39X

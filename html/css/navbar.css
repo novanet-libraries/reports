@@ -1,0 +1,18 @@
+
+/* tweak the Bootstrap navbar a bit ... */
+
+.navbar-inverse {
+  background-image: url(/images/black-bar.jpg);
+  background-repeat: repeat;
+}
+.navbar {
+  font-family: Georgia, Times New Roman, Times, serif;
+  color: #c5cfd7;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+.navbar .dropdown-menu {
+  /* match the DataTables default fonts */
+  font-family: "Helvetica-Nueue",Helvetica,Arial,sans-serif;
+}
+.navbar-brand { padding: 8px 8px; } /* adjust for height of novanet logo */

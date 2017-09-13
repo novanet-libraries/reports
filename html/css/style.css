@@ -1,0 +1,94 @@
+
+.page-header {
+  background-image: url(/images/header-burst.jpg), url(/images/header-repeat-x.jpg);
+  background-repeat: no-repeat, repeat no-repeat;
+  background-size: auto 100%, auto 100%;
+  background-position: left bottom, top right;
+  color: #fff;
+  padding: 1em;
+  margin: 0 0 20px 0;
+}
+
+/* headers */
+h1,h2,h3,h4,h5,h6 {
+  font-family: Quicksand, Helvetica-Nueue, Helvetica, Verdana, Arial, sans-serif;
+}
+h1,h2 {
+  color: #cc9235;
+}
+
+#cache-statement {
+  display: inline-block;
+  padding: 3px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+}
+#cache-statement time { 
+  font-weight: bold;
+  margin-right: 3px;
+}
+#date-range {
+  background: #fff;
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0.3em;
+}
+
+/* Bootstrap progress bars have margin-bottom by default. Take that away when I put one in a datatable. */
+tbody .progress { margin-bottom: 0 }
+/* The "length" element needs a little padding to line up correctly with the "info" element */
+.dataTables_wrapper .dataTables_length {
+  padding-top: 4px;
+}
+/* move the "Buttons" to the right */
+.dataTables_wrapper .dt-buttons {
+  float: right;
+}
+
+/* checkbox on/off without changing button alignment */
+.btn .glyphicon-ok { display: inline-block; opacity: 0;}
+.btn.active .glyphicon-ok { display: inline-block; opacity: 1;}
+
+
+/* unused institution colors; kept for reference. */
+.ACAD {
+  background-color: #790517;
+}
+.AST {
+  background-color: #940d47;
+}
+.SMU {
+  background-color: #6e0408;
+}
+.CBU {
+  background-color: #8ec641;
+}
+.NSCAD {
+  background-color: #bfd500;
+}
+.DAL {
+  /* grey color:  #707372; */
+  background-color: black;
+  color: #f2ac00;
+}
+.NSCC {
+  background-color: #10497e;
+}
+.STFX {
+  background-color: #003365;
+}
+.MSVU {
+  background-color: #00529b;
+}
+.KINGS {
+  background-color: #063872;
+}
+.USA {
+  background-color: #00295b;
+}
+.NOVA {
+  background-color: #0735a0;
+}
+

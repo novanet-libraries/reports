@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Novanet Reports</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
+    <link href="/novanet-reports.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- favicon stuff -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#245a81">
+    <link rel="shortcut icon" href="/favicon.ico?v=5A5NnlKGo7">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <header class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <img src="/images/novanet-icon.svg" width="32" height="32" alt="icon">
+          </a>
+        </header>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+            <!-- javascript builds the rest of the nav bar -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <h1>
+        <img src="/images/novanet-logo.svg" width="270" height="91" alt="Novanet Reports">
+        <span class="sr-only">Novanet Reports</span>
+      </h1>
+    </header>
+
+    <section id="home" class="container" style="display:none">
+      <p> There should be content here for when there is no report on the screen.  Perhaps a list of all reports. </p>
+    </section>
+
+    <section id="current-report" class="container-fluid">
+
+      <header id="report-title">
+        <!-- the "loadReport" function ought to fill these out -->
+        <h2>Initializing ...</h2>
+        <p class="desc lead"></p>
+        <p class="note text-muted"></p>
+        
+        <div id="report-processing">
+          <!--
+            There is a "processing" event on the DataTable.
+            When it reports itself as "processing", this is displayed. Otherwise, it's hidden.
+          -->
+          <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">Processing...</span>
+            </div>
+          </div>
+        </div>        
+      </header>
+
+      <section id="report-parameters" class="panel panel-info" style="display:none">
+        <header class="panel-heading">Input parameters</header>
+        <div class="panel-body">
+          <!-- Input elements go here. Javascript will load them per-report.  -->
+        </div>
+      </section>
+
+      <section id="report-results" style="display:none">
+        <!-- This is the DataTable.  Contents are loaded by the "loadResults" function after we get input parameters. -->
+        <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" cellspacing="0" width="100%" style="width:100%;"></table>
+      </section>      
+    </section>
+
+    <script src="/novanet-reports.min.js"></script>
+
+  </body>
+</html>

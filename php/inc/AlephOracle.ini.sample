@@ -1,0 +1,9 @@
+
+;connect to Aleph Oracle database
+host = localhost:1521/SID
+user = READONLYUSER
+pass = READONLYPASS
+
+write-user = PRIVUSER
+write-pass = PRIVPASS
+

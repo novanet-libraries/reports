@@ -1,0 +1,37 @@
+
+<select id="sublibrary" class="form-control" data-placeholder="Sublibrary">
+  <option></option>
+  <!-- javascript will fill in the rest of the options -->
+</select>
+
+<script>
+
+$(document).ready(function() {
+  var report = novanet.allreports["items-per-collection"],
+      $sublibSelect = $("#sublibrary");
+  
+  //add options
+  $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
+    var $opt, text = novanet.data.allSublibraries[code];
+        
+    $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");    
+    $sublibSelect.append($opt);
+  });
+  
+  //make it nice:
+  $sublibSelect.chosen({
+    no_results_text: "No matching sublibrary",
+    search_contains: true,
+    width: "25em"
+  });
+  
+  //submit on change:
+  $sublibSelect.on("change", function(){
+    var data = { sublibrary: $sublibSelect.val() };
+
+    novanet.fn.loadResults(report, data);    
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>

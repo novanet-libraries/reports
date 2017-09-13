@@ -1,0 +1,71 @@
+
+<select id="sublibrary" class="form-control" data-placeholder="Sublibrary">
+  <option></option>
+</select>
+<select id="collections" class="form-control" data-placeholder="Collection Code">
+  <option></option>
+</select>
+
+<script>
+
+$(document).ready(function() {
+  var report = novanet.allreports['shelf-list'];
+  
+  //make the sublibrary/collection chooser controls:
+  
+  var $sublibSelect = $('#sublibrary'),
+      $collectSelect = $("#collections"),
+      prohibited = /^AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW$/;
+  
+  $collectSelect.prop("disabled", true).chosen({
+    no_results_text: "No matching collection",
+    search_contains: true,
+    label_with_value_only: true,
+    width: '50em'
+  });
+
+  //add options to $sublibSelect
+  $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
+    var text = novanet.data.allSublibraries[code];
+    $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
+  });
+  
+  //make it nice:
+  $sublibSelect.chosen({
+    no_results_text: "No matching sublibrary",
+    search_contains: true,
+    label_with_value_only: true,
+    width: '25em'
+  });
+
+  //changing the sublibrary changes the options for collection codes.
+  $sublibSelect.on("change", function(){
+    var sublibrary = $sublibSelect.val();
+    $collectSelect.prop("disabled", true).empty().html("<option></option>");    
+    
+    $.each(Object.keys(novanet.data.allCollectionCodes[sublibrary]).sort(), function(idx, code){
+      var text = novanet.data.allCollectionCodes[sublibrary][code],
+          $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");
+      if (code.match(prohibited)){
+        $opt.prop("disabled", true);
+      }
+      $collectSelect.append($opt);
+    });
+    $collectSelect.prop("disabled", false).trigger("chosen:updated");
+  });
+  
+  //load the results:
+  $collectSelect.on("change", function(evt){
+    //The option is called "collection[]" because we may change it to allow multiple collections
+    // and the php that fetches the data is already ready for that.
+    var data = {
+          "sublibrary": $sublibSelect.val(),
+          "collection[]": $collectSelect.val()
+        };
+    
+    novanet.fn.loadResults(report, data); 
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>
