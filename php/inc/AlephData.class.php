@@ -5,6 +5,12 @@ class AlephData {
   /* keep a local cache of data from aleph1.novanet.ca */
   private static function getJSON($filename){
     $fullPath = sys_get_temp_dir() . "/AlephData/$filename";
+    
+    //just do this once when you set up the app, rather than check each time we want data.
+    //if (!is_dir(dirname($fullPath))){
+    //  mkdir($dir, 0755, true);
+    //}
+    
     $modTime = filemtime($fullPath);
     $minTime = (int) ( (new DateTime())->sub(new DateInterval("PT15H"))->format("U") );
     if (!$modTime || $modTime < $minTime){
