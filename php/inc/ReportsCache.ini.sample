@@ -8,5 +8,5 @@ dbname  = reports_cache
 charset = utf8
 
 [Credentials]
-user = reports
-pass = BXLGqFDQSseqA39X
+user = username
+pass = password
