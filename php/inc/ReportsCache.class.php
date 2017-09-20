@@ -199,6 +199,8 @@ class ReportsCache {
     $params   = array();
     $params[] = basename(dirname($_SERVER["PHP_SELF"]));
     $params[] = basename($_SERVER["PHP_SELF"], ".php");
+    $fixed = "/" . join("/", $params) . "/";
+    $params = array();
     ksort($in);
     foreach($in as $key => $val){
       if (is_array($val)){
