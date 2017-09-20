@@ -207,7 +207,7 @@ class ReportsCache {
       $params[] = $val;
     }
 
-    $this->paramString = "/".join("/", $params)."/";
+    $this->paramString = $fixed . join("/", $params) . "/";
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
     if (strlen($this->paramString) > 255){
