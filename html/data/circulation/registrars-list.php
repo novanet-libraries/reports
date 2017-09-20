@@ -8,7 +8,7 @@ header("Content-type: application/json");
 
 $validSublibraries = AlephData::sublibraries();
 $validCodes = array();
-$prohibited = '/^NOVA|WWW|.+NET|.+BK$/';
+$prohibited = '/^NSHA|NOVA|WWW|.+NET|.+BK$/';
 if (empty($validSublibraries)){
   header("HTTP/1.1 500 Internal Server Error");
   echo json_encode(array("error" => "Fetching init data failed."));

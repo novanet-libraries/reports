@@ -9,7 +9,7 @@
 $(document).ready(function() {
   var report = novanet.allreports["registrars-list"],
       $sublibSelect = $("#sublibrary"),
-      prohibited = /^NOVA|WWW|.+NET|.+BK$/;
+      prohibited = /^NSHA|NOVA|WWW|.+NET|.+BK$/;
 
   //add options
   $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
