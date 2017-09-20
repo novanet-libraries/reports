@@ -211,7 +211,7 @@ class ReportsCache {
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
     if (strlen($this->paramString) > 255){
-      $this->paramString = sha1($this->paramString);
+      $this->paramString = $fixed . md5($this->paramString) . "/";
     }
   }
 
