@@ -18,6 +18,10 @@
 **      C INTEGER
 **      FOREIGN KEY (param_string) REFERENCES cache_state(param_string) ON DELETE CASCADE
 **  );
+**
+**  Javascript/DataTables get column names from here, so the names matter.  When you select out of
+**  Oracle, alias the column names to the actual column name here.  When you fetch column info in
+**  javascript, look for these column names.
 */
 
 class ReportsCache {
@@ -168,15 +172,15 @@ class ReportsCache {
 
   //set paramString, maxAge, and forceRefresh.
   //paramString is the same pretty URL that fetched the report in the first place
-  //it must be unique per requested report; it's the primary key in the cache_state table.
+  //it must be unique per requested report; it is the primary key in the cache_state table.
   //paramString could have user-entered data in it; use prepared statements when using it in SQL.
   private function getRequestInfo(){
     $in = $_GET ?: array();
 
     //jQuery adds this parameter with a timestamp to indicate it does not want cached results.
     $this->forceRefresh = !empty($in["_"]);
-    unset($in["_"]);//this lets anyone benefit from new results in the cache.
-    
+    unset($in["_"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+
     $this->maxAge = new DateInterval("P1D");
     if (!empty($in["max-age"])){
       try{
@@ -190,8 +194,8 @@ class ReportsCache {
         trigger_error("Tried to initialize maxAge and failed: " . $_GET["max-age"], E_USER_WARNING);
       }
     }
-    unset($in["max-age"]);//this lets anyone benefit from new results in the cache.
-    
+    unset($in["max-age"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+
     $params   = array();
     $params[] = basename(dirname($_SERVER["PHP_SELF"]));
     $params[] = basename($_SERVER["PHP_SELF"], ".php");
