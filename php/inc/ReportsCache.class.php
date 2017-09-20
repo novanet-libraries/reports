@@ -3,7 +3,7 @@
 /*
 **  CREATE DATABASE reports_cache DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;
 **
-**  CREATE TABLE cache_state (param_string VARCHAR(700) PRIMARY KEY, last_update DATETIME DEFAULT NULL);
+**  CREATE TABLE cache_state (param_string VARCHAR(255) PRIMARY KEY, last_update DATETIME DEFAULT NULL);
 **
 **  --- Then create one table for each report.
 **  --- Each 'report' table should match the columns that are fetched out of Oracle and displayed,
@@ -14,7 +14,7 @@
 **
 **  --- e.g.
 **  CREATE TABLE invalid_sublibraries (
-**      param_string varchar(700),
+**      param_string varchar(255),
 **      Z30_SUB_LIBRARY VARCHAR(6),
 **      C INTEGER
 **      FOREIGN KEY (param_string) REFERENCES cache_state(param_string) ON DELETE CASCADE
@@ -211,7 +211,7 @@ class ReportsCache {
     $this->paramString = "/".join("/", $params)."/";
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
-    if (strlen($this->paramString) > 640){
+    if (strlen($this->paramString) > 255){
       $this->paramString = sha1($this->paramString);
     }
   }
