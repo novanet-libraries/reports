@@ -1,12 +1,12 @@
 novanet.datatableInitObject = {
   order: [[3,"desc"]],
   columns: [
-    { data : 'Z303_HOME_LIBRARY',
+    { data : 'HOME_LIBRARY',
       title: 'Home Library',
       orderable: false,
       visible: false
     },{
-      data : 'Z305_EXPIRY_DATE',
+      data : 'EXPIRY_DATE',
       title: 'Expiry Date',
       type: 'num',
       className: 'text-nowrap',
@@ -14,7 +14,7 @@ novanet.datatableInitObject = {
       excelType: "d",
       excelFmt: "mmm d, yyyy"
     },{
-      data : 'Z303_NAME',
+      data : 'NAME',
       title: 'Name',
       className: 'text-nowrap'
     },{
