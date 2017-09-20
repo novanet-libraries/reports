@@ -10,7 +10,6 @@
 **  --- plus a param_string column that is a foreign key to the cache_state table
 **  --- All logic and constraints go into creating the table in Oracle.
 **  --- The cache is just a dead-simple 2D view of the output.
-**  
 **
 **  --- e.g.
 **  CREATE TABLE invalid_sublibraries (
@@ -87,8 +86,8 @@ class ReportsCache {
       }
 
       $now = date("Y-m-d H:i:s");
-      
-      $this->db->beginTransaction();      
+
+      $this->db->beginTransaction();
       $cacheStmt->execute(array($this->paramString, $now));
       if (!empty($data)){
         foreach($data as $row){
@@ -97,7 +96,7 @@ class ReportsCache {
         }
       }
       $this->db->commit();
-      
+
       $this->lastUpdate = $now;
     }
     catch (Exception $ex){
