@@ -31,15 +31,15 @@ else{
 
     if ($cache->isStale()){
       $sql     = file_get_contents("./registrars-list.sql");
-      $bind    = array(":SUBLIBRARY" => $sublibrary); 
+      $bind    = array(":SUBLIBRARY" => $sublibrary);
       $results = array();
-      
+
       $db = new AlephOracle(AlephOracle::TEST);
       foreach($db->query($sql, $bind) as $row){
         $results[] = $row;
       }
       $cache->refresh($results);
-      
+
       $output = array(
         "date" => date("Y-m-d H:i:s"),
         "data" => $results
