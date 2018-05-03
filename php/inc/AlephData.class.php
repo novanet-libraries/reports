@@ -5,10 +5,16 @@ class AlephData {
   /* keep a local cache of data from aleph1.novanet.ca */
   private static function getJSON($filename){
     $fullPath = sys_get_temp_dir() . "/AlephData/$filename";
+
+    //just do this once when you set up the app, rather than check each time we want data.
+    if (!is_dir(dirname($fullPath))){
+     mkdir(dirname($fullPath), 0755, true);
+    }
+
     $modTime = filemtime($fullPath);
     $minTime = (int) ( (new DateTime())->sub(new DateInterval("PT15H"))->format("U") );
     if (!$modTime || $modTime < $minTime){
-      file_put_contents($fullPath, file_get_contents("https://aleph1.novanet.ca/cgi-bin/$filename"));
+      file_put_contents($fullPath, file_get_contents("https://aleph1.novanet.ca/novanet/$filename"));
     }
     return file_get_contents($fullPath);
   }
@@ -20,8 +26,11 @@ class AlephData {
   }
 
   public static function sublibraries(){
-    $jsonString = self::getJSON("all-sublibraries.json");
-    $data = json_decode($jsonString, true);
+    static $data = null;
+    if (!$data){
+      $jsonString = self::getJSON("all-sublibraries.json");
+      $data = json_decode($jsonString, true);
+    }
     return $data;
   }
 
@@ -42,4 +51,20 @@ class AlephData {
     return $data;
   }
 
+  public static function institutionSublibraries(){
+    $rv = [];
+    foreach(array_keys(self::sublibraries()) as $code){
+      $prefix = substr($code,0,2);
+      if ($prefix == "DL"){
+        $rv["DAL"][] = $code;
+      }else if ($prefix == "CC"){
+        $rv["NSCC"][] = $code;
+      }else if ($prefix == "SF"){
+        $rv["StFX"][] = $code;
+      }else{
+        $rv[$code][] = $code;
+      }
+    }
+    return $rv;
+  }
 }

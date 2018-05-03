@@ -4,7 +4,7 @@ DEFAULT CHARACTER SET = utf8 DEFAULT COLLATE = utf8_unicode_ci;
 USE reports_cache;
 
 CREATE TABLE IF NOT EXISTS cache_state (
-  param_string varchar(700) NOT NULL,
+  param_string varchar(255) NOT NULL,
   last_update  datetime     DEFAULT NULL,
   PRIMARY KEY (param_string)
 );
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS cache_state (
 -- Each report must have a foreign key linking its param_string
 -- back to the cache_state table.
 CREATE TABLE IF NOT EXISTS invalid_sublibraries (
-  param_string    varchar(700) NOT NULL,
+  param_string    varchar(255) NOT NULL,
   Z30_SUB_LIBRARY varchar(6)   DEFAULT NULL,
   C               int(11)      DEFAULT NULL,
   KEY param_string (param_string),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS invalid_sublibraries (
 );
 
 CREATE TABLE IF NOT EXISTS items_per_collection (
-  param_string   varchar(700) NOT NULL,
+  param_string   varchar(255) NOT NULL,
   Z30_COLLECTION varchar(6)   DEFAULT NULL,
   C              int(11)      DEFAULT NULL,
   KEY param_string (param_string),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS items_per_collection (
 );
 
 CREATE TABLE IF NOT EXISTS registrars_list (
-  param_string      varchar(700) NOT NULL,
+  param_string      varchar(255) NOT NULL,
   Z303_HOME_LIBRARY varchar(6)   DEFAULT NULL,
   Z305_EXPIRY_DATE  varchar(10)  DEFAULT NULL,
   Z303_NAME         varchar(64)  DEFAULT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS registrars_list (
 );
 
 CREATE TABLE IF NOT EXISTS small_old_fines (
-  param_string      varchar(700) NOT NULL,
+  param_string      varchar(255) NOT NULL,
   Z303_REC_KEY      varchar(12)  DEFAULT NULL,
   Z303_NAME         varchar(200) DEFAULT NULL,
   Z303_HOME_LIBRARY varchar(5)   DEFAULT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS small_old_fines (
 );
 
 CREATE TABLE IF NOT EXISTS spent_ytd_list (
-  param_string      varchar(700) NOT NULL,
+  param_string      varchar(255) NOT NULL,
   BUDGET_NUMBER     varchar(50)  DEFAULT NULL,
   Z76_NAME          varchar(60)  DEFAULT NULL,
   LOCALSUM          varchar(20)  DEFAULT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS spent_ytd_list (
 );
 
 CREATE TABLE spent_ytd_summary (
-  param_string   varchar(700) NOT NULL,
+  param_string   varchar(255) NOT NULL,
   BUDGET_NUMBER  varchar(50)  DEFAULT NULL,
   BUDGET         varchar(60)  DEFAULT NULL,
   ALLOCATED      varchar(20)  DEFAULT NULL,
@@ -89,3 +89,7 @@ CREATE TABLE spent_ytd_summary (
   KEY ytd_summary_params (param_string),
   CONSTRAINT spent_ytd_summary_ibfk_1 FOREIGN KEY (param_string) REFERENCES cache_state (param_string) ON DELETE CASCADE
 );
+
+GRANT SELECT,INSERT,UPDATE,DELETE,EXECUTE,LOCK TABLES,CREATE TEMPORARY TABLES
+ON reports_cache.*
+TO reports@localhost IDENTIFIED BY 'somepassword';

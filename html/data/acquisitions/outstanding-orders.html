@@ -1,0 +1,34 @@
+
+<select id="order-unit" class="form-control" data-placeholder="Order unit">
+  <option></option>
+</select>
+
+<script>
+
+$(document).ready(function() {
+  var report = novanet.allreports["outstanding-orders"],
+      $orderUnitSelect = $("#order-unit");
+      
+  //add options to the orderUnit select box:
+  $.each(Object.keys(novanet.data.allOrderUnits).sort(), function(idx, code){
+    var text = novanet.data.allOrderUnits[code];
+    if ($.inArray(code, Object.keys(novanet.data.allBudgets)) > -1){
+      $orderUnitSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
+    }
+  });
+
+  $orderUnitSelect.chosen({
+    no_results_text: "No matching order unit",
+    width: "20em"
+  }).on("change", function(){
+    var data = {
+      "order-unit": $orderUnitSelect.val(),
+    };
+
+    novanet.fn.loadResults(report, data);
+    novanet.fn.pushState(report, data);
+  });
+
+});
+
+</script>

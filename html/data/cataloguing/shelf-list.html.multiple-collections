@@ -18,7 +18,7 @@ $(document).ready(function() {
   
   var $sublibSelect = $('#sublibrary'),
       $collectSelect = $("#collections"),
-      prohibited = /^AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW$/;
+      prohibited = /^(AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW)$/;
   
   //add options to $sublibSelect
   $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){

@@ -1,0 +1,99 @@
+
+<!--<div class="alert alert-warning">In Progress.  Please don't use this report until this message is gone.</div>-->
+<div class="form-inline">
+  <div class="form-group">
+    <label for="startdate">Starting Date</label>
+    <input  id="startdate" type="date" class="form-control" data-placeholder="Start Date">
+  </div>
+  <div class="form-group">
+    <label for="sublibrary">Sublibrary</label>
+    <select id="sublibrary" class="form-control" data-placeholder="Sublibrary"><option></option></select>
+  </div>
+  <div class="form-group">
+    <label for="collections">Collections</label>
+    <span>(max 5)</span>
+    <select id="collections" class="form-control" data-placeholder="Collection Code" multiple><option></option></select>
+  </div>
+  <button class="btn btn-primary" id="submit">Go</button>
+</div>
+<script>
+$(document).ready(function() {
+  var report = novanet.allreports['new-isbns'];
+  
+  //make the sublibrary/collection chooser controls:
+  
+  var $sublibSelect = $('#sublibrary'),
+      $collectSelect = $("#collections"),
+      $dateSelect = $("#startdate"),
+      prohibited = /^(.+RES|NOVA|WWW)$/;
+  
+  $dateSelect.val(
+    moment().subtract(27, 'days').startOf('month').format('YYYY-MM-DD')
+  ).prop({
+    'min' : moment().subtract(5, 'years').format('YYYY-MM-DD'),
+    'max' : moment().format('YYYY-MM-DD')
+  });
+
+  $collectSelect.prop("disabled", true).chosen({
+    no_results_text: "No matching collection",
+    search_contains: true,
+    max_selected_options: 5,
+    label_with_value_only: true,
+    width: '50em'
+  });
+
+  //add options to $sublibSelect
+  $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
+    var text = novanet.data.allSublibraries[code];
+    $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
+  });
+  
+  //make it nice:
+  $sublibSelect.chosen({
+    no_results_text: "No matching sublibrary",
+    search_contains: true,
+    label_with_value_only: true,
+    width: '25em'
+  });
+
+  //changing the sublibrary changes the options for collection codes.
+  $sublibSelect.on("change", function(){
+    var sublibrary = $sublibSelect.val();
+    $collectSelect.prop("disabled", true).empty().html("<option></option>");    
+    
+    $.each(Object.keys(novanet.data.allCollectionCodes[sublibrary]).sort(), function(idx, code){
+      var text = novanet.data.allCollectionCodes[sublibrary][code],
+          $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");
+      if (code.match(prohibited)){
+        $opt.prop("disabled", true);
+      }
+      $collectSelect.append($opt);
+    });
+    $collectSelect.prop("disabled", false).trigger("chosen:updated");
+  });
+  
+  //submitting the form loads the results.
+  $("#submit").on('click', function(evt){
+    var collections = $collectSelect.val(),
+        startdate   = $dateSelect.val(),
+        data = {
+          "sublibrary": $sublibSelect.val(),
+          "collection[]": collections,
+          "start-date": startdate
+        };
+    
+    if (collections === null || collections === []){
+      //warn that they should select a collection
+      return false;
+    }
+    if (!startdate){
+      //more fully validate start date
+      return false;
+    }
+
+    novanet.fn.loadResults(report, data); 
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>

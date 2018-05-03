@@ -12,7 +12,7 @@
 //        $db   = oci_connect(/*...*/);
 //        $sql  = "SELECT NAME FROM TABLE WHERE COUNTRY = :COUNTRY AND PROVINCE = :PROVINCE";
 //        $bind = array(":COUNTRY" => "Canada", ":PROVINCE" => "Nova Scotia");
-//        $stmt = OCIQuery($db, $sql, $bind);
+//        $stmt = new OCIQuery($db, $sql, $bind);
 //        foreach($stmt as $row){
 //            echo $row["NAME"], "\n";
 //        }

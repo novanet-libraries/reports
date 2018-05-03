@@ -1,3 +1,8 @@
+//console.error("deliberate syntax error to prevent people running reports.");
+//alert("This report is not yet reliable.");
+
+deliberateError();
+
 novanet.datatableInitObject = {
   order: [[1,"asc"]],
   columns: [{

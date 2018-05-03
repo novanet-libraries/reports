@@ -35,7 +35,7 @@ else{
       }
       $budgetString = "('" . join("','", $budgetNumbers) . "')";
       $sql = str_replace(":BUDGETS", $budgetString, file_get_contents('./spent-ytd-summary.sql'));
-      $db = new AlephOracle(AlephOracle::TEST);
+      $db = new AlephOracle(AlephOracle::LIVE);
       $results = array();
       foreach($db->query($sql) as $row){
         $results[] = $row;

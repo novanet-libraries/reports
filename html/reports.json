@@ -48,6 +48,22 @@
     "req-params": ["sublibrary"],
     "max-age": "P1M"
   },
+  "new-isbns" : {
+    "name": "New ISBNs",
+    "desc": "ISBNs added to collections since a given date",
+    "base": "/acquisitions/",
+    "filename": "new-isbns",
+    "req-params": ["start-date", "sublibrary", "collection[]"],
+    "max-age": "P7D"
+  },
+  "outstanding-orders" : {
+    "name": "Outstanding Orders",
+    "desc": "Active encumbrances",
+    "base": "/acquisitions/",
+    "filename": "outstanding-orders",
+    "req-params": ["order-unit"],
+    "max-age": "P7D"
+  },
   "spent-ytd-summary" : {
     "name": "Spent YTD Summary",
     "desc": "Spent year-to-date per budget",

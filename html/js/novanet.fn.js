@@ -64,23 +64,23 @@ novanet.fn = (function(){
         return pieces.length ? " (" + pieces.join(", ") + ")" : "";
       },
       paramsToFilename = function(params){
-        var pieces = [];
-        if (!params){
-          return "";
+        var pieces = [], name = "";
+        if (params){
+          Object.keys(params).forEach(function(key){
+            var val = Array.isArray(params[key]) ? params[key].join(" ") : ""+params[key];
+            if (val && val.match(/^[A-Za-z0-9 _-]+$/)){
+              pieces.push(val.replace(/ /g, '-'));
+            }
+          });
         }
-        Object.keys(params).forEach(function(key){
-          var val = Array.isArray(params[key]) ? params[key].join(" ") : ""+params[key];
-          if (val && val.match(/^[A-Za-z0-9 _-]+$/)){
-            pieces.push(val.replace(/ /g, '-'));
-          }
-        });
-        return pieces.length ? "-" + pieces.join("-") : "";
+        name = pieces.length ? "-" + pieces.join("-") : "";
+        return (name.length > 0 && name.length < 50) ? name : moment().format("YYYYMMDD-HHmmss");
       },
       customizePrintView = function(win){
         var $doc = $(win.document);
 
         $doc.find('h1').prepend(
-          '<img src="http://reports.novanet.ca/images/novanet-icon-32x32.png" width="32" height="32" alt="icon">'
+          '<img src="https://reports.novanet.ca/images/novanet-icon-32x32.png" width="32" height="32" alt="icon">'
         );
 
         $doc.find('thead th').each(function(){
@@ -127,8 +127,9 @@ novanet.fn = (function(){
             filename  : report.filename + paramsToFilename(params) + "-" + novanet.today,
             className : "btn-info"
           },{
-            extend : 'colvis',
-            text   : '<i class="glyphicon glyphicon-eye-close"></i> Show/Hide Columns'
+            extend    : "colvis",
+            text      : "<i class='glyphicon glyphicon-eye-close'></i> Show/Hide Columns",
+            titleAttr : "Visibility affects screen and print only. Downloaded files always contain all the data."
           },{
             extend        : "print",
             text          : "<i class='glyphicon glyphicon-print'></i> Print",
@@ -137,7 +138,7 @@ novanet.fn = (function(){
             autoPrint     : true,
             customize     : customizePrintView,
             exportOptions : {
-              columns: ':visible'
+              columns: ":visible"
             }
           }/*,{
             // custom button, not extending a built in one

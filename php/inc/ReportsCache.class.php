@@ -3,22 +3,25 @@
 /*
 **  CREATE DATABASE reports_cache DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;
 **
-**  CREATE TABLE cache_state (param_string VARCHAR(700) PRIMARY KEY, last_update DATETIME DEFAULT NULL);
+**  CREATE TABLE cache_state (param_string VARCHAR(255) PRIMARY KEY, last_update DATETIME DEFAULT NULL);
 **
 **  --- Then create one table for each report.
 **  --- Each 'report' table should match the columns that are fetched out of Oracle and displayed,
 **  --- plus a param_string column that is a foreign key to the cache_state table
 **  --- All logic and constraints go into creating the table in Oracle.
 **  --- The cache is just a dead-simple 2D view of the output.
-**  
 **
 **  --- e.g.
 **  CREATE TABLE invalid_sublibraries (
-**      param_string varchar(700),
+**      param_string varchar(255),
 **      Z30_SUB_LIBRARY VARCHAR(6),
 **      C INTEGER
 **      FOREIGN KEY (param_string) REFERENCES cache_state(param_string) ON DELETE CASCADE
 **  );
+**
+**  Javascript/DataTables get column names from here, so the names matter.  When you select out of
+**  Oracle, alias the column names to the actual column name here.  When you fetch column info in
+**  javascript, look for these column names.
 */
 
 class ReportsCache {
@@ -57,6 +60,29 @@ class ReportsCache {
     }
   }
 
+  //if you start writing (echo), then encounter an error, you can't send error header to the client
+  //so the catch() block here doesn't work the way we'd like it to.
+  public function writeJSON(){
+    try{
+      $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE param_string = ?");
+      $stmt->execute(array($this->paramString));
+      
+      echo '{', json_encode("date"), ':', json_encode($this->lastUpdate);
+      echo ',', json_encode("data"), ':[';
+      foreach($stmt as $idx => $row){
+        if ($idx != 0){
+          echo ',';
+        }
+        echo json_encode($row);
+      }
+      echo ']}';
+    }
+    catch (Exception $ex){
+      error_log($ex->getMessage());
+      throw new Exception("Error writing from cache: " . $this->table . " - " .  $this->paramString);
+    }
+  }
+  
   public function fetch(){
     try{
       $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE param_string = ?");
@@ -87,8 +113,8 @@ class ReportsCache {
       }
 
       $now = date("Y-m-d H:i:s");
-      
-      $this->db->beginTransaction();      
+
+      $this->db->beginTransaction();
       $cacheStmt->execute(array($this->paramString, $now));
       if (!empty($data)){
         foreach($data as $row){
@@ -97,7 +123,7 @@ class ReportsCache {
         }
       }
       $this->db->commit();
-      
+
       $this->lastUpdate = $now;
     }
     catch (Exception $ex){
@@ -169,15 +195,15 @@ class ReportsCache {
 
   //set paramString, maxAge, and forceRefresh.
   //paramString is the same pretty URL that fetched the report in the first place
-  //it must be unique per requested report; it's the primary key in the cache_state table.
+  //it must be unique per requested report; it is the primary key in the cache_state table.
   //paramString could have user-entered data in it; use prepared statements when using it in SQL.
   private function getRequestInfo(){
     $in = $_GET ?: array();
 
     //jQuery adds this parameter with a timestamp to indicate it does not want cached results.
     $this->forceRefresh = !empty($in["_"]);
-    unset($in["_"]);//this lets anyone benefit from new results in the cache.
-    
+    unset($in["_"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+
     $this->maxAge = new DateInterval("P1D");
     if (!empty($in["max-age"])){
       try{
@@ -191,11 +217,13 @@ class ReportsCache {
         trigger_error("Tried to initialize maxAge and failed: " . $_GET["max-age"], E_USER_WARNING);
       }
     }
-    unset($in["max-age"]);//this lets anyone benefit from new results in the cache.
-    
+    unset($in["max-age"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+
     $params   = array();
     $params[] = basename(dirname($_SERVER["PHP_SELF"]));
     $params[] = basename($_SERVER["PHP_SELF"], ".php");
+    $fixed = "/" . join("/", $params) . "/";
+    $params = array();
     ksort($in);
     foreach($in as $key => $val){
       if (is_array($val)){
@@ -208,11 +236,11 @@ class ReportsCache {
       $params[] = $val;
     }
 
-    $this->paramString = "/".join("/", $params)."/";
+    $this->paramString = $fixed . join("/", $params) . "/";
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
-    if (strlen($this->paramString) > 640){
-      $this->paramString = sha1($this->paramString);
+    if (strlen($this->paramString) > 255){
+      $this->paramString = $fixed . md5($this->paramString) . "/";
     }
   }
 

@@ -1,13 +1,13 @@
 
+<!--<div class="alert alert-warning">In Progress.  Please don't use this report until this message is gone.</div>-->
+
 <select id="sublibrary" class="form-control" data-placeholder="Sublibrary">
   <option></option>
 </select>
-<select id="collections" class="form-control" data-placeholder="Collection Code">
+<select id="collections" class="form-control" data-placeholder="Collection Code" multiple>
   <option></option>
 </select>
-
 <script>
-
 $(document).ready(function() {
   var report = novanet.allreports['shelf-list'];
   
@@ -15,7 +15,7 @@ $(document).ready(function() {
   
   var $sublibSelect = $('#sublibrary'),
       $collectSelect = $("#collections"),
-      prohibited = /^AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW$/;
+      prohibited = /^(AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW)$/;
   
   $collectSelect.prop("disabled", true).chosen({
     no_results_text: "No matching collection",

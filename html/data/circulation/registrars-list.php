@@ -8,7 +8,7 @@ header("Content-type: application/json");
 
 $validSublibraries = AlephData::sublibraries();
 $validCodes = array();
-$prohibited = '/^NOVA|WWW|.+NET|.+BK$/';
+$prohibited = '/^NSHA|NOVA|WWW|.+NET|.+BK$/';
 if (empty($validSublibraries)){
   header("HTTP/1.1 500 Internal Server Error");
   echo json_encode(array("error" => "Fetching init data failed."));
@@ -31,15 +31,15 @@ else{
 
     if ($cache->isStale()){
       $sql     = file_get_contents("./registrars-list.sql");
-      $bind    = array(":SUBLIBRARY" => $sublibrary); 
+      $bind    = array(":SUBLIBRARY" => $sublibrary);
       $results = array();
-      
-      $db = new AlephOracle(AlephOracle::TEST);
+
+      $db = new AlephOracle(AlephOracle::LIVE);
       foreach($db->query($sql, $bind) as $row){
         $results[] = $row;
       }
       $cache->refresh($results);
-      
+
       $output = array(
         "date" => date("Y-m-d H:i:s"),
         "data" => $results

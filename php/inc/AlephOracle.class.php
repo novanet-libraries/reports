@@ -32,7 +32,7 @@ class AlephOracle {
     $this->connection = oci_connect($conf['user'], $conf['pass'], $conf['host'], 'AL32UTF8');
     if (!$this->connection){
       $e = oci_error();
-      throw new Exception($e['message'] . "\n" . $conf['user'] . "/******@" . $conf['host']);
+      throw new Exception($e['message'] . "\nwith connectstring: " . $conf['user'] . "/******@" . $conf['host']);
     }
   }
 

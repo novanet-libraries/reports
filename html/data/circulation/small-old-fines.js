@@ -15,11 +15,11 @@ novanet.datatableInitObject = {
       visible: false,
       excelType: "s"
     },{
-      data : 'Z303_HOME_LIBRARY',
+      data : 'HOME_LIBRARY',
       title: 'Home Library',
       visible: false
     },{
-      data : 'Z303_NAME',
+      data : 'NAME',
       title: 'Name',
       className: 'text-nowrap'
     },{

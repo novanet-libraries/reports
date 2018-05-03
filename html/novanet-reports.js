@@ -5812,17 +5812,40 @@ novanet.fn = (function(){
         return pieces.length ? " (" + pieces.join(", ") + ")" : "";
       },
       paramsToFilename = function(params){
-        var pieces = [];
-        if (!params){
-          return "";
+//        var pieces = [];
+//        if (!params){
+//          return "";
+//        }
+//        Object.keys(params).forEach(function(key){
+//          var val = Array.isArray(params[key]) ? params[key].join(" ") : ""+params[key];
+//          if (val && val.match(/^[A-Za-z0-9 _-]+$/)){
+//            pieces.push(val.replace(/ /g, '-'));
+//          }
+//        });
+//        return pieces.length ? "-" + pieces.join("-") : "";
+        var pieces = [], name = "";
+        if (params){
+          Object.keys(params).forEach(function(key){
+            var val;
+            if (Array.isArray(params[key])){
+              if (params[key].length == 1){
+                val = params[key][0];
+              }
+              else{
+                val = "";
+              }
+            }
+            else{
+              val = params[key];
+            }
+
+            if (val && val.match(/^[A-Za-z0-9 _-]+$/)){
+              pieces.push(val.replace(/ /g, '-'));
+            }
+          });
         }
-        Object.keys(params).forEach(function(key){
-          var val = Array.isArray(params[key]) ? params[key].join(" ") : ""+params[key];
-          if (val && val.match(/^[A-Za-z0-9 _-]+$/)){
-            pieces.push(val.replace(/ /g, '-'));
-          }
-        });
-        return pieces.length ? "-" + pieces.join("-") : "";
+        name = pieces.length ? "-" + pieces.join("-") : "";
+        return (name.length > 0 && name.length < 50) ? name : moment().format("YYYYMMDD-HHmmss");
       },
       customizePrintView = function(win){
         var $doc = $(win.document);
