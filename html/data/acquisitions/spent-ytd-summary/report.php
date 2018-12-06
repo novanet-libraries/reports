@@ -26,7 +26,7 @@ else if (empty($year) || !in_array($year, array_keys($validBudgets[$orderUnit]))
 }
 else{
   try{
-    $cache = new ReportsCache('spent_ytd_summary');
+  $cache = new ReportsCache(basename(__DIR__));
     $maxAge = $year < date('Y')-1 ? 'P1Y' : 'P7D';
     if ($cache->isStale($maxAge)){
       $budgetNumbers = array();
@@ -34,7 +34,7 @@ else{
         $budgetNumbers[] = $budget . "-" . $year;
       }
       $budgetString = "('" . join("','", $budgetNumbers) . "')";
-      $sql = str_replace(":BUDGETS", $budgetString, file_get_contents('./spent-ytd-summary.sql'));
+      $sql = str_replace(":BUDGETS", $budgetString, file_get_contents('./query.sql'));
       $db = new AlephOracle(AlephOracle::LIVE);
       $results = array();
       foreach($db->query($sql) as $row){

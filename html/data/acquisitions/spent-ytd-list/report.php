@@ -39,10 +39,10 @@ foreach($_GET['budget-number'] as $budget){
 }
 
 try{
-  $cache = new ReportsCache('spent_ytd_list');
+  $cache = new ReportsCache(basename(__DIR__));
   $maxAge = $year < date('Y')-1 ? 'P1Y' : 'P7D';
   if ($cache->isStale($maxAge)){
-    $sql  = file_get_contents('./spent-ytd-list.sql');
+    $sql  = file_get_contents('./query.sql');
 
     //replace IN ( :BUDGETNUMBERS ) with in IN (:B0, :B1, :B2, etc.)
     $bind = array();

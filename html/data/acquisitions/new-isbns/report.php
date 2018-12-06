@@ -64,10 +64,10 @@ try{
 }
 
 try{
-  $cache = new ReportsCache('new-isbns');
+  $cache = new ReportsCache(basename(__DIR__));
 
   if ($cache->isStale()){
-    $sql = file_get_contents("./new-isbns.sql");
+    $sql = file_get_contents("./query.sql");
     $bind = array();
     foreach($collections as $idx => $code){
       $bind[":COL$idx"] = $code;

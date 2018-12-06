@@ -58,14 +58,14 @@ catch (Exception $ex){
 
 try{ //get report
 
-  $cache = new ReportsCache('circ_by_patron');
+  $cache = new ReportsCache(basename(__DIR__));
   if ($cache->isStale()){
     
     //make an SQL statement.
     //parameterize/bind the variables we can;
     //find/replace the ones we can't. (usually "... IN ( [list] )..." )
     $inStr = "('" . join("','", $sublibraries) . "')";
-    $sql   = str_replace(':SUBLIBRARY', $inStr, file_get_contents('./circ-by-patron.sql'));
+    $sql   = str_replace(':SUBLIBRARY', $inStr, file_get_contents('./query.sql'));
     $bind  = array(
       ":STARTDATE" => $startDate,
       ":ENDDATE"   => $endDate

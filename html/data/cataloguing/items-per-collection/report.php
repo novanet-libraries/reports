@@ -20,7 +20,7 @@ foreach($sublibraries as $code){
   }
 }
 
-$cache = new ReportsCache("items-per-collection");
+$cache = new ReportsCache(basename(__DIR__));
 if ($cache->isStale()){
 
   foreach($sublibraries as $idx => $code){

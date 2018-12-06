@@ -22,9 +22,9 @@ if (empty($orderUnit) || !in_array($orderUnit, array_keys($validBudgets))){
 }
 
 try{
-  $cache = new ReportsCache('outstanding_orders');
+  $cache = new ReportsCache(basename(__DIR__));
   if ($cache->isStale()){
-    $sql  = file_get_contents('./outstanding-orders.sql');
+    $sql  = file_get_contents('./query.sql');
 
     $t = (new DateTime())->sub(new DateInterval('P3M'));
     $budgetYear = $t->format('Y');

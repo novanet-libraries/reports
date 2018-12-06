@@ -25,10 +25,10 @@ foreach($_GET['sublibrary'] as $input){
 }
 
 try{
-  $cache = new ReportsCache('small-old-fines');
+  $cache = new ReportsCache(basename(__DIR__));
 
   if ($cache->isStale()){
-    $sql = file_get_contents("./small-old-fines.sql");
+    $sql = file_get_contents("./query.sql");
 
     //replace IN ( :SUBLIBRARIES ) with in IN (:SUB0, :SUB1, :SUB2, etc.)
     $bind = array();

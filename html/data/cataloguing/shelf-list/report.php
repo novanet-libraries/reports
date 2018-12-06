@@ -69,10 +69,10 @@ if (empty($collections)){
 }
 
 try{
-  $cache = new ReportsCache('shelf-list');
+  $cache = new ReportsCache(basename(__DIR__));
 
   if ($cache->isStale()){
-    $sql = file_get_contents("./shelf-list.sql");
+    $sql = file_get_contents("./query.sql");
 
     //replace IN ( :COLLECTION ) with in IN (:COL0, :COL1, :COL2, etc.)
     $bind = array();

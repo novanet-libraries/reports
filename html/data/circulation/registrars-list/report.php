@@ -27,10 +27,10 @@ if (empty($sublibrary) || !in_array($sublibrary, $validCodes)){
 }
 else{
   try{
-    $cache = new ReportsCache("registrars-list");
+    $cache = new ReportsCache(basename(__DIR__));
 
     if ($cache->isStale()){
-      $sql     = file_get_contents("./registrars-list.sql");
+      $sql     = file_get_contents("./query.sql");
       $bind    = array(":SUBLIBRARY" => $sublibrary);
       $results = array();
 
