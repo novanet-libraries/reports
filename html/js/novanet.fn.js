@@ -155,7 +155,7 @@ novanet.fn = (function(){
       defaultAjaxObject = function(report, params, forceRefresh){
         params = $.extend({"max-age": report["max-age"]}, params);
         return {
-          url   : "/data" + report.base + report.filename + ".php",
+          url   : "/data" + report.base + report.filename + "/report.php",
           data  : params,
           error : novanet.errorHandler,
           cache : !forceRefresh
@@ -372,7 +372,7 @@ novanet.fn = (function(){
         else{
           //else show the form to input parameters (which in turn must call loadResults() onsubmit)
           novanet.page.$params.find(".panel-body").load(
-            "/data" + report.base + report.filename + ".html",
+            "/data" + report.base + report.filename + "/input-params.html",
             function(){
               novanet.page.$params.show();
             }
@@ -392,7 +392,7 @@ novanet.fn = (function(){
         //this ajax request gets configuration info for the DataTable
         //(which includes the ajax request that gets the data).
         $.ajax({
-          url: "/data" + report.base + report.filename + ".js",
+          url: "/data" + report.base + report.filename + "/report-config.js",
           dataType: "script",
           cache: true,
           success: function(){
