@@ -1,6 +1,6 @@
 novanet.datatableInitObject = {
   //ordering: false,
-  order: [[4,"asc"]],
+  order: [[6,"asc"],[7,"asc"]],
   deferRender: true,
   columns: [
     {
@@ -9,6 +9,14 @@ novanet.datatableInitObject = {
     },{
       data: "AUTHOR",
       title: "Author",
+      visible: false
+    },{
+      data: "IMPRINT",
+      title: "Imprint",
+      visible: false
+    },{
+      data: "YEAR",
+      title: "Year",
       visible: false
     },{
       data: "ISN",
