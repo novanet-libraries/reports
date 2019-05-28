@@ -4,3 +4,4 @@ Gruntfile.js
 package.json
 **/tmp/
 **/log/
+log
