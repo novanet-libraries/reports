@@ -160,7 +160,11 @@ processData = function(){
   postMessage(
     JSON.stringify({
       "percentComplete": 100,
-      "workbook": XLSX.write(workbook, {type:"binary"})
+      "workbook": XLSX.write(workbook, {
+        type:"binary",
+        bookType:"xlsx",
+        compression:"DEFLATE"
+      })
     })
   );
 },
