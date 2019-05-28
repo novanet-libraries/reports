@@ -79,31 +79,34 @@ try{
     foreach($collections as $idx => $code){
       $bind[":COL$idx"] = $code;
     }
-    $sql = str_replace(":COLLECTIONS", join(", ", array_keys($bind)), $sql);
+    $sql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
 
     $bind[":SUBLIB"] = $sublibrary;
 
     $db = new AlephOracle(AlephOracle::LIVE);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
-    }
-    $cache->refresh($results);
-
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $cache->refresh(
+      $db->query($sql, $bind)
     );
+//    $results = array();
+//    foreach($db->query($sql, $bind) as $row){
+//      $results[] = $row;
+//    }
+//    $cache->refresh($results);
+//
+//    $output = array(
+//      'date' => date('Y-m-d H:i:s'),
+//      'data' => $results
+//    );
   }
-  else{
-    $output = $cache->fetch();
-  }
+
+  $cache->writeJSON();
+
+//  else{
+//    $output = $cache->fetch();
+//  }
 }
 catch (Exception $ex){
   error_log($ex->getMessage());
   header('HTTP/1.1 500 Internal Server Error');
-  $output = array('error' => $ex->getMessage());
+  echo json_encode(array('error' => $ex->getMessage()));
 }
-
-
-echo json_encode($output);
