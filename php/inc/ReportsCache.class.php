@@ -138,9 +138,9 @@ class ReportsCache {
 
 
   private $db;           //resource
-  private $table;        //string
-  private $columns;      //array
-  private $paramString;  //string
+  private $table;        //string, table name
+  private $columns;      //array of strings, column names
+  private $paramString;  //string, primary key
   private $maxAge;       //DateInterval
   private $lastUpdate;   //string "YYYY-MM-DD HH:mm:ss"
   private $forceRefresh; //boolean
@@ -219,10 +219,6 @@ class ReportsCache {
     }
     unset($in["max-age"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
 
-    $params   = array();
-    $params[] = basename(dirname($_SERVER["PHP_SELF"]));
-    $params[] = basename($_SERVER["PHP_SELF"], ".php");
-    $fixed = "/" . join("/", $params) . "/";
     $params = array();
     ksort($in);
     foreach($in as $key => $val){
@@ -236,11 +232,14 @@ class ReportsCache {
       $params[] = $val;
     }
 
-    $this->paramString = $fixed . join("/", $params) . "/";
+    //PHP_SELF is stored in a directory like /something/something/category/reportname/report.php
+    //we want category and reportname in the fixedParams.
+    $fixedParams = join("/", array_splice(explode("/", $_SERVER['PHP_SELF']), -3, 2));
+    $this->paramString = "/" . $fixedParams . "/" . join("/", $params) . "/";
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
     if (strlen($this->paramString) > 255){
-      $this->paramString = $fixed . md5($this->paramString) . "/";
+      $this->paramString = "/" . $fixedParams . "/" . md5($this->paramString) . "/";
     }
   }
 
