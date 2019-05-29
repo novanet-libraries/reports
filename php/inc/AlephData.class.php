@@ -19,6 +19,18 @@ class AlephData {
     return file_get_contents($fullPath);
   }
 
+  public static function itemProcessStatuses(){
+    $jsonString = self::getJSON("all-item-process-statuses.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
+  public static function itemStatuses(){
+    $jsonString = self::getJSON("all-item-statuses.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+  
   public static function budgets(){
     $jsonString = self::getJSON("all-budgets.json");
     $data = json_decode($jsonString, true);
