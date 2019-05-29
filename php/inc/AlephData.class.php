@@ -6,10 +6,10 @@ class AlephData {
   private static function getJSON($filename){
     $fullPath = sys_get_temp_dir() . "/AlephData/$filename";
 
-    //just do this once when you set up the app, rather than check each time we want data.
-    //if (!is_dir(dirname($fullPath))){
-    // mkdir(dirname($fullPath), 0755, true);
-    //}
+    //should just do this once when you set up the app, rather than check each time we want data.
+    if (!is_dir(dirname($fullPath))){
+      mkdir(dirname($fullPath), 0755, true);
+    }
 
     $modTime = filemtime($fullPath);
     $minTime = (int) ( (new DateTime())->sub(new DateInterval("PT15H"))->format("U") );
@@ -30,7 +30,7 @@ class AlephData {
     $data = json_decode($jsonString, true);
     return $data;
   }
-  
+
   public static function patronStatuses(){
     $jsonString = self::getJSON("all-borrower-status.json");
     $data = json_decode($jsonString, true);
