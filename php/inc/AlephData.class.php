@@ -31,6 +31,12 @@ class AlephData {
     return $data;
   }
   
+  public static function patronStatuses(){
+    $jsonString = self::getJSON("all-borrower-status.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
   public static function budgets(){
     $jsonString = self::getJSON("all-budgets.json");
     $data = json_decode($jsonString, true);
