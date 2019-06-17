@@ -94,8 +94,12 @@ novanet.getSupportData = function(){
   }
 
   novanet.data = novanet.data || {};
-
   novanet.fn.showProgress();
+
+  //old version of localStorage should be cleared
+  if (localStorage.allBudgets){
+    localStorage.clear();
+  }
 
   var lastWrite, today = new Date();
   if (localStorage.lastWrite){
