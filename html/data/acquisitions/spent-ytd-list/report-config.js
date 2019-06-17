@@ -84,12 +84,11 @@ novanet.datatableInitObject = {
       title: 'ISBN/ISSN',
       render: novanet.fn.render.isn(),
       excelType: "s"
-/*
     },{
       data: 'CALLNUMBER',
       title: 'Call Number',
-      visible: false
-*/
+      className: "text-nowrap",
+      type: "callnumber"
     }
   ]
 };

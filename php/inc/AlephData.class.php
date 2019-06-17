@@ -6,10 +6,10 @@ class AlephData {
   private static function getJSON($filename){
     $fullPath = sys_get_temp_dir() . "/AlephData/$filename";
 
-    //just do this once when you set up the app, rather than check each time we want data.
-    //if (!is_dir(dirname($fullPath))){
-    // mkdir(dirname($fullPath), 0755, true);
-    //}
+    //should just do this once when you set up the app, rather than check each time we want data.
+    if (!is_dir(dirname($fullPath))){
+      mkdir(dirname($fullPath), 0755, true);
+    }
 
     $modTime = filemtime($fullPath);
     $minTime = (int) ( (new DateTime())->sub(new DateInterval("PT15H"))->format("U") );
@@ -17,6 +17,24 @@ class AlephData {
       file_put_contents($fullPath, file_get_contents("https://aleph1.novanet.ca/novanet/$filename"));
     }
     return file_get_contents($fullPath);
+  }
+
+  public static function itemProcessStatuses(){
+    $jsonString = self::getJSON("all-item-process-statuses.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
+  public static function itemStatuses(){
+    $jsonString = self::getJSON("all-item-statuses.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
+  public static function patronStatuses(){
+    $jsonString = self::getJSON("all-borrower-status.json");
+    $data = json_decode($jsonString, true);
+    return $data;
   }
 
   public static function budgets(){

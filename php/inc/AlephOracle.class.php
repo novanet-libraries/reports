@@ -1,6 +1,7 @@
 <?php
 
 require 'OCIQuery.class.php';
+require 'OCIStmt.class.php';
 
 class AlephOracle {
   const LIVE = 1;
@@ -9,6 +10,7 @@ class AlephOracle {
   const READWRITE = 4;
 
   private $connection;
+  private $mode = OCI_COMMIT_ON_SUCCESS;
 
   public function __construct($instance= self::TEST, $level = self::READONLY){
 
@@ -36,14 +38,53 @@ class AlephOracle {
     }
   }
 
+  public function prepare($sql){
+    $stmt = new OCIStmt($this->connection, $sql, $this->mode);
+    return $stmt;
+  }
+  
   //returns an iterable result set; each iteration is an associative array representing one row
   // in the queried table.  (col_name_1 => value, col_name_2 => value, ...)
   public function query($sql, $bindArgs=null){
-    $stmt = new OCIQuery($this->connection, $sql, $bindArgs);
+    $stmt = new OCIQuery($this->connection, $sql, $bindArgs, $this->mode);
     return $stmt;
   }
+  
+  //prepares and returns a query without executing it
+  public function prepareQuery($sql){
+    $stmt = new OCIQuery($this->connection, $sql, null, $this->mode, false);
+    return $stmt;    
+  }
+  
+  //returns a single value if the 'select' part of the input query contains a single column
+  //otherwise returns an array representing a single row of results.
+  public function querySingle($sql, $bindArgs=null){
+    $q = $this->prepareQuery($sql);
+    return $q->result($bindArgs);
+  }
+  
+  //transaction control
+  public function begin(){
+    $this->mode = OCI_NO_AUTO_COMMIT;
+  }
+  public function commit(){
+    $this->mode = OCI_COMMIT_ON_SUCCESS;
+    $success = oci_commit($this->connection);
+    if (!$success){
+      $e = oci_error($this->connection);
+      throw new Exception($e['message'] . "\n" . $e['sqltext']);
+    }
+  }
+  public function rollback(){
+    $this->mode = OCI_COMMIT_ON_SUCCESS;
+    $success = oci_rollback($this->connection);
+    if (!$success){
+      $e = oci_error($this->connection);
+      throw new Exception($e['message'] . "\n" . $e['sqltext']);
+    }
+  }
 
-  //If you want to do more than OCIQuery, you can use the php OCI8 api on this:
+  //If you want to do more, you can use the php OCI8 api on this:
   public function directConnectionAccess(){
     return $this->connection;
   }
