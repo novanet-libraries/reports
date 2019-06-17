@@ -102,34 +102,17 @@ novanet.getSupportData = function(){
     lastWrite = Date.parse(localStorage.lastWrite);
     if (today - lastWrite < (1000*60*60*24)){
       //cached data is good enough.
-      novanet.data.allSublibraries    = JSON.parse(localStorage.allSublibraries);
-      novanet.data.allOrderUnits      = JSON.parse(localStorage.allOrderUnits);
-      novanet.data.allBudgets         = JSON.parse(localStorage.allBudgets);
-      novanet.data.allCollectionCodes = JSON.parse(localStorage.allCollectionCodes);
+      novanet.data = JSON.parse(localStorage.supportData);
       novanet.fn.hideProgress();
       novanet.page.$title.find("h2").empty(); //remove the 'Initializing...' title.
       return;
     }
   }
 
-  $.when(
-    $.getJSON('https://aleph1.novanet.ca/novanet/all-sublibraries.json', function(data){
-      localStorage.allSublibraries = JSON.stringify(data);
-      novanet.data.allSublibraries = data;
-    }),
-    $.getJSON('https://aleph1.novanet.ca/novanet/all-order-units.json', function(data){
-      localStorage.allOrderUnits = JSON.stringify(data);
-      novanet.data.allOrderUnits = data;
-    }),
-    $.getJSON('https://aleph1.novanet.ca/novanet/all-budgets.json', function(data){
-      localStorage.allBudgets = JSON.stringify(data);
-      novanet.data.allBudgets = data;
-    }),
-    $.getJSON('https://aleph1.novanet.ca/novanet/all-collection-codes.json', function(data){
-      localStorage.allCollectionCodes = JSON.stringify(data);
-      novanet.data.allCollectionCodes = data;
-    })
-  ).then(function(){
+  $.getJSON('/data/support-data.php', function(data){
+      localStorage.supportData = JSON.stringify(data);
+      novanet.data = data;
+  }).then(function(){
     localStorage.lastWrite = today; //today.toString(), actually
     novanet.fn.hideProgress();
     novanet.page.$title.find("h2").empty(); //remove the 'Initializing...' title.
