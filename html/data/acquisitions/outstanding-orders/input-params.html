@@ -10,9 +10,9 @@ $(document).ready(function() {
       $orderUnitSelect = $("#order-unit");
       
   //add options to the orderUnit select box:
-  $.each(Object.keys(novanet.data.allOrderUnits).sort(), function(idx, code){
-    var text = novanet.data.allOrderUnits[code];
-    if ($.inArray(code, Object.keys(novanet.data.allBudgets)) > -1){
+  $.each(Object.keys(novanet.data.orderUnits).sort(), function(idx, code){
+    var text = novanet.data.orderUnits[code];
+    if ($.inArray(code, Object.keys(novanet.data.budgets)) > -1){
       $orderUnitSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
     }
   });

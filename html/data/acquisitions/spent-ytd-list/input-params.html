@@ -30,9 +30,9 @@ $(document).ready(function() {
       });
 
   //add options to the orderUnit select box:
-  $.each(Object.keys(novanet.data.allOrderUnits).sort(), function(idx, code){
-    var text = novanet.data.allOrderUnits[code];
-    if ($.inArray(code, Object.keys(novanet.data.allBudgets)) > -1){
+  $.each(Object.keys(novanet.data.orderUnits).sort(), function(idx, code){
+    var text = novanet.data.orderUnits[code];
+    if ($.inArray(code, Object.keys(novanet.data.budgets)) > -1){
       $orderUnitSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
     }
   });
@@ -49,7 +49,7 @@ $(document).ready(function() {
     $yearSelect.prop("disabled", true).empty().html("<option></option>");
     $budgetSelect.prop("disabled", true).empty().html("<option></option>");
 
-    $.each(Object.keys(novanet.data.allBudgets[orderUnit]).sort().reverse(), function(idx, year){
+    $.each(Object.keys(novanet.data.budgets[orderUnit]).sort().reverse(), function(idx, year){
       $yearSelect.append("<option>" + year +"</option>");
     });
     $yearSelect.prop("disabled", false).trigger("chosen:updated");
@@ -65,10 +65,10 @@ $(document).ready(function() {
       $("<option>").attr({id: "budget-select-all", value: "ALL"}).html("All Budgets"),
       $("<option>").attr({id: "budget-select-none", value: "NONE"}).html("Clear Selections")
     );
-    $.each(Object.keys(novanet.data.allBudgets[orderUnit][year]).sort(), function(idx, budget){
+    $.each(Object.keys(novanet.data.budgets[orderUnit][year]).sort(), function(idx, budget){
       $budgetSelect.append(
         $("<option>").attr("value", budget).addClass("budget-number").html(
-          budget + " - " + novanet.data.allBudgets[orderUnit][year][budget]
+          budget + " - " + novanet.data.budgets[orderUnit][year][budget]
         )
       );
     });

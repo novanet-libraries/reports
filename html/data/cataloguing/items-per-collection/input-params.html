@@ -12,8 +12,8 @@ $(document).ready(function() {
       $sublibSelect = $("#sublibrary");
   
   //add options
-  $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
-    var $opt, text = novanet.data.allSublibraries[code];
+  $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
+    var $opt, text = novanet.data.sublibraries[code];
         
     $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");    
     $sublibSelect.append($opt);
