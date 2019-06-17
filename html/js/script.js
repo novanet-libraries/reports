@@ -100,7 +100,7 @@ novanet.getSupportData = function(){
   var lastWrite, today = new Date();
   if (localStorage.lastWrite){
     lastWrite = Date.parse(localStorage.lastWrite);
-    if (today - lastWrite < (1000*60*60*24*7)){
+    if (today - lastWrite < (1000*60*60*24)){
       //cached data is good enough.
       novanet.data.allSublibraries    = JSON.parse(localStorage.allSublibraries);
       novanet.data.allOrderUnits      = JSON.parse(localStorage.allOrderUnits);
