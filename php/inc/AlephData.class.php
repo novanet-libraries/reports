@@ -43,6 +43,12 @@ class AlephData {
     return $data;
   }
 
+  public static function orderUnits(){
+    $jsonString = self::getJSON("all-order-units.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
   public static function sublibraries(){
     static $data = null;
     if (!$data){
