@@ -66,7 +66,7 @@ class ReportsCache {
     try{
       $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE param_string = ?");
       $stmt->execute(array($this->paramString));
-      
+
       echo '{', json_encode("date"), ':', json_encode($this->lastUpdate);
       echo ',', json_encode("data"), ':[';
       foreach($stmt as $idx => $row){
@@ -82,7 +82,7 @@ class ReportsCache {
       throw new Exception("Error writing from cache: " . $this->table . " - " .  $this->paramString);
     }
   }
-  
+
   public function fetch(){
     try{
       $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE param_string = ?");
