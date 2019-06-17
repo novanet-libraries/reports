@@ -101,7 +101,7 @@ class ReportsCache {
   }
 
   //input data must be an array and each element must be an array keyed by column name.
-  public function refresh($data = null){
+  public function refresh($data = null, $lastUpdate = null){
     try{
       //REPLACE INTO is "delete then insert", so this statement will invoke
       //the ON DELETE CASCADE clause in $this->table to clean out any old data.
@@ -112,10 +112,12 @@ class ReportsCache {
         $insertStmt = $this->db->prepare("INSERT INTO {$this->table} ( {$colString} ) VALUES ( {$valString} )");
       }
 
-      $now = date("Y-m-d H:i:s");
+      if ($lastUpdate === null){
+        $lastUpdate = date("Y-m-d H:i:s");
+      }
 
       $this->db->beginTransaction();
-      $cacheStmt->execute(array($this->paramString, $now));
+      $cacheStmt->execute(array($this->paramString, $lastUpdate));
       if (!empty($data)){
         foreach($data as $row){
           $row["param_string"] = $this->paramString;
@@ -124,7 +126,7 @@ class ReportsCache {
       }
       $this->db->commit();
 
-      $this->lastUpdate = $now;
+      $this->lastUpdate = $lastUpdate;
     }
     catch (Exception $ex){
       if ($this->db->inTransaction()){
