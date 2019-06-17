@@ -234,7 +234,8 @@ class ReportsCache {
 
     //PHP_SELF is stored in a directory like /something/something/category/reportname/report.php
     //we want category and reportname in the fixedParams.
-    $fixedParams = join("/", array_splice(explode("/", $_SERVER['PHP_SELF']), -3, 2));
+    $allPathParts = explode("/", $_SERVER['PHP_SELF']);
+    $fixedParams = join("/", array_splice($allPathParts, -3, 2));
     $this->paramString = "/" . $fixedParams . "/" . join("/", $params) . "/";
 
     //we'd like to have a descriptive key, but if that's too long then a unique key will be good enough.
