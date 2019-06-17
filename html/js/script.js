@@ -86,7 +86,7 @@ novanet.getPageComponents  = function(){
   novanet.page.$home          = $("#home");
 };
 
-novanet.getLibraryData = function(){
+novanet.getSupportData = function(){
 
   if (undefined == window.localStorage){
     alert("Can't initialize reports page in this web browser");
@@ -281,7 +281,7 @@ $(window).on("popstate", function(evt){
 
 $(document).ready(function(){
   novanet.getPageComponents();
-  novanet.getLibraryData();
+  novanet.getSupportData();
   novanet.addDatatableListeners();
 
   setInterval(function(){
