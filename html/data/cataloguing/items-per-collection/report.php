@@ -20,41 +20,34 @@ foreach($sublibraries as $code){
   }
 }
 
-$cache = new ReportsCache(basename(__DIR__));
-if ($cache->isStale()){
+try{
+  $cache = new ReportsCache(basename(__DIR__));
 
-  foreach($sublibraries as $idx => $code){
-    $bind[":SUB$idx"] = $code;
-  }
-  $sql = str_replace(
-    ":SUBLIBRARY",
-    join(",", array_keys($bind)),
-    "SELECT Z30_COLLECTION, COUNT(*) AS C
-       FROM NOV50.Z30
-      WHERE RTRIM(Z30_SUB_LIBRARY) IN ( :SUBLIBRARY )
-      GROUP BY Z30_COLLECTION"
-  );
-  try{
-    $db = new AlephOracle(AlephOracle::LIVE);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
+  if ($cache->isStale()){
+
+    foreach($sublibraries as $idx => $code){
+      $bind[":SUB$idx"] = $code;
     }
-    $cache->refresh($results);
-    
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $sql = str_replace(
+      ":SUBLIBRARY",
+      join(",", array_keys($bind)),
+      "SELECT Z30_COLLECTION, COUNT(*) AS C
+         FROM NOV50.Z30
+        WHERE RTRIM(Z30_SUB_LIBRARY) IN ( :SUBLIBRARY )
+        GROUP BY Z30_COLLECTION"
+    );
+    $aleph = new AlephOracle(AlephOracle::LIVE);
+    $cache->refresh(
+      $aleph->query($sql, $bind)
     );
   }
-  catch (Exception $ex){
-    error_log($ex->getMessage());
-    header('HTTP/1.1 500 Internal Server Error');
-    $output = array('error' => $ex->getMessage());
-  }
-}
-else{
+
   $output = $cache->fetch();
+}
+catch (Exception $ex){
+  error_log($ex->getMessage());
+  header('HTTP/1.1 500 Internal Server Error');
+  $output = array('error' => $ex->getMessage());
 }
 
 echo json_encode($output);

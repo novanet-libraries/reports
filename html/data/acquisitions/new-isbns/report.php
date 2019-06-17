@@ -78,16 +78,18 @@ try{
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
-      $aleph->query($sql, $bind)
+      $aleph->query($sql, $bind),
+      $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh;')
     );
   }
 
-   $cache->writeJSON();
+  $cache->writeJSON();
 
 }
 catch (Exception $ex){
   error_log($ex->getMessage());
+
+  //this won't happen if $cache->writeJSON() has already started
   header('HTTP/1.1 500 Internal Server Error');
   echo json_encode(array('error' => $ex->getMessage()));
 }
-

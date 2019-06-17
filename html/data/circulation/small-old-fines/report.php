@@ -40,21 +40,14 @@ try{
     //set :CUTOFFDATE to some time 5 years ago.
     $bind[":CUTOFFDATE"] = (new DateTime((date('Y')-5).'-06-01'))->format('Ymd');
 
-    $db = new AlephOracle(AlephOracle::LIVE);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
-    }
-    $cache->refresh($results);
-
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $aleph = new AlephOracle(AlephOracle::LIVE);
+    $cache->refresh(
+      $aleph->query($sql, $bind),
+      $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh;')
     );
   }
-  else{
-    $output = $cache->fetch();
-  }
+
+  $output = $cache->fetch();
 }
 catch (Exception $ex){
   error_log($ex->getMessage());

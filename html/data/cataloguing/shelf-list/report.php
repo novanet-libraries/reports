@@ -83,27 +83,15 @@ try{
 
     $bind[":SUBLIB"] = $sublibrary;
 
-    $db = new AlephOracle(AlephOracle::LIVE);
+    $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
-      $db->query($sql, $bind)
+      $aleph->query($sql, $bind),
+      $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh;')
     );
-//    $results = array();
-//    foreach($db->query($sql, $bind) as $row){
-//      $results[] = $row;
-//    }
-//    $cache->refresh($results);
-//
-//    $output = array(
-//      'date' => date('Y-m-d H:i:s'),
-//      'data' => $results
-//    );
   }
 
   $cache->writeJSON();
 
-//  else{
-//    $output = $cache->fetch();
-//  }
 }
 catch (Exception $ex){
   error_log($ex->getMessage());

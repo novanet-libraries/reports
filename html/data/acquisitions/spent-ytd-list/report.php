@@ -51,26 +51,14 @@ try{
     }
     $sql = str_replace(":BUDGETNUMBERS", join(",", array_keys($bind)), $sql);
 
-    //$bind[":ORDERUNIT"] = $orderUnit;
-
-    //file_put_contents(sys_get_temp_dir().'/test.txt', $sql);
-    //file_put_contents(sys_get_temp_dir().'/test.txt', print_r($bind, true), FILE_APPEND);
-    $db = new AlephOracle(AlephOracle::LIVE);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
-    }
-    //file_put_contents(sys_get_temp_dir().'/test.txt', print_r($results, true), FILE_APPEND);
-    $cache->refresh($results);
-
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $aleph = new AlephOracle(AlephOracle::LIVE);
+    $cache->refresh(
+      $aleph->query($sql, $bind),
+      $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh;')
     );
   }
-  else{
-    $output = $cache->fetch();
-  }
+  
+  $output = $cache->fetch();
 }
 catch (Exception $ex){
   error_log($ex->getMessage());

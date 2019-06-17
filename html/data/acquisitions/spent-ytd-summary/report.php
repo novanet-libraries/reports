@@ -35,21 +35,14 @@ else{
       }
       $budgetString = "('" . join("','", $budgetNumbers) . "')";
       $sql = str_replace(":BUDGETS", $budgetString, file_get_contents('./query.sql'));
-      $db = new AlephOracle(AlephOracle::LIVE);
-      $results = array();
-      foreach($db->query($sql) as $row){
-        $results[] = $row;
-      }
-      $cache->refresh($results);
-      
-      $output = array(
-        'date' => date('Y-m-d H:i:s'),
-        'data' => $results
+      $aleph = new AlephOracle(AlephOracle::LIVE);
+      $cache->refresh(
+        $aleph->query($sql, $bind),
+        $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh;')
       );
     }
-    else{
-      $output = $cache->fetch();
-    }
+    
+    $output = $cache->fetch();
   }
   catch (Exception $ex){
     error_log($ex->getMessage());

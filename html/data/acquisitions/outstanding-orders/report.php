@@ -23,9 +23,11 @@ if (empty($orderUnit) || !in_array($orderUnit, array_keys($validBudgets))){
 
 try{
   $cache = new ReportsCache(basename(__DIR__));
+  
   if ($cache->isStale()){
     $sql  = file_get_contents('./query.sql');
 
+    //guess the current budget year from the current date
     $t = (new DateTime())->sub(new DateInterval('P3M'));
     $budgetYear = $t->format('Y');
     
@@ -33,21 +35,13 @@ try{
     $bind[":ORDERUNIT"] = $orderUnit;
     $bind[":BUDGETYEAR"] = $budgetYear;
 
-    $db = new AlephOracle(AlephOracle::LIVE);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
-    }
-    $cache->refresh($results);
-
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $aleph = new AlephOracle(AlephOracle::LIVE);
+    $cache->refresh(
+      $aleph->query($sql, $bind)
     );
   }
-  else{
-    $output = $cache->fetch();
-  }
+  
+  $output = $cache->fetch();
 }
 catch (Exception $ex){
   error_log($ex->getMessage());

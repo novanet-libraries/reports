@@ -71,21 +71,13 @@ try{ //get report
       ":ENDDATE"   => $endDate
     );
     
-    $db = new AlephOracle(AlephOracle::TEST);
-    $results = array();
-    foreach($db->query($sql, $bind) as $row){
-      $results[] = $row;
-    }
-    $cache->refresh($results);
-    
-    $output = array(
-      'date' => date('Y-m-d H:i:s'),
-      'data' => $results
+    $aleph = new AlephOracle(AlephOracle::LIVE);
+    $cache->refresh(
+      $aleph->query($sql, $bind)
     );
   }
-  else{
-    $output = $cache->fetch();
-  }
+
+  $output = $cache->fetch();
 }
 catch (Exception $ex){
   error_log($ex->getMessage());
