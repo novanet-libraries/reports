@@ -148,7 +148,7 @@ novanet.addDatatableListeners = function(){
     //and start the worker to generate the Excel file.
 
     var $t, d = moment(data.date, "YYYY-MM-DD HH:mm:ss"),
-        $reload = $("<button>").addClass("reload btn btn-success").html("<i class='glyphicon glyphicon-repeat'></i> Reload with live data"),
+        $reload = $("<button>").addClass("reload btn btn-success").html("<i class='glyphicon glyphicon-repeat'></i> Reload with latest data"),
         state = novanet.fn.parsePath();
 
     if (state && state.report && state.params){
@@ -161,7 +161,7 @@ novanet.addDatatableListeners = function(){
     }
 
     if (d.isValid()){
-      $reload.prop("disabled", d.isAfter(moment().subtract(1, "hour")));
+      $reload.prop("disabled", d.isAfter(moment().subtract(15, "hours")));
       $("#cache-statement").empty().append(
         "<span>Data last updated </span>",
         $("<time>").attr({
