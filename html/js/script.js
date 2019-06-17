@@ -162,6 +162,10 @@ novanet.addDatatableListeners = function(){
 
     if (d.isValid()){
       $reload.prop("disabled", d.isAfter(moment().subtract(15, "hours")));
+      if ($reload.prop("disabled")){
+        $reload.attr("title", "Newer data is not yet available.");
+      }
+      
       $("#cache-statement").empty().append(
         "<span>Data last updated </span>",
         $("<time>").attr({
