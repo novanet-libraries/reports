@@ -38,7 +38,7 @@ else{
       $aleph = new AlephOracle(AlephOracle::LIVE);
       $cache->refresh(
         $aleph->query($sql, $bind),
-        $aleph->querySingle('SELECT MAX(last_mviews_refresh) FROM webreport.last_mviews_refresh')
+        $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
       );
     }
     
