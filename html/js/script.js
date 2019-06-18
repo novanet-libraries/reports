@@ -205,12 +205,12 @@ novanet.addDatatableListeners = function(){
 
 
 //populate the navbar with a link to each report in "reports.json"
-novanet.buildNavbar = function(allreports){
+novanet.buildNavbar = function(){
   var $topUl = novanet.page.$navbar.find("ul.navbar-nav:first-of-type");
 
   //re-organize the "flat" reports.json into a heirarchy:
   var buckets = {};
-  $.each(allreports, function(name, report){
+  $.each(novanet.allreports, function(name, report){
     var category = report.base.replace(/\//g, "");
     buckets[category] = buckets[category] || [];
     buckets[category].push(report);
@@ -255,7 +255,7 @@ novanet.buildNavbar = function(allreports){
     evt.preventDefault();
 
     novanet.fn.loadReport(report, null);
-    novanet.fn.pushState(allreports[report], null);
+    novanet.fn.pushState(novanet.allreports[report], null);
 
     novanet.page.$navbar.find(".active").removeClass("active");
     $this.parents(".dropdown").addClass("active");
@@ -303,12 +303,13 @@ $(document).ready(function(){
   };
 
 
-  $.getJSON("/reports.json").then(function(allreports){
-    novanet.allreports = allreports; //keep this
+  $.getJSON("/reports.json").then(function(data){
+    novanet.allreports = data; //keep this
 
-    //build menu of all reports
-    novanet.buildNavbar(allreports);
-
+    //build menus of all reports
+    novanet.buildNavbar();
+    novanet.buildHome();
+    
     //if there's an initial path, load that report
     var state = novanet.fn.parsePath(location.pathname);
     if (state && state.report){
