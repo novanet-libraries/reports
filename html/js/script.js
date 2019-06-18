@@ -264,7 +264,7 @@ novanet.buildNavbar = function(){
 };
 //populate the navbar with a link to each report in "reports.json"
 novanet.buildHome = function(){
-  var buckets = {}, $topDiv = $("<div>").attr("id", "home-menu");
+  var buckets = {}, $topDiv = $("<div>").attr("id", "home-menu").addClass("row");
   
   $.each(novanet.allreports, function(name, report){
     var category = report.base.replace(/\//g, "");
@@ -274,23 +274,42 @@ novanet.buildHome = function(){
     buckets[category].push(report);
   });
 
-  //iterate over the hierarchy and put each report in the nav menu:
   $.each(Object.keys(buckets).sort(), function(idx, category){
-    var $catDiv = $("<div>").addClass("text-capitalize list-group");
+    var $catDiv = $("<div>").addClass("list-group");
     $.each(buckets[category], function(idx, report){
       $catDiv.append(
-        $("<p>").addClass("list-group-item").html(report.name)
+        $("<a>").attr({"href":"#", "data-report":report.filename}).addClass("report list-group-item").append(
+          $("<h4>").addClass("list-group-item-heading").html(report.name),
+          $("<p>").addClass("list-group-item-text").html(report.desc),
+          $("<p>").addClass("list-group-item-text text-muted").html(report.note)
+        )
       )
     });
     $topDiv.append(
-      $("div").addClass("panel panel-default").append(
-        $("div").addClass("panel-heading").html('<h2 class="panel-title">' + category + '</h2>'),
-        $("div").addClass("panel-body").append($catDiv)
+      $("<div>").addClass("col-md-4 col-sm-6").append(
+        $("<div>").addClass("panel panel-info").append(
+          $("<div>").addClass("text-capitalize panel-heading").append(
+            $("<h2>").addClass("panel-title").html(category)
+          ), $catDiv
+        )
       )
     );
   });
   
+  novanet.page.$home.on("click", ".report", function(evt){
+    var report = $(this).attr("data-report");
+
+    evt.preventDefault();
+
+    novanet.fn.loadReport(report, null);
+    novanet.fn.pushState(novanet.allreports[report], null);
+
+    novanet.page.$navbar.find(".active").removeClass("active");
+    novanet.page.$navbar.find("a[data-report='"+novanet.allreports[report].filename+"']").parents(".dropdown").addClass("active");
+  });
+
   novanet.page.$home.append($topDiv);
+
 };
 
 $(window).on("popstate", function(evt){
