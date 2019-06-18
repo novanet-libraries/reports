@@ -31,9 +31,9 @@ try{
     $sql = str_replace(
       ":SUBLIBRARY",
       join(",", array_keys($bind)),
-      "SELECT COLLECTION, COUNT(*) AS C
+      "SELECT COLLECTION Z30_COLLECTION, COUNT(*) C
          FROM WEBREPORT.ITEM_RECORDS
-        WHERE SUB_LIBRARY = :SUBLIBRARY 
+        WHERE SUB_LIBRARY = :SUBLIBRARY
         GROUP BY COLLECTION"
     );
     $aleph = new AlephOracle(AlephOracle::LIVE);
