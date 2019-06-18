@@ -264,11 +264,13 @@ novanet.buildNavbar = function(){
 };
 //populate the navbar with a link to each report in "reports.json"
 novanet.buildHome = function(){
-  var $topDiv = $("<div>").attr("id", "home-menu");
+  var buckets = [], $topDiv = $("<div>").attr("id", "home-menu");
   
   $.each(novanet.allreports, function(name, report){
     var category = report.base.replace(/\//g, "");
-    buckets[category] = buckets[category] || [];
+    if (undefined === buckets[category]){
+      buckets[category] = [];
+    }
     buckets[category].push(report);
   });
 
