@@ -264,7 +264,7 @@ novanet.buildNavbar = function(){
 };
 //populate the navbar with a link to each report in "reports.json"
 novanet.buildHome = function(){
-  var buckets = [], $topDiv = $("<div>").attr("id", "home-menu");
+  var buckets = {}, $topDiv = $("<div>").attr("id", "home-menu");
   
   $.each(novanet.allreports, function(name, report){
     var category = report.base.replace(/\//g, "");
@@ -284,8 +284,8 @@ novanet.buildHome = function(){
     });
     $topDiv.append(
       $("div").addClass("panel panel-default").append(
-        $("div").addClass("panel-heading").html($("h2").addClass("panel-title").html(category)),
-        $("div").addClass("panel-body").html($catDiv)
+        $("div").addClass("panel-heading").html('<h2 class="panel-title">' + category + '</h2>'),
+        $("div").addClass("panel-body").append($catDiv)
       )
     );
   });
