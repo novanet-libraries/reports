@@ -276,13 +276,18 @@ novanet.buildHome = function(){
 
   //iterate over the hierarchy and put each report in the nav menu:
   $.each(Object.keys(buckets).sort(), function(idx, category){
-    var $catDiv = $("<div>").addClass("text-capitalize").html("<h2>" + category + "</h2>");
+    var $catDiv = $("<div>").addClass("text-capitalize list-group");
     $.each(buckets[category], function(idx, report){
       $catDiv.append(
-        $("<p>").html(report.name)
+        $("<p>").addClass("list-group-item").html(report.name)
       )
     });
-    $topDiv.append($catDiv);
+    $topDiv.append(
+      $("div").addClass("panel panel-default").append(
+        $("div").addClass("panel-heading").html($("h2").addClass("panel-title").html(category)),
+        $("div").addClass("panel-body").html($catDiv)
+      )
+    );
   });
   
   novanet.page.$home.append($topDiv);
