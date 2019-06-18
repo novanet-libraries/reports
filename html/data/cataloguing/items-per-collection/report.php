@@ -31,14 +31,15 @@ try{
     $sql = str_replace(
       ":SUBLIBRARY",
       join(",", array_keys($bind)),
-      "SELECT Z30_COLLECTION, COUNT(*) AS C
-         FROM NOV50.Z30
-        WHERE RTRIM(Z30_SUB_LIBRARY) IN ( :SUBLIBRARY )
-        GROUP BY Z30_COLLECTION"
+      "SELECT COLLECTION, COUNT(*) AS C
+         FROM WEBREPORT.ITEM_RECORDS
+        WHERE SUB_LIBRARY = :SUBLIBRARY 
+        GROUP BY COLLECTION"
     );
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
-      $aleph->query($sql, $bind)
+      $aleph->query($sql, $bind),
+      $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
     );
   }
 
