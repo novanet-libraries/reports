@@ -67,7 +67,7 @@ novanet.errorHandler = function(jqXHR, textStatus, errorThrown){
   console.error(errorThrown);
   console.error(response);
   novanet.fn.clearReport();
-  novanet.page.$home.show();
+  novanet.page.$error.show();
   window.history.replaceState({},null,"/");
   alert(message + (response && response.error ? response.error : 'Unknown error.  If there is nothing logged in the console, then the error occured on the server.'));
 };
@@ -84,6 +84,7 @@ novanet.getPageComponents  = function(){
   novanet.page.$cacheNote     = $("#cache-statement");
   novanet.page.$navbar        = $("#navbar");
   novanet.page.$home          = $("#home");
+  novanet.page.$error         = $("#error");
 };
 
 novanet.getSupportData = function(){

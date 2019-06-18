@@ -357,6 +357,7 @@ novanet.fn = (function(){
 
         clearReport();
         novanet.page.$home.hide();
+        novanet.page.$error.hide();
 
         setTitle(report.name, report.desc, report.note);
 
