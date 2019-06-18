@@ -95,7 +95,7 @@ novanet.getSupportData = function(){
   }
 
   novanet.data = novanet.data || {};
-  novanet.fn.showProgress();
+  novanet.fn.showProgress(10);
 
   //old version of localStorage should be cleared
   if (localStorage.allBudgets){
@@ -115,13 +115,18 @@ novanet.getSupportData = function(){
   }
 
   $.getJSON('/data/support-data.php', function(data){
+      novanet.fn.showProgress(20);
       localStorage.supportData = JSON.stringify(data);
       novanet.data = data;
+      novanet.fn.showProgress(50);
   }).then(function(){
     localStorage.lastWrite = today; //today.toString(), actually
     novanet.fn.hideProgress();
     novanet.page.$title.find("h2").empty(); //remove the 'Initializing...' title.
   }).fail(function(){
+    novanet.fn.hideProgress();
+    novanet.page.$title.find("h2").empty(); //remove the 'Initializing...' title.
+    novanet.page.$error.show();
     alert('Error fetching initialization data');
   });
 
