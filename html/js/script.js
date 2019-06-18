@@ -262,6 +262,29 @@ novanet.buildNavbar = function(){
   });
 
 };
+//populate the navbar with a link to each report in "reports.json"
+novanet.buildHome = function(){
+  var $topDiv = $("<div>").attr("id", "home-menu");
+  
+  $.each(novanet.allreports, function(name, report){
+    var category = report.base.replace(/\//g, "");
+    buckets[category] = buckets[category] || [];
+    buckets[category].push(report);
+  });
+
+  //iterate over the hierarchy and put each report in the nav menu:
+  $.each(Object.keys(buckets).sort(), function(idx, category){
+    var $catDiv = $("<div>").addClass("text-capitalize").html("<h2>" + category + "</h2>");
+    $.each(buckets[category], function(idx, report){
+      $catDiv.append(
+        $("<p>").html(report.name)
+      )
+    });
+    $topDiv.append($catDiv);
+  });
+  
+  novanet.page.$home.append($topDiv);
+};
 
 $(window).on("popstate", function(evt){
   var state = evt.originalEvent.state;
@@ -316,6 +339,10 @@ $(document).ready(function(){
       window.history.replaceState({report:state.report,params:state.params},null,location.pathname);
       novanet.fn.loadReport(state.report, state.params);
     }
+    else{
+      novanet.page.$home.show();
+    }
+    
   }).fail(function(a,b,c,d){
     console.error(a);
     console.error(b);
