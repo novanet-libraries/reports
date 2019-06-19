@@ -82,7 +82,7 @@ try{
     }
     $sql  = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
     $csql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $csql);
-    error_log($csql);
+
     $bind[":SUBLIB"] = $sublibrary;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
