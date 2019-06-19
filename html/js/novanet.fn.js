@@ -302,7 +302,8 @@ novanet.fn = (function(){
         if (report && params){
           Object.keys(params).sort().forEach(function(key){
             if (key != "max-age"){
-              path += key + "/";
+              //encodeURIComponent() for safety, but, we use [] fairly often and don't want them encoded, so undo that part.
+              path += encodeURIComponent(key).replace(/%5B/i, '[').replace(/%5D/i, ']') + "/";
               if (Array.isArray(params[key])){
                 path += params[key].sort().map(encodeURIComponent).join(",") + "/";
               }
