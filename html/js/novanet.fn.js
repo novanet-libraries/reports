@@ -357,7 +357,6 @@ novanet.fn = (function(){
 
         clearReport();
         novanet.page.$home.hide();
-        novanet.page.$error.hide();
 
         setTitle(report.name, report.desc, report.note);
 
@@ -382,7 +381,7 @@ novanet.fn = (function(){
       },
       loadResults = function(report, params, forceRefresh){
         var defaultInitObj = {
-          //this ajax request gets the data
+          //this ajax request gets the data, the call to DataTable() actually triggers it.
           ajax: defaultAjaxObject(report, params, forceRefresh||false),
           buttons: defaultButtons(report, params),
           dom: "<'row'<'col-sm-3'<'#cache-statement'>><'col-sm-3'f><'col-sm-6'B>>" +
@@ -411,7 +410,8 @@ novanet.fn = (function(){
         //hide UI:
         setTitle("", "", "");
         $("#current-report > section").hide();
-
+        hideProgress();
+        
         //reclaim memory (destroy "chosen" objects and "DataTable" objects)
         novanet.page.$params.find("select").chosen("destroy");
         novanet.page.$params.find(".panel-body").empty();
