@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <title>Novanet Reports</title>
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
     <link href="/DataTables/datatables.min.css"  rel="stylesheet" type="text/css">
-    
+
     <!-- this is a concat of all the following files <link href="/novanet-reports.min.css" rel="stylesheet" type="text/css"> -->
     <link href="/css/barcode-fonts.css" rel="stylesheet" type="text/css">
     <link href="/css/chosen.css" rel="stylesheet" type="text/css">
@@ -57,7 +57,7 @@
         <span class="sr-only">Novanet Reports</span>
       </h1>
     </header>
-    
+
     <section id="current-report" class="container-fluid">
 
       <header id="report-title">
@@ -65,7 +65,7 @@
         <h2>Initializing ...</h2>
         <p class="desc lead"></p>
         <p class="note text-muted"></p>
-        
+
         <div id="report-processing">
           <!--
             There is a "processing" event on the DataTable.
@@ -76,7 +76,7 @@
               <span class="sr-only">Processing...</span>
             </div>
           </div>
-        </div>        
+        </div>
       </header>
 
       <section id="report-parameters" class="panel panel-info" style="display:none">
@@ -89,7 +89,7 @@
       <section id="report-results" style="display:none">
         <!-- This is the DataTable.  Contents are loaded by the "loadResults" function after we get input parameters. -->
         <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" cellspacing="0" width="100%" style="width:100%;"></table>
-      </section>      
+      </section>
     </section>
 
     <section id="home" class="container-fluid" style="display:none">
@@ -98,7 +98,7 @@
 
 
     <script src="/DataTables/datatables.min.js"></script>
-    
+
     <!-- this is a concat of all the following files <script src=/novanet-reports.min.js"></script> -->
     <script src="/js/chosen.jquery.js"></script>
     <script src="/js/daterangepicker.js"></script>
