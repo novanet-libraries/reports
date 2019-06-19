@@ -29,9 +29,11 @@ class ReportsCache {
   public function __construct($tableName){
     try{
       $this->connect();
-      $this->getTableInfo($tableName);
-      $this->getRequestInfo();
-      $this->getLastUpdated();
+      $this->setTableInfo($tableName);
+      $this->setReportInfo($tableName);
+      $this->setMaxAge();
+      $this->setParamString();
+      $this->setLastUpdated();
     }
     catch (Exception $ex){
       throw new Exception($ex->getMessage());
@@ -141,6 +143,7 @@ class ReportsCache {
 
   private $db;           //resource
   private $table;        //string, table name
+  private $report;       //array of info, from DOCROOT/reports.json
   private $columns;      //array of strings, column names
   private $paramString;  //string, primary key
   private $maxAge;       //DateInterval
@@ -173,7 +176,7 @@ class ReportsCache {
   }
 
   //set $this->table and $this->columns
-  private function getTableInfo($tableName){
+  private function setTableInfo($tableName){
     $tableName = strtolower(str_replace("-", "_", trim($tableName)));
     if ($tableName == "cache_state"){
       throw new InvalidArgumentException("Invalid table name (cache_state is a reserved word).");
@@ -195,45 +198,60 @@ class ReportsCache {
     }
   }
 
-  //set paramString, maxAge, and forceRefresh.
-  //paramString is the same pretty URL that fetched the report in the first place
-  //it must be unique per requested report; it is the primary key in the cache_state table.
-  //paramString could have user-entered data in it; use prepared statements when using it in SQL.
-  private function getRequestInfo(){
-    $in = $_GET ?: array();
-
+  private function setReportInfo($reportName){
+    $reportName = strtolower(str_replace("_", "-", trim($reportName)));
+    $allReports = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/reports.json"), JSON_OBJECT_AS_ARRAY);
+    if (isset($allReports[$reportName])){
+      $this->report = $allReports[$reportName];
+    }
+    else{
+      throw new Exception("Error getting report details for " . $reportName);
+    }
+  }
+  
+  //set maxAge and forceRefresh (maxAge = 0)
+  private function setMaxAge(){
     //jQuery adds this parameter with a timestamp to indicate it does not want cached results.
-    $this->forceRefresh = !empty($in["_"]);
-    unset($in["_"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+    $this->forceRefresh = !empty($_GET["_"]);
 
-    $this->maxAge = new DateInterval("P1D");
-    if (!empty($in["max-age"])){
+    $this->maxAge = new DateInterval( $this->report["max-age"] ?: "P1D" );
+    if (!empty($_GET["max-age"])){
       try{
-        if (ctype_digit($in["max-age"])){
-          $in["max-age"] = "PT" . $in["max-age"] . "S";
-        }
-        $this->maxAge = new DateInterval($in["max-age"]);
+        $override = ctype_digit($_GET["max-age"]) ? "PT" . $_GET["max-age"] . "S" : $_GET["max-age"];
+        $this->maxAge = new DateInterval($override);
       }
       catch (Exception $ex){
         //log this, but just keep the default P1D.
         trigger_error("Tried to initialize maxAge and failed: " . $_GET["max-age"], E_USER_WARNING);
       }
     }
-    unset($in["max-age"]);//this lets anyone benefit from new results in the cache. (i.e. don't store this param as part of the param_string key)
+  }
 
+  //set paramString
+  //paramString is the same pretty URL that fetched the report in the first place
+  //it must be unique per requested report; it is the primary key in the cache_state table.
+  //paramString could have user-entered data in it; use prepared statements when using it in SQL.
+  private function setParamString(){
+    $in = $_GET ?: array();
     $params = array();
-    ksort($in);
-    foreach($in as $key => $val){
-      if (is_array($val)){
-        $val = array_values($val);
-        sort($val);
-        $val = join(",", $val);
-        $key.= "[]";
-      }
-      $params[] = $key;
-      $params[] = $val;
-    }
+    if (count($in) > 0){
+      ksort($in);
+      foreach($in as $key => $val){
+        if (is_array($val)){
+          $val = array_values($val);
+          sort($val);
+          $val = join(",", $val);
+          $key.= "[]"; //php would have stripped this off the parameter name to make the array of values in $_GET
+        }
 
+        //ignore the passed parameters if they are not specified in reports.json.
+        if ((isset($this->report["req-params"]) && in_array($key, $this->report["req-params"])) ||
+            (isset($this->report["opt-params"]) && in_array($key, $this->report["opt-params"])) ){
+          $params[] = $key;
+          $params[] = $val;
+        }
+      }
+    }
     //PHP_SELF is stored in a directory like /something/something/category/reportname/report.php
     //we want category and reportname in the fixedParams.
     $allPathParts = explode("/", $_SERVER['PHP_SELF']);
@@ -246,7 +264,7 @@ class ReportsCache {
     }
   }
 
-  private function getLastUpdated(){
+  private function setLastUpdated(){
     try {
       $stmt = $this->db->prepare("SELECT last_update FROM cache_state WHERE param_string = ?");
       $stmt->execute(array($this->paramString));
