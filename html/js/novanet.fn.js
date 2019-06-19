@@ -301,9 +301,10 @@ novanet.fn = (function(){
         }
         if (report && params){
           Object.keys(params).sort().forEach(function(key){
-            if (key != "max-age"){
-              //encodeURIComponent() for safety, but, we use [] fairly often and don't want them encoded, so undo that part.
-              path += encodeURIComponent(key).replace(/%5B/i, '[').replace(/%5D/i, ']') + "/";
+            //check that key is an expected parameter, otherwise, don't add it to the path.
+            if ( (report["req-params"] && report["req-params"].indexOf(key) > -1) ||
+                 (report["opt-params"] && report["opt-params"].indexOf(key) > -1) ){
+              path += key + "/";
               if (Array.isArray(params[key])){
                 path += params[key].sort().map(encodeURIComponent).join(",") + "/";
               }
