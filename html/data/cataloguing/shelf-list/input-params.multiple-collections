@@ -21,8 +21,8 @@ $(document).ready(function() {
       prohibited = /^(AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW)$/;
   
   //add options to $sublibSelect
-  $.each(Object.keys(novanet.data.allSublibraries).sort(), function(idx, code){
-    var text = novanet.data.allSublibraries[code];
+  $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
+    var text = novanet.data.sublibraries[code];
     $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
   });
   
@@ -37,9 +37,9 @@ $(document).ready(function() {
   $collectSelect.prop("disabled", true).chosen({
     no_results_text: "No matching collections",
     search_contains: true,
-    max_selected_options: 5,
+//    max_selected_options: 5,
     label_with_value_only: true,
-    width: '50em'
+    width: '40em'
   });
 
   //changing the sublibrary changes the options for collection codes.
@@ -47,8 +47,8 @@ $(document).ready(function() {
     var sublibrary = $sublibSelect.val();
     $collectSelect.prop("disabled", true).empty().html("<option></option>");    
     
-    $.each(Object.keys(novanet.data.allCollectionCodes[sublibrary]).sort(), function(idx, code){
-      var text = novanet.data.allCollectionCodes[sublibrary][code],
+    $.each(Object.keys(novanet.data.collections[sublibrary]).sort(), function(idx, code){
+      var text = novanet.data.collections[sublibrary][code],
           $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");
       if (code.match(prohibited)){
         $opt.prop("disabled", true);
@@ -71,7 +71,7 @@ $(document).ready(function() {
       return false;
     }
 
-    novanet.fn.loadDataTable(report, data); 
+    novanet.fn.loadResults(report, data); 
     novanet.fn.pushState(report, data);
   });
 });

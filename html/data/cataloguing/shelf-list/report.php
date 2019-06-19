@@ -50,10 +50,10 @@ foreach($input as $code){
   }
 }
 
-if (count($collections) > 5){
-  $inputErrors[] = "too many collection codes";
-  $collections = array();
-}
+//if (count($collections) > 5){
+//  $inputErrors[] = "too many collection codes";
+//  $collections = array();
+//}
 
 if (empty($collections)){
   header('HTTP/1.1 400 Bad Request');
