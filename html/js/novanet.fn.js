@@ -302,9 +302,9 @@ novanet.fn = (function(){
         if (report && params){
           Object.keys(params).sort().forEach(function(key){
             if (key != "max-age"){
-              path += encodeURIComponent(key) + "/";
+              path += key + "/";
               if (Array.isArray(params[key])){
-                path += encodeURIComponent(params[key].sort().join(",")) + "/";
+                path += params[key].sort().map(encodeURIComponent).join(",") + "/";
               }
               else{
                 path += encodeURIComponent(params[key]) + "/";
