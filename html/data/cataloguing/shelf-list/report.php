@@ -81,15 +81,15 @@ try{
       $bind[":COL$idx"] = $code;
     }
     $sql  = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
-    $csql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $cql);
-
+    $csql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $csql);
+    error_log($csql);
     $bind[":SUBLIB"] = $sublibrary;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
 
     $count = $aleph->querySingle($csql, $bind);
-    if ($count > 50000){
-      throw new Exception("This query resulted in more than 50,000 items ($count).  Add more filters, or contact the office for longer lists.");
+    if ($count >= 50000){
+      throw new Exception("This query resulted in more than 50,000 items.  Add more filters, or contact the office for longer lists.");
     }
     
     $cache->refresh(
