@@ -53,6 +53,48 @@ $.fn.dataTable.ext.type.order['callnumber-desc'] = function(a,b){
   return $.fn.dataTable.ext.type.order['callnumber-asc'](b,a);
 };
 
+//add natural string sort capability to DataTables (i.e. sort mixed numbers and text as people would)
+//-based on the natural sort plugin available on datatables.net, but with some features omitted.
+$.fn.dataTable.ext.type.order['natural-asc'] = function(a,b){
+  var num_re  = /(^-?[0-9]+(?:\.?[0-9]*)%?$)/g,
+      trim_re = /^\s*|\s*$/g,
+      zero_re = /^0/,
+
+      // convert all to strings and trim()
+      x = a.toString().replace(trim_re, '') || '',
+      y = b.toString().replace(trim_re, '') || '',
+
+      // chunk/tokenize
+      xN = x.replace(num_re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
+      yN = y.replace(num_re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0');
+
+  // natural sorting through split numeric strings and default strings
+  for(var cLoc=0, numS=Math.max(xN.length, yN.length); cLoc < numS; cLoc++) {
+      // find floats not starting with '0', string or 0 if not defined (Clint Priest)
+      var oFxNcL = !(xN[cLoc] || '').match(zero_re) && parseFloat(xN[cLoc], 10) || xN[cLoc] || 0;
+      var oFyNcL = !(yN[cLoc] || '').match(zero_re) && parseFloat(yN[cLoc], 10) || yN[cLoc] || 0;
+      // handle numeric vs string comparison - number < string - (Kyle Adams)
+      if (isNaN(oFxNcL) !== isNaN(oFyNcL)) {
+          return (isNaN(oFxNcL)) ? 1 : -1;
+      }
+      // rely on string comparison if different types - i.e. '02' < 2 != '02' < '2'
+      else if (typeof oFxNcL !== typeof oFyNcL) {
+          oFxNcL += '';
+          oFyNcL += '';
+      }
+      if (oFxNcL < oFyNcL) {
+          return -1;
+      }
+      if (oFxNcL > oFyNcL) {
+          return 1;
+      }
+  }
+  return 0;
+};
+$.fn.dataTable.ext.type.order['natural-desc'] = function(a,b){
+  return $.fn.dataTable.ext.type.order['natural-asc'](b,a);
+};
+
 //override default DataTables error behaviour
 $.fn.dataTable.ext.errMode = 'none';
 novanet.errorHandler = function(jqXHR, textStatus, errorThrown){
