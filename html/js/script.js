@@ -5,11 +5,6 @@ novanet.today = novanet.now.format("YYYYMMDD");
 novanet.callNumberRegExp = /^([A-Za-z]{1,3})(?:\/|\s{0,3})([1-9]\d{0,4}(?:\s{0,3}\.\d{1,8})?)(?:(?:\/|\s{1,3})([1-9][-?0-9]{0,3}(?:[a-z]|st|ST|nd|ND|rd|RD|th|TH)?)(?:\/|\s{0,3})\.?\s{0,3}([A-Za-z]{1,2}\d(?:[0-9\.]{0,7}(?:[A-Z][a-z]{1,3}\d{0,2})?)?)|(?:\/|\s{0,3})\.?\s{0,3}([A-Za-z]{1,2}\d(?:[0-9\.]{0,7}(?:[A-Z][a-z]{1,3}\d{0,2})?)?)|(?:\/|\s{1,3})([1-9][-?0-9]{0,3}(?:[a-z]|st|ST|nd|ND|rd|RD|th|TH)?))(?:(?:\/|\s{0,3})([A-Za-z]{1,2}\d(?:[0-9\.]{0,7}(?:[A-Z][a-z]{1,3}\d{0,2})?)?))?(?:(?:\/|\s{1,3})(.*))?$/;
 
 //add callnumber sort capability to DataTables
-$.fn.dataTable.ext.type.detect.unshift(
-  function(d){
-    return d && (""+d).match(novanet.callNumberRegExp) ? 'callnumber' : null;
-  }
-);
 $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
   if (!a){ return (b ? -1 : 0); }
   if (!b){ return 1; }
