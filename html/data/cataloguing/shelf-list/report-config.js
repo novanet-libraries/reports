@@ -37,7 +37,8 @@ novanet.datatableInitObject = {
       type: "callnumber"
     },{
       data: "DESCRIPTION",
-      title: "Item Description"
+      title: "Item Description",
+      type: "natural"
     },{
       data: "COLLECTION",
       title: "Collection",
