@@ -56,11 +56,11 @@ $.fn.dataTable.ext.type.order['callnumber-desc'] = function(a,b){
 };
 
 //add natural string sort capability to DataTables (i.e. sort mixed numbers and text as people would)
-$.fn.dataTable.ext.type.order['natural-asc'] = new Intl.Collator(null, {
+$.fn.dataTable.ext.type.order['natural-asc'] = (new Intl.Collator(undefined, {
     sensitivity:'base',
     numeric:true
   }
-);
+)).compare;
 $.fn.dataTable.ext.type.order['natural-desc'] = function(a,b){
   return $.fn.dataTable.ext.type.order['natural-asc'](b,a);
 };
