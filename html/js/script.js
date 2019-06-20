@@ -164,7 +164,7 @@ novanet.addDatatableListeners = function(){
       if ($reload.prop("disabled")){
         $reload.attr("title", "Newer data is not yet available.");
       }
-      
+
       $("#cache-statement").empty().append(
         "<span>Data last updated </span>",
         $("<time>").attr({
@@ -258,7 +258,7 @@ novanet.buildNavbar = function(){
 //populate the navbar with a link to each report in "reports.json"
 novanet.buildHome = function(){
   var buckets = {}, $topDiv = $("<div>").attr("id", "home-menu").addClass("row");
-  
+
   $.each(novanet.allreports, function(name, report){
     var category = report.base.replace(/\//g, "");
     if (undefined === buckets[category]){
@@ -288,7 +288,7 @@ novanet.buildHome = function(){
       )
     );
   });
-  
+
   novanet.page.$home.on("click", ".report", function(evt){
     var report = $(this).attr("data-report");
 
@@ -351,7 +351,7 @@ $(document).ready(function(){
     //build menus of all reports
     novanet.buildNavbar();
     novanet.buildHome();
-    
+
     //if there's an initial path, load that report
     var state = novanet.fn.parsePath(location.pathname);
     if (state && state.report){
@@ -361,7 +361,7 @@ $(document).ready(function(){
     else{
       novanet.page.$home.show();
     }
-    
+
   }).fail(function(a,b,c,d){
     console.error(a);
     console.error(b);
