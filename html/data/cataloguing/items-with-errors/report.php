@@ -34,7 +34,9 @@ try{
         $tmpBind[substr($key,0,4).$idx] = $code;
       }
       $sql = str_replace($key, join(",", array_keys($tmpBind)), $sql);
-      array_push($bind, ...$tmpBind);
+      
+      //array_push($bind, ...$tmpBind); //this syntax requires php 5.6 or higher
+      $bind = array_merge($bind, $tmpBind);
     }    
     
     $aleph = new AlephOracle(AlephOracle::LIVE);    
