@@ -13,43 +13,44 @@ $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
   
   var amatch = a.match(novanet.callNumberRegExp),
       bmatch = b.match(novanet.callNumberRegExp),
-      abs, bbs, asc, bsc, adc, bdc, ac1, bc1, ac2, bc2, aext, bext, cmp;
+      abs, bbs, asc, bsc, adc, bdc, ac1, bc1, ac2, bc2, aext, bext, cmp,
+      opt_ci = {sensitivity: 'base'},
+      opt_num = {sensitivity: 'base', numeric: true};
 
-  if (!amatch) { return (bmatch ? 1 : a.localeCompare(b)); }
+  if (!amatch) { return (bmatch ? 1 : a.localeCompare(b, opt_ci)); }
   if (!bmatch) { return -1; }
 
   abs = amatch[1].toUpperCase();
   bbs = bmatch[1].toUpperCase();
-  cmp = abs.localeCompare(bbs);
+  cmp = abs.localeCompare(bbs, opt_ci);
   if (cmp) { return cmp;  };
 
   asc = parseFloat(amatch[2].replace(/\s+/g, ''));
   bsc = parseFloat(bmatch[2].replace(/\s+/g, ''));
   cmp = asc - bsc;
   if (cmp < -0.000000001) { return -1; }
-  if (cmp >  0.000000001) { return  1;
-  }
+  if (cmp >  0.000000001) { return  1; }
 
   adc = (amatch[3] || amatch[6] || '').replace(/\?|-/g, '0');
   bdc = (bmatch[3] || bmatch[6] || '').replace(/\?|-/g, '0');
   if (adc.length || bdc.length){
-    cmp = adc.localeCompare(bdc);
+    cmp = adc.localeCompare(bdc, opt_num);
     if (cmp) { return cmp; }
   }
 
   ac1 = (amatch[5] || amatch[4] || '');
   bc1 = (bmatch[5] || bmatch[4] || '');
-  cmp = ac1.localeCompare(bc1);
+  cmp = ac1.localeCompare(bc1, opt_ci);
   if (cmp) { return cmp; }
 
   ac2 = (amatch[7] || '');
   bc2 = (bmatch[7] || '');
-  cmp = ac2.localeCompare(bc2);
+  cmp = ac2.localeCompare(bc2, opt_ci);
   if (cmp) { return cmp; }
 
   aext = (amatch[8] || '');
   bext = (bmatch[8] || '');
-  return aext.localeCompare(bext);
+  return aext.localeCompare(bext, opt_num);
 };
 $.fn.dataTable.ext.type.order['callnumber-desc'] = function(a,b){
   return $.fn.dataTable.ext.type.order['callnumber-asc'](b,a);
