@@ -30,7 +30,7 @@ try{
     //alter the SQL and build the $bind array:
     foreach($configData as $key => $data){
       $tmpBind = array();
-      foreach($configData[$key] as $idx => $code){
+      foreach($data as $idx => $code){
         $tmpBind[substr($key,0,4).$idx] = $code;
       }
       $sql = str_replace($key, join(", ", array_keys($tmpBind)), $sql);
