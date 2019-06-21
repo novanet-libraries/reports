@@ -14,7 +14,7 @@ $configData[":MATERIALS"]    = array_keys(AlephData::materialTypes());
 $configData[":ISTATUSES"]    = array_keys(AlephData::itemStatuses());
 $configData[":PSTATUSES"]    = array_keys(AlephData::itemProcessStatuses());
 
-foreach($confgData as $key => $data){
+foreach($configData as $key => $data){
   if (empty($data)){
     header('HTTP/1.1 500 Internal Server Error');
     die(json_encode(array('error' => 'Fetching init data failed.')));
