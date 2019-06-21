@@ -1,8 +1,8 @@
 <!-- <div class="alert alert-warning">Not yet available</div> -->
-<select id="sublibrary" class="form-control" data-placeholder="Sublibrary">
+<select id="sublibrary" class="form-control" data-placeholder="Sublibrary" multiple required>
   <option></option>
 </select>
-
+<button class="btn btn-primary" id="submit">Go</button>
 <script>
 $(document).ready(function() {
   var report = novanet.allreports["items-per-collection"],
@@ -20,13 +20,20 @@ $(document).ready(function() {
   $sublibSelect.chosen({
     no_results_text: "No matching sublibrary",
     search_contains: true,
+    label_with_value_only: true,
     width: "25em"
   });
   
   //submit on change:
-  $sublibSelect.on("change", function(){
-    var data = { sublibrary: $sublibSelect.val() };
+  $("#submit").on("click", function(){
+    var selections = $sublibSelect.val(),
+        data = { "sublibrary[]": selections };
 
+    if (selections === null || selections === []){
+      alert("You must select at least one sublibrary");
+      return false;
+    }
+    
     novanet.fn.loadResults(report, data);    
     novanet.fn.pushState(report, data);
   });

@@ -11,31 +11,31 @@ if (empty($_GET["sublibrary"])){
   die(json_encode(array("error" => "Must supply sublibrary code")));
 }
 
+$sublibraries = array();
 $validCodes = array_keys(AlephData::sublibraries());
-$sublibraries = array_values((array) $_GET["sublibrary"]);
-foreach($sublibraries as $code){
-  if (!in_array($code, $validCodes)){
-    header("HTTP/1.1 400 Bad Request");
-    die(json_encode(array("error" => "Invaid sublibrary code")));
+foreach($_GET['sublibrary'] as $input){
+  $sublibrary = trim(strtoupper($input));
+  if (!in_array($sublibrary, $validCodes)){
+    header('HTTP/1.1 400 Bad Request');
+    echo json_encode($output = array('error' => 'Invalid sublibrary code'));
+    die();
   }
+  $sublibraries[] = $sublibrary;
 }
 
 try{
   $cache = new ReportsCache(basename(__DIR__));
 
   if ($cache->isStale()){
+    $sql = file_get_contents("./query.sql");
 
+    //replace IN ( :SUBLIBRARIES ) with in IN (:SUB0, :SUB1, :SUB2, etc.)
+    $bind = array();
     foreach($sublibraries as $idx => $code){
       $bind[":SUB$idx"] = $code;
     }
-    $sql = str_replace(
-      ":SUBLIBRARY",
-      join(",", array_keys($bind)),
-      "SELECT COLLECTION Z30_COLLECTION, COUNT(*) C
-         FROM WEBREPORT.ITEM_RECORDS
-        WHERE SUB_LIBRARY = :SUBLIBRARY
-        GROUP BY COLLECTION"
-    );
+    $sql = str_replace(":SUBLIBRARIES", join(", ", array_keys($bind)), $sql);
+
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
       $aleph->query($sql, $bind),
