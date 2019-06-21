@@ -37,6 +37,12 @@ class AlephData {
     return $data;
   }
 
+  public static function materialTypes(){
+    $jsonString = self::getJSON("all-material-types.json");
+    $data = json_decode($jsonString, true);
+    return $data;
+  }
+
   public static function budgets(){
     $jsonString = self::getJSON("all-budgets.json");
     $data = json_decode($jsonString, true);
