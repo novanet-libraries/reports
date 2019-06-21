@@ -41,8 +41,7 @@ novanet.datatableInitObject = {
       type: "natural"
     },{
       data: "COLLECTION",
-      title: "Collection",
-      visible: false
+      title: "Collection"
     },{
       data: "BARCODE",
       title: "Barcode",
@@ -62,13 +61,6 @@ novanet.datatableInitObject = {
       data: "PROCESS_STATUS",
       title: "Item Process Status"
     },{
-      data: "DUEDATE",
-      title: "Due Date",
-      className: "text-nowrap",
-      render: novanet.fn.render.date("MMM Do"),
-      excelType: "d",
-      excelFmt: "mmm d"
-    }/*,{
       data: "LAST_EDIT",
       title: "Last Edit",
       className: "text-nowrap",
@@ -76,6 +68,6 @@ novanet.datatableInitObject = {
       render: novanet.fn.render.date("YYYY-MM-DD"),
       excelType: "d",
       excelFmt: "yyyy-mm-dd"
-    }*/
+    }
   ]
 };
