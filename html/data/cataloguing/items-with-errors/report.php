@@ -12,7 +12,7 @@ $configData[":SUBLIBRARIES"] = AlephData::sublibraries();
 $configData[":COLLECTIONS"]  = AlephData::collections();
 $configData[":MATERIALS"]    = AlephData::materialTypes();
 $configData[":ISTATUSES"]    = AlephData::itemStatuses();
-$configData[":PSTATUSES"]    = AlephData::iteProcessStatuses();
+$configData[":PSTATUSES"]    = AlephData::itemProcessStatuses();
 
 foreach($confgData as $key => $data){
   if (empty($data)){
