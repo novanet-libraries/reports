@@ -40,6 +40,13 @@
     "req-params": ["sublibrary[]"],
     "max-age": "P1M"
   },
+  "items-with-errors": {
+    "name": "Items with Coding Errors",
+    "desc": "Items with invalid sublibrary codes, collections, item statuses, etc.",
+    "base": "/cataloguing/",
+    "filename": "items-with-errors",
+    "max-age": "P1M"
+  },
   "new-isbns" : {
     "name": "New ISBNs",
     "desc": "ISBNs added to collections since a given date",
