@@ -1,4 +1,8 @@
 <?php
+/*
+** AlephData is a class that fetches configuration data from the Aleph server.
+** This is simply a proxy so that the data can be fetched client side from the local server.
+*/
 
 header('Content-type: application/json');
 
