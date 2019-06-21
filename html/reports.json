@@ -37,7 +37,7 @@
     "desc": "Item count broken down by collection code",
     "base": "/cataloguing/",
     "filename": "items-per-collection",
-    "req-params": ["sublibrary"],
+    "req-params": ["sublibrary[]"],
     "max-age": "P1M"
   },
   "new-isbns" : {
