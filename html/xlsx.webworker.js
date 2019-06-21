@@ -185,7 +185,7 @@ start = function(){
   //I had thought we might be able to pass colInfo in postMessage() rather than having
   //to fetch and eval() it here, but it couldn't be serialized.
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", "/data" + report.base + report.filename + "/report-config.js");
+  xmlhttp.open("GET", "/data" + report.base + report.filename + "/table-config.js");
   xmlhttp.onreadystatechange = function(){
     if (xmlhttp.status == 200 && xmlhttp.readyState == 4){
       eval(xmlhttp.responseText); //sets novanet.datatableInitObject

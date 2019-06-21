@@ -394,7 +394,7 @@ novanet.fn = (function(){
         //this ajax request gets configuration info for the DataTable
         //(which includes the ajax request that gets the data).
         $.ajax({
-          url: "/data" + report.base + report.filename + "/report-config.js",
+          url: "/data" + report.base + report.filename + "/table-config.js",
           dataType: "script",
           cache: true,
           success: function(){
