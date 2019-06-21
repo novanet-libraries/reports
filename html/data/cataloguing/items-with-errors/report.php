@@ -8,11 +8,11 @@ header('Content-type: application/json; charset=utf-8');
 
 $configData = array();
 
-$configData[":SUBLIBRARIES"] = AlephData::sublibraries();
-$configData[":COLLECTIONS"]  = AlephData::collections();
-$configData[":MATERIALS"]    = AlephData::materialTypes();
-$configData[":ISTATUSES"]    = AlephData::itemStatuses();
-$configData[":PSTATUSES"]    = AlephData::itemProcessStatuses();
+$configData[":SUBLIBRARIES"] = array_keys(AlephData::sublibraries());
+$configData[":COLLECTIONS"]  = array_keys(AlephData::collections("flatten"));
+$configData[":MATERIALS"]    = array_keys(AlephData::materialTypes());
+$configData[":ISTATUSES"]    = array_keys(AlephData::itemStatuses());
+$configData[":PSTATUSES"]    = array_keys(AlephData::itemProcessStatuses());
 
 foreach($confgData as $key => $data){
   if (empty($data)){
