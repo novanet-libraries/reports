@@ -33,13 +33,12 @@ try{
       foreach($configData[$key] as $idx => $code){
         $tmpBind[substr($key,0,4).$idx] = $code;
       }
-      $sql = str_replace($key, join(",", array_keys($tmpBind)), $sql);
-      
-      //array_push($bind, ...$tmpBind); //this syntax requires php 5.6 or higher
+      $sql = str_replace($key, join(", ", array_keys($tmpBind)), $sql);
+
       $bind = array_merge($bind, $tmpBind);
-    }    
-    
-    $aleph = new AlephOracle(AlephOracle::LIVE);    
+    }
+
+    $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
       $aleph->query($sql, $bind),
       $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
