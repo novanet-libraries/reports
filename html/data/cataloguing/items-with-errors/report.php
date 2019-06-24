@@ -7,13 +7,11 @@ require('ReportsCache.class.php');
 header('Content-type: application/json; charset=utf-8');
 
 $configData = array();
-
 $configData[":SUBLIBRARIES"] = array_keys(AlephData::sublibraries());
 $configData[":COLLECTIONS"]  = array_keys(AlephData::collections("flatten"));
 $configData[":MATERIALS"]    = array_keys(AlephData::materialTypes());
 $configData[":ISTATUSES"]    = array_keys(AlephData::itemStatuses());
 $configData[":PSTATUSES"]    = array_keys(AlephData::itemProcessStatuses());
-
 foreach($configData as $key => $data){
   if (empty($data)){
     header('HTTP/1.1 500 Internal Server Error');
