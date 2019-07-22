@@ -85,7 +85,7 @@
     "desc": "Item lists per budget",
     "base": "/acquisitions/",
     "filename": "spent-ytd-list",
-    "req-params": ["order-unit", "budget-year", "budget-number"],
+    "req-params": ["order-unit", "budget-year", "budget-number[]"],
     "max-age": "P7D"
   }
 }
