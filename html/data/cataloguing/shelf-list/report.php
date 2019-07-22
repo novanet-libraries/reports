@@ -72,22 +72,21 @@ try{
   $cache = new ReportsCache(basename(__DIR__));
 
   if ($cache->isStale()){
-    $sql  = file_get_contents("./query.sql");
-    $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql);
-
+    $sql = file_get_contents("./query.sql");
+    
     //replace IN ( :COLLECTION ) with in IN (:COL0, :COL1, :COL2, etc.)
     $bind = array();
     foreach($collections as $idx => $code){
       $bind[":COL$idx"] = $code;
     }
-    $sql  = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
-    $csql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $csql);
+    $sql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
 
     $bind[":SUBLIB"] = $sublibrary;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
 
-    $count = $aleph->querySingle($csql, $bind);
+    $count_sql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql);
+    $count = $aleph->querySingle($count_sql, $bind);
     if ($count >= 50000){
       throw new Exception("This query resulted in more than 50,000 items.  Add more filters, or contact the office for longer lists.");
     }
