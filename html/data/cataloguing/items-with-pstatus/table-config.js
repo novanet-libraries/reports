@@ -1,5 +1,4 @@
 novanet.datatableInitObject = {
-  order: [[5,"asc"],[9,"asc"]],
   deferRender: true,
   columns: [
     {
@@ -48,10 +47,6 @@ novanet.datatableInitObject = {
       className: "text-nowrap",
       render: novanet.fn.render.barcode(),
       excelType: "s"
-    },{
-      data: "MATERIAL_TYPE",
-      title: "Material",
-      visible: false
     },{
       data: "ITEM_STATUS",
       title: "Item Status",
