@@ -22,7 +22,7 @@ $(document).ready(function() {
   //add options to $sublibSelect
   $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
     var text = novanet.data.sublibraries[code];
-    $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
+    $sublibSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
   });
   $sublibSelect.chosen({
     no_results_text: "No matching sublibrary",
@@ -33,7 +33,7 @@ $(document).ready(function() {
   
   $.each(Object.keys(novanet.data.itemProcessStatuses).sort(), function(idx, code){
     var text = novanet.data.itemProcessStatuses[code];
-    $pstatusSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
+    $pstatusSelect.append($("<option>").attr("value", code).html(text + " (" + code + ")"));
   });
   $pstatusSelect.chosen({
     no_results_text: "No matching statuses",
