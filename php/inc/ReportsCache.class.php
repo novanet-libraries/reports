@@ -184,7 +184,7 @@ class ReportsCache {
     try{
       $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
       $stmt = $this->db->prepare($sql);
-      $stmt->execute(array("reports_cache", $tableName));
+      $stmt->execute(array($this->config["DataSourceName"]["dbname"], $tableName));
       $result = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
       if (empty($result)){
         throw new Exception("$tableName is not a cached report");
