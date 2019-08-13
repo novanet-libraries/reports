@@ -141,6 +141,7 @@ class ReportsCache {
 
 
 
+  private $config;       //array of config data read from ReportsCache.ini
   private $db;           //resource
   private $table;        //string, table name
   private $report;       //array of info, from DOCROOT/reports.json
@@ -151,15 +152,14 @@ class ReportsCache {
   private $forceRefresh; //boolean
 
   private function connect(){
-    $conf = parse_ini_file(stream_resolve_include_path("ReportsCache.ini"), true);
-    $user = $conf["Credentials"]["user"];
-    $pass = $conf["Credentials"]["pass"];
+    $this->config = parse_ini_file(stream_resolve_include_path("ReportsCache.ini"), true);
     $dsnParts = array();
-    foreach($conf["DataSourceName"] as $key => $val){
+    foreach($this->config["DataSourceName"] as $key => $val){
       $dsnParts[] = "$key=$val";
     }
     $dsn = "mysql:" . join(";", $dsnParts);
-
+    $user = $this->config["Credentials"]["user"];
+    $pass = $this->config["Credentials"]["pass"];
     try{
       $this->db = new PDO($dsn, $user, $pass, array(
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
