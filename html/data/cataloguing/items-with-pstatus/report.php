@@ -38,7 +38,7 @@ foreach($_GET["process-status"] as $p){
     header('HTTP/1.1 400 Bad Request');
     die(json_encode(array('error'=>'Invalid process status.')));
   }
-}  
+}
 
 try{
   $cache = new ReportsCache(basename(__DIR__));
@@ -53,7 +53,7 @@ try{
     }
     $sql = str_replace(":SUBLIBRARIES", join(",", array_keys($tmpBind)), $sql);
     $bind = array_merge($bind, $tmpBind);
-    
+
     $tmpBind = array();
     foreach($_GET["process-status"] as $idx => $p){
       $tmpBind[":PST" . $idx] = $p;
@@ -66,9 +66,9 @@ try{
     $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql);
     $count = $aleph->querySingle($csql, $bind);
     if ($count >= 50000){
-      throw new Exception("This query resulted in more than 50,000 items.  Add more filters, or contact the office for longer lists.");
+      throw new Exception("This query resulted in more than 50,000 items.  Select fewer items, or contact the office for longer lists.");
     }
-    
+
     $cache->refresh(
       $aleph->query($sql, $bind),
       $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
