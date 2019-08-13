@@ -59,9 +59,9 @@ novanet.datatableInitObject = {
    },{
      data: "PROCESS_STATUS_DATE",
      title: "Process Status Date",
-     render: novanet.fn.render.date("YYYY-MM-DD"),
+     render: novanet.fn.render.date("MMM Do YYYY"),
      excelType: "d",
-     excelFmt: "yyyy-mm-dd"
+     excelFmt: "mmm d, yyyy"
     }
   ]
 };
