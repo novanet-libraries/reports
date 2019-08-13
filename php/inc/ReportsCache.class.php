@@ -208,7 +208,7 @@ class ReportsCache {
       throw new Exception("Error getting report details for " . $reportName);
     }
   }
-  
+
   //set maxAge and forceRefresh (maxAge = 0)
   private function setMaxAge(){
     //jQuery adds this parameter with a timestamp to indicate it does not want cached results.
