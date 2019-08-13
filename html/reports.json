@@ -33,9 +33,8 @@
     "max-age": "P1M"
   },
   "items-with-pstatus" : {
-    "name": "Items with a Process Status",
+    "name": "Item Process Status Report",
     "desc": "List of items with an Item Process Status",
-    "note": "This is arbitrarily capped at 50,000 items.  Contact the office for longer lists.",
     "base": "/cataloguing/",
     "filename": "items-with-pstatus",
     "req-params": ["sublibrary[]", "process-status[]"],
