@@ -20,6 +20,7 @@ novanet.datatableInitObject = {
     },{
       data : 'MAX_OVER_SPEND',
       title: 'Max Over-spend',
+      visible: false,
       render: novanet.fn.render.number(2, '$'),
       excelType: "n",
       excelFmt: "$#,###,###,##0.00"
