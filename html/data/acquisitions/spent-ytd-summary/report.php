@@ -41,7 +41,7 @@ else{
         $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
       );
     }
-    
+
     $output = $cache->fetch();
   }
   catch (Exception $ex){
