@@ -1,5 +1,5 @@
 novanet.datatableInitObject = {
-  order: [[14,"asc"]],
+  order: [[15,"asc"]],
   deferRender: true,
   columns: [
     {
@@ -30,6 +30,10 @@ novanet.datatableInitObject = {
       visible: false,
       type: "string",
       excelType: "s"
+    },{
+      data: "SUBLIBRARY",
+      title: "Owning Library",
+      visible: false
     },{
       data: "COLLECTION",
       title: "Collection"
