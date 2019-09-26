@@ -31,7 +31,7 @@ novanet.datatableInitObject = {
       type: "string",
       excelType: "s"
     },{
-      data: "SUBLIBRARY",
+      data: "SUB_LIBRARY",
       title: "Owning Library",
       visible: false
     },{
