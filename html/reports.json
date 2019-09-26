@@ -56,6 +56,14 @@
     "req-params": ["start-date", "sublibrary", "collection[]"],
     "max-age": "P7D"
   },
+  "items-loaned-elsewhere" : {
+    "name": "Items Loaned At Other Libraries",
+    "desc": "List of loans of owner's items checked out at non-owning libraries.",
+    "base": "/circulation/",
+    "filename": "items-loaned-elsewhere",
+    "req-params": ["start-date", "sublibrary"],
+    "max-age": "P7D"
+  },
   "outstanding-orders" : {
     "name": "Outstanding Orders",
     "desc": "Active encumbrances",
