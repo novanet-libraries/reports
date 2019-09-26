@@ -59,7 +59,6 @@
   "items-loaned-elsewhere" : {
     "name": "Items Loaned At Other Libraries",
     "desc": "Remote loans of a single library's items (i.e. Novanet Express <em>out</em>)",
-    "note": "Anyone can change the workstation ID of any Aleph client to change the apparent location of a loan.  This may not be 100% accurate.",
     "base": "/circulation/",
     "filename": "items-loaned-elsewhere",
     "req-params": ["start-date", "sublibrary"],
@@ -68,7 +67,6 @@
   "other-items-loaned-here" : {
     "name": "Items Loaned From Other Libraries",
     "desc": "Local loans of other libraries' items (i.e. Novanet Express <em>in</em>)",
-    "note": "Anyone can change the workstation ID of any Aleph client to change the apparent location of a loan.  This may not be 100% accurate.",
     "base": "/circulation/",
     "filename": "other-items-loaned-here",
     "req-params": ["start-date", "sublibrary"],
