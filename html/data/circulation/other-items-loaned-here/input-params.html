@@ -16,7 +16,8 @@ $(document).ready(function() {
   var report = novanet.allreports['other-items-loaned-here'];
 
   var $sublibSelect = $('#sublibrary'),
-      $dateSelect = $("#startdate");
+      $dateSelect = $("#startdate"),
+      prohibited = /^(.+NET|NOVA|WWW)$/;
 
   $dateSelect.val(
     moment().subtract(27, 'days').startOf('month').format('YYYY-MM-DD')
@@ -27,8 +28,13 @@ $(document).ready(function() {
 
   //add options to $sublibSelect
   $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
-    var text = novanet.data.sublibraries[code];
-    $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
+    var text = novanet.data.sublibraries[code],
+        $opt = $("<option>").attr("value", code).html(text + "(" + code + ")");
+    
+    if (code.match(prohibited)){
+      $opt.prop("disabled", true);
+    }
+    $sublibSelect.append($opt);
   });
 
   //make it nice:
