@@ -1,5 +1,5 @@
 novanet.datatableInitObject = {
-  order: [[14,"asc"],[13,"asc"]],
+  order: [[14,"asc"]],
   deferRender: true,
   columns: [
     {
