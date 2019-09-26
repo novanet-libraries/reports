@@ -286,8 +286,7 @@ novanet.buildHome = function(){
       $catDiv.append(
         $("<a>").attr({"href":"#", "data-report":report.filename}).addClass("report list-group-item").append(
           $("<h4>").addClass("list-group-item-heading").html(report.name),
-          $("<p>").addClass("list-group-item-text").html(report.desc),
-          $("<p>").addClass("list-group-item-text text-muted").html(report.note)
+          $("<p>").addClass("list-group-item-text").html(report.desc)
         )
       )
     });
