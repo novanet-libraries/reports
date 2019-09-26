@@ -26,7 +26,7 @@ try{
     if ($startdate > $now || $startdate < $fiveYearsAgo){
       throw new Exception("start date out of range");
     }
-    
+
     //for the particular table we are querying, date is a 15 character string that starts with YYYYMMDD
     $startdate = $startdate->format('Ymd') . '0000000';
   }
@@ -59,7 +59,7 @@ try{
     $bind[":STARTDATE"]  = $startdate;
     $bind[":SUBLIBRARY"] = $sublibrary;
     $bind[":CIRCDESK"]   = $sublibrary."CDESK";
-    
+
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
       $aleph->query($sql, $bind),

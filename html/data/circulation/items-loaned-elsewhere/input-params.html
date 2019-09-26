@@ -14,7 +14,7 @@
 <script>
 $(document).ready(function() {
   var report = novanet.allreports['items-loaned-elsewhere'];
-  
+
   var $sublibSelect = $('#sublibrary'),
       $dateSelect = $("#startdate");
 
@@ -30,7 +30,7 @@ $(document).ready(function() {
     var text = novanet.data.sublibraries[code];
     $sublibSelect.append($("<option>").attr("value", code).html(text + "(" + code + ")"));
   });
-  
+
   //make it nice:
   $sublibSelect.chosen({
     no_results_text: "No matching sublibrary",
@@ -47,13 +47,13 @@ $(document).ready(function() {
           "sublibrary": $sublibSelect.val(),
           "start-date": startdate
         };
-    
+
     if (!startdate || !sublibrary){
       //more fully validate start date
       return false;
     }
 
-    novanet.fn.loadResults(report, data); 
+    novanet.fn.loadResults(report, data);
     novanet.fn.pushState(report, data);
   });
 });
