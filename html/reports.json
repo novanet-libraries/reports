@@ -58,7 +58,8 @@
   },
   "items-loaned-elsewhere" : {
     "name": "Items Loaned At Other Libraries",
-    "desc": "List of loans of owner's items checked out at non-owning libraries.",
+    "desc": "Loans of owner's items checked out at non-owning libraries.",
+    "note": "Anyone can change the workstation ID of any Aleph client to change the apparent location of a loan.  i.e. the accuracy of this report relies on a lot of people."
     "base": "/circulation/",
     "filename": "items-loaned-elsewhere",
     "req-params": ["start-date", "sublibrary"],
