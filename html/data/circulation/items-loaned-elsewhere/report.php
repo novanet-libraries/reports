@@ -27,7 +27,8 @@ try{
       throw new Exception("start date out of range");
     }
     
-    $startdate = $startdate->format('Ymd');
+    //for the particular table we are querying, date is a 15 character string that starts with YYYYMMDD
+    $startdate = $startdate->format('Ymd') . '0000000';
   }
   catch (Exception $ex){
     error_log($ex->getMessage());
