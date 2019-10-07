@@ -1,5 +1,8 @@
 {
-    "name": "",
+    "name": "Novanet Reports",
+    "short_name": "Novanet Reports",
+    "description": "Supplemental reports for the Novanet ILS (Aleph)",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-chrome-192x192.png?v=5A5NnlKGo7",
@@ -13,5 +16,6 @@
         }
     ],
     "theme_color": "#ffffff",
-    "background_color": "#ffffff"
+    "background_color": "#ffffff",
+    "display": "standalone"
 }
