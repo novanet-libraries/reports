@@ -8,8 +8,8 @@ novanet.callNumberRegExp = /^([A-Za-z]{1,3})(?:\/|\s{0,3})([1-9]\d{0,4}(?:\s{0,3
 $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
 
   //enforce string type and trim
-  a = ('' + a).replace(/^\s*|\s*$/g);
-  b = ('' + b).replace(/^\s*|\s*$/g);
+  a = ('' + a).replace(/^\s*|\s*$/g, '');
+  b = ('' + b).replace(/^\s*|\s*$/g, '');
   
   var amatch = a.match(novanet.callNumberRegExp),
       bmatch = b.match(novanet.callNumberRegExp),
