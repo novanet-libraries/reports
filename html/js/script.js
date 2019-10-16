@@ -10,7 +10,7 @@ $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
   //enforce string type and trim
   a = ('' + a).replace(/^\s*|\s*$/g, '');
   b = ('' + b).replace(/^\s*|\s*$/g, '');
-  
+
   var amatch = a.match(novanet.callNumberRegExp),
       bmatch = b.match(novanet.callNumberRegExp),
       abs, bbs, asc, bsc, adc, bdc, ac1, bc1, ac2, bc2, aext, bext, cmp,

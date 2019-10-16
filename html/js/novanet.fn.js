@@ -413,7 +413,7 @@ novanet.fn = (function(){
         setTitle("", "", "");
         $("#current-report > section").hide();
         hideProgress();
-        
+
         //reclaim memory (destroy "chosen" objects and "DataTable" objects)
         novanet.page.$params.find("select").chosen("destroy");
         novanet.page.$params.find(".panel-body").empty();
