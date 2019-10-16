@@ -129,7 +129,7 @@ writeColumn = function(colSpec, colNum, numRows, numCols){
 
   postMessage(
     JSON.stringify({
-      "percentComplete": (colNum+1/numCols*80)||2
+      "percentComplete": (((colNum+1)/numCols)*80)||2
     })
   );
 },
