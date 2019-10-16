@@ -63,7 +63,7 @@ writePreamble = function(numCols){
   }
   sheet['A1'] = {t: "s", v: report.name};
   sheet['A2'] = {t: "s", v: report.desc + " (as of " + moment(data.date).format("MMM Do, YYYY") + ")"};
-  sheet['A3'] = {t: "s", v: "http://reports.novanet.ca" + novanet.fn.buildPath(report, params)};
+  sheet['A3'] = {t: "s", v: "https://reports.novanet.ca" + novanet.fn.buildPath(report, params)};
   sheet['A4'] = {t: "z"};
 },
 writeHeaderCell = function(colNum, title){
