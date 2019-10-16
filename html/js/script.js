@@ -20,8 +20,8 @@ $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
   if (!amatch) { return (bmatch ? 1 : a.localeCompare(b, opt_ci)); }
   if (!bmatch) { return -1; }
 
-  abs = amatch[1].toUpperCase();
-  bbs = bmatch[1].toUpperCase();
+  abs = amatch[1];
+  bbs = bmatch[1];
   cmp = abs.localeCompare(bbs, opt_ci);
   if (cmp) { return cmp;  };
 
