@@ -104,11 +104,11 @@ try{
           }
         }
         if (!$counted){
-          $cnranges['Items with other LC callnumbers']['events'][$row['EVENT']]++;
+          $cnranges['Other LC']['events'][$row['EVENT']]++;
         }
       }
       catch (Exception $ex){
-        $cnranges['Items with non-LC callnumbers']['events'][$row['EVENT']]++;
+        $cnranges['Non LC']['events'][$row['EVENT']]++;
       }
     }
 
@@ -117,6 +117,12 @@ try{
       $row = array("CNRANGE" => $label, "CNRANGE2" => "");
       if (isset($rangeInfo['bounds'])){
         $row["CNRANGE2"] = $rangeInfo['bounds'][0] . " - " . $rangeInfo['bounds'][1];
+      }
+      else if ($label == 'Non LC'){
+        $row["CNRANGE2"] = "Items with non-LC callnumbers";
+      }
+      else if ($label == 'Other LC'){
+        $row["CNRANGE2"] = "Items with LC callnumbers outside the specified ranges";
       }
 
       foreach(array_keys($events) as $evt){
