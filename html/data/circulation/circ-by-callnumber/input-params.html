@@ -68,9 +68,17 @@ $(document).ready(function() {
   });
 
   //set up daterangepicker
-  $start.val(moment().subtract(350, 'days').startOf('year').format('YYYY-MM-DD'));
-  $end.val(moment($start.val()).add(1,'year').format('YYYY-MM-DD'));
-  $dateDisplay.html(moment($start.val()).format('MMMM D, YYYY') + ' - ' + moment($end.val()).format('MMMM D, YYYY'));
+  var writeDatesCallback = function(s,e){
+    $dateDisplay.html(s.format('MMMM D, YYYY') + ' - ' + e.format('MMMM D, YYYY'));
+    $start.val(s.format('YYYY-MM-DD'));
+    $end.val(e.format('YYYY-MM-DD'));
+  }, sept1st = moment();
+  while (sept1st.month() != 8){
+    sept1st.subtract(1,'month');
+  }
+  sept1st.startOf('month');
+  writeDatesCallback(sept1st,moment());
+  
   $('#period').daterangepicker({
     parentEl: '#date-group-element',
     startDate: moment($start.val()),
@@ -84,11 +92,7 @@ $(document).ready(function() {
       'Last Academic Year': novanet.fn.prevYearStartingAt(8),
       'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
     }
-  },function(s,e){
-    $dateDisplay.html(s.format('MMMM D, YYYY') + ' - ' + e.format('MMMM D, YYYY'));
-    $start.val(s.format('YYYY-MM-DD'));
-    $end.val(e.format('YYYY-MM-DD'));
-  });
+  }, writeDatesCallback);
 
   //set up the callnumber range input
   $cnranges.on("click", ".delete", function(evt){
