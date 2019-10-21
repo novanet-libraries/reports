@@ -159,6 +159,9 @@ function parseCNInput($input){
       $parts[1] = $alpha . $parts[1];
     }
     
+    if (ctype_upper($parts[1]) && strlen($parts[1]) < 2){
+      $parts[1] .= "Z";
+    }    
     if (ctype_upper($parts[1])){
       $parts[1] .= '99999.9999';
     }
