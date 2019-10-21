@@ -154,7 +154,7 @@ function parseCNInput($input){
     
     if (ctype_digit($parts[1])){
       //prepend the letters in $parts[0] to $parts[1]
-      $alpha = $substr($parts[0], 0, strcspn($parts[0], '1234567890. '));
+      $alpha = substr($parts[0], 0, strcspn($parts[0], '1234567890. '));
       $parts[1] = $alpha . $parts[1];
     }
     
