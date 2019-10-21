@@ -33,7 +33,7 @@ try{
   if (empty($_GET['sublibrary'])){
     throw new Exception('Must provide sublibrary code');
   }
-  if (empty($_GET['start-date']) || empty($_GET['end-date'])){
+  if (empty($_GET['begin']) || empty($_GET['end'])){
     throw new Exception('Must provide a date range');
   }
   if (empty($_GET['range'])){
@@ -50,8 +50,8 @@ try{
   }
 
   //DateTime constructor will throw if we receive invalid date strings.
-  $startDate = new DateTime($_GET['start-date']);
-  $endDate   = new DateTime($_GET['end-date']);
+  $startDate = new DateTime($_GET['begin']);
+  $endDate   = new DateTime($_GET['end']);
   if ($endDate->diff($startDate) > (new DateInterval('P1Y'))){
     throw new Exception("Date range too large");
   }
