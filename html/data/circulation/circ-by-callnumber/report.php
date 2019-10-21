@@ -95,10 +95,12 @@ try{
       try {
         $cn = new CallNumber($row['CALLNUMBER']);
         $counted = false;
-        foreach($cnranges as $label => $cnrange){
-          if ($cn->compareTo($cnrange['bounds'][0]) > -1 && $cn->compareTo($cnrange['bounds'][1]) < 1){
-            $cnranges[$label]['events'][$row['EVENT']]++;
-            $counted = true;
+        foreach($cnranges as $label => $rangeInfo){
+          if (isset($rangeInfo['bounds'])){
+            if ($cn->compareTo($rangeInfo['bounds'][0]) > -1 && $cn->compareTo($rangeInfo['bounds'][1]) < 1){
+              $cnranges[$label]['events'][$row['EVENT']]++;
+              $counted = true;
+            }
           }
         }
         if (!$counted){
