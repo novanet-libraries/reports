@@ -20,11 +20,13 @@
       <div id="cnranges" class="form-inline">
         <div class="form-row">
           <label for="cnrange-1">Call Number Range</label>
-          <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
-          <a href="#" class="delete btn btn-default" role="button">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            <span class="sr-only">Remove this row</span>
-          </a>
+          <div class="input-group">
+            <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
+            <span class="input-group-addon delete" role="button">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              <span class="sr-only">Remove this row</span>
+            </div>
+          </div>
         </div>
         <button type="button" class="add btn btn-default">
           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -80,7 +82,6 @@ $(document).ready(function() {
   writeDatesCallback(sept1st,moment());
   
   $('#period').daterangepicker({
-    parentEl: '#date-group-element',
     startDate: moment($start.val()),
     endDate: moment($end.val()),
     minDate: moment().subtract(6, 'years'),
@@ -89,7 +90,9 @@ $(document).ready(function() {
     ranges: {
       'Last 30 Days': [moment().subtract(29,'days'), moment()],
       'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
+      'This Academic Year': [sept1st, moment()],
       'Last Academic Year': novanet.fn.prevYearStartingAt(8),
+      'This Calendar Year': [moment.startOf('year'),moment()],
       'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
     }
   }, writeDatesCallback);
