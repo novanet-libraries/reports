@@ -71,10 +71,7 @@ $(document).ready(function() {
   });
 
   //set up daterangepicker
-  $start.val(moment().subtract(350, 'days').startOf('year').format('YYYY-MM-DD')).prop({
-    'min' : moment().subtract(5, 'years').format('YYYY-MM-DD'),
-    'max' : moment().substract(1, 'day').format('YYYY-MM-DD')
-  });
+  $start.val(moment().subtract(350, 'days')).startOf('year');
   $end.val(moment($start.val()).add(1,'year'));
   $('#period').daterangepicker({
     parentEl: '#date-group-element',
