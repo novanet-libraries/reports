@@ -81,8 +81,8 @@ $(document).ready(function() {
     maxDate: moment(),
     maxSpan: {'years': 1},
     ranges: {
-      'Last 30 Days': [moment().subtract(29,'days'),moment()],
-      'Last Month': [moment.subtract(1,'month').startOf('month'),moment.subtract(1,'month').endOf('month')],
+      'Last 30 Days': [moment().subtract(29,'days'), moment()],
+      'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
       'Last Academic Year': novanet.fn.prevYearStartingAt(8),
       'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
     }
