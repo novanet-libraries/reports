@@ -5,6 +5,10 @@ novanet.datatableInitObject = {
       data : "CNRANGE",
       title: "Call Number Range"
     },{
+      data: "CNRANGE2",
+      title: "Call Number Range",
+      visible: false
+    },{
       data : "LOAN",
       title: "Loans",
       excelType: "n"

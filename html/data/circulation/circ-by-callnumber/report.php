@@ -113,10 +113,14 @@ try{
     }
 
     $data = [];
-    foreach($cnranges as $label => $info){
-      $row = array("CNRANGE" => $label);
+    foreach($cnranges as $label => $rangeInfo){
+      $row = array("CNRANGE" => $label, "CNRANGE2" => "");
+      if (isset($rangeInfo['bounds'])){
+        $row["CNRANGE2"] = $rangeInfo['bounds'][0] . " - " . $rangeInfo['bounds'][1];
+      }
+
       foreach(array_keys($events) as $evt){
-        $row[$evt] = $info['events'][$evt];
+        $row[$evt] = $rangeInfo['events'][$evt];
       }
       $data[] = $row;
     }
