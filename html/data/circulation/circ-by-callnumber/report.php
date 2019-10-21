@@ -104,11 +104,11 @@ try{
           }
         }
         if (!$counted){
-          $cnranges['Other LC']['events'][$row['EVENT']]++;
+          $cnranges['Items with other LC callnumbers']['events'][$row['EVENT']]++;
         }
       }
       catch (Exception $ex){
-        $cnranges['Non LC']['events'][$row['EVENT']]++;
+        $cnranges['Items with non-LC callnumbers']['events'][$row['EVENT']]++;
       }
     }
 
