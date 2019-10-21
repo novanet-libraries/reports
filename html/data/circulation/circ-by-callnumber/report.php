@@ -52,11 +52,6 @@ try{
   //DateTime constructor will throw if we receive invalid date strings.
   $startDate = new DateTime($_GET['start-date']);
   $endDate   = new DateTime($_GET['end-date']);
-  if ($endDate->diff($startDate) != $endDate->diff($startDate, 'absolute-value')){
-    $tmp = $endDate;
-    $endDate = $startDate;
-    $startDate = $tmp;
-  }
   if ($endDate->diff($startDate) > (new DateInterval('P1Y'))){
     throw new Exception("Date range too large");
   }
