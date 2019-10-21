@@ -92,7 +92,7 @@ $(document).ready(function() {
       'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
       'This Academic Year': [sept1st, moment()],
       'Last Academic Year': novanet.fn.prevYearStartingAt(8),
-      'This Calendar Year': [moment.startOf('year'),moment()],
+      'This Calendar Year': [moment().startOf('year'),moment()],
       'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
     }
   }, writeDatesCallback);
