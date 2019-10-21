@@ -36,7 +36,7 @@ try{
   if (empty($_GET['start-date']) || empty($_GET['end-date'])){
     throw new Exception('Must provide a date range');
   }
-  if (empty($_GET['cnrange'])){
+  if (empty($_GET['range'])){
     throw new Exception('Must provide callnumber range(s)');
   }
   
@@ -64,7 +64,7 @@ try{
   $startDate = $startDate->format('Ymd');
   $endDate   = $endDate->format('Ymd');
   
-  foreach($_GET['cnrange'] as $cnrange){
+  foreach($_GET['range'] as $cnrange){
     $pair = parseCNInput($cnrange);
     if (empty($pair)){
       throw new Exception("Invalid callnumber range");
