@@ -23,8 +23,8 @@
     <div class="col-md-4 col-sm-6">
       <div id="cnranges" class="form-horizontal">
         <div class="form-group">
-          <label for="cnrange-1" class="col-sm-4">Call Number Range</label>
-          <div class="input-group col-sm-6">
+          <label for="cnrange-1" class="col-sm-3">Call Number Range</label>
+          <div class="input-group col-sm-9">
             <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
             <span class="delete input-group-addon" role="button">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -32,7 +32,7 @@
             </span>
           </div>
         </div>
-        <div class="col-sm-offset-4 col-sm-2">
+        <div class="col-sm-offset-3 col-sm-2">
           <button type="button" class="add btn btn-default">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             <span class="sr-only">Add a row</span>
@@ -118,7 +118,7 @@ $(document).ready(function() {
         id     = $input.attr("id"),
         num    = parseInt(name.substr(name.indexOf('-')+1),10);
     $input.val("").attr("id", "cnrange-" + (++num));
-    $clone.find("label").remove();
+    $clone.find("label").attr("for", "cnrange-" + num);
     $last.after($clone);
   });
 
