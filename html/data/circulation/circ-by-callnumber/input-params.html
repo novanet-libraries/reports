@@ -17,8 +17,8 @@
       </div>
     </div>
     <div class="col-md-4 col-sm-6">
-      <div id="cnranges" class="form-inline">
-        <div class="form-row">
+      <div id="cnranges">
+        <div class="form-group">
           <label for="cnrange-1">Call Number Range</label>
           <div class="input-group">
             <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
@@ -100,16 +100,16 @@ $(document).ready(function() {
   //set up the callnumber range input
   $cnranges.on("click", ".delete", function(evt){
     evt.preventDefault();
-    $(this).parents(".form-row").remove();
+    $(this).parents(".form-group").remove();
   }).on("click", ".add", function(evt){
     evt.preventDefault();
-    var $last  = $cnranges.find(".form-row").last()
+    var $last  = $cnranges.find(".form-group").last()
         $clone = $last.clone(),
         $input = $clone.find("input"),
         id     = $input.attr("id"),
         num    = parseInt(name.substr(name.indexOf('-')+1),10);
     $input.val("").attr("id", "cnrange-" + (++num));
-    $clone.find("label").attr("for", "cnrange-" + num);
+    $clone.find("label").remove();
     $last.after($clone);
   });
 
