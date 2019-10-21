@@ -85,7 +85,7 @@ $(document).ready(function() {
       'Last Month': [moment.subtract(1,'month').startOf('month'),moment.subtract(1,'month').endOf('month')],
       'Last Academic Year': novanet.fn.prevYearStartingAt(8),
       'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
-    },
+    }
   },function(s,e){
     $('#period .date-display').html(s.format('MMMM D, YYYY') + ' - ' + e.format('MMMM D, YYYY'));
     $start.val(s.format('YYYY-MM-DD'));
