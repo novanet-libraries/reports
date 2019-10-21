@@ -1,46 +1,40 @@
-<!--
-<div class="form-inline">
-  <div class="alert alert-warning">This report is not currently available</div>
-</div>
--->
-
-<div class="row">
-  <div class="col-7">
-    <div class="form-group">
-      <label for="sublibrary">Sublibrary</label>
-      <select id="sublibrary" class="form-control" data-placeholder="Sublibrary" multiple><option></option></select>
-    </div>
-    <div id="date-group-element" class="form-group">
-      <label for="period">Period</label>
-      <input id="startdate" type="hidden">
-      <input id="enddate" type="hidden">
-      <div id="period">
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-        <span class="date-display"></span>
-        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
 <div class="container-fluid">
+  <div class="row">
+    <div class="col-7">
+      <div class="form-group">
+        <label for="sublibrary">Sublibrary</label>
+        <select id="sublibrary" class="form-control" data-placeholder="Sublibrary" multiple><option></option></select>
+      </div>
+      <div id="date-group-element" class="form-group">
+        <label for="period">Period</label>
+        <input id="startdate" type="hidden">
+        <input id="enddate" type="hidden">
+        <div id="period">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          <span class="date-display"></span>
+          <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div id="cnranges">
+        <div class="form-row">
+          <label for="cnrange-1">Call Number Range</label>
+          <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
+          <a href="#" class="delete btn btn-default" role="button">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span class="sr-only">Remove this row</span>
+          </a>
+        </div>
+        <button type="button" class="add btn btn-default">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <span class="sr-only">Add a row</span>
+        </button>
       </div>
     </div>
   </div>
-  <div class="col-5">
-    <div id="cnranges">
-      <div class="form-row">
-        <label for="cnrange-1">Call Number Range</label>
-        <input type="text" class="form-control" id="cnrange-1" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
-        <a href="#" class="delete btn btn-default" role="button">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          <span class="sr-only">Remove this row</span>
-        </a>
-      </div>
-      <button type="button" class="add btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        <span class="sr-only">Add a row</span>
-      </button>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <button class="btn btn-primary" id="submit">Go</button>
+  <div class="row">
+    <button class="btn btn-primary" id="submit">Go</button>
   </div>
 </div>
 <script>
@@ -93,7 +87,7 @@ $(document).ready(function() {
     $start.val(s.format('YYYY-MM-DD'));
     $end.val(e.format('YYYY-MM-DD'));
   });
-  
+
   //set up the callnumber range input
   $cnranges.on("click", ".delete", function(evt){
     evt.preventDefault();
