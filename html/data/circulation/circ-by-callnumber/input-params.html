@@ -86,7 +86,7 @@ $(document).ready(function() {
     endDate: moment($end.val()),
     minDate: moment().subtract(6, 'years'),
     maxDate: moment(),
-    maxSpan: {'years': 1},
+    maxSpan: {'days': 365},
     ranges: {
       'Last 30 Days': [moment().subtract(29,'days'), moment()],
       'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
