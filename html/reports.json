@@ -20,8 +20,8 @@
     "desc": "Number of circ events by subject",
     "base": "/circulation/",
     "filename": "circ-by-callnumber",
-    "req-params": ["sublibrary[]", "range[]", "start-date", "end-date"],
     "max-age": "P7D"
+    "req-params": ["sublibrary[]", "range[]", "begin", "end"],
   },
   "shelf-list" : {
     "name": "Shelf List",
