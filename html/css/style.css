@@ -53,6 +53,8 @@ tbody .progress { margin-bottom: 0 }
 .btn .glyphicon-ok { display: inline-block; opacity: 0;}
 .btn.active .glyphicon-ok { display: inline-block; opacity: 1;}
 
+/* input-params.html */
+input:invalid { border-color: red; }
 
 /* unused institution colors; kept for reference. */
 .ACAD {
