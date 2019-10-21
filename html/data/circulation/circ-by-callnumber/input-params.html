@@ -107,7 +107,7 @@ $(document).ready(function() {
   //set up the callnumber range input
   $cnranges.on("click", ".delete", function(evt){
     evt.preventDefault();
-    if ($cnranges.find(".form-group").length() > 1){  
+    if ($cnranges.find(".form-group").length > 1){  
       $(this).parents(".form-group").remove();
     }
   }).on("click", ".add", function(evt){
