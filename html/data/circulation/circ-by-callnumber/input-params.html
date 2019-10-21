@@ -9,7 +9,10 @@
           </div>
         </div>
         <div id="date-group-element" class="form-group">
-          <label for="period" class="col-sm-2">Period <span class="text-muted">(max 1 year)</span></label>
+          <div class="col-sm-2">
+            <label for="period">Period</label>
+             <span class="text-muted">(max 1 year)</span>
+          </div>
           <input id="startdate" type="hidden">
           <input id="enddate" type="hidden">
           <span id="period" class="col-sm-10" style="padding: 0.8em; border:#ccc 1px solid; border-radius:0.3em;">
@@ -121,7 +124,7 @@ $(document).ready(function() {
     $clone.find("label").attr("for", "cnrange-" + num);
     $last.after($clone);
   });
-  $cnranges.click(); //trigger this just to add an extra
+  $cnranges.find(".add").click(); //trigger this just to add an extra input
 
   //submitting the form loads the results.
   $("#submit").on('click', function(evt){
