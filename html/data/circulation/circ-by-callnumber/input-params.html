@@ -20,6 +20,14 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <label>
+              <input type="checkbox" id="periodSplit">
+              <span>Sub-divide Selected Date Range</span>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-md-4 col-sm-6">
@@ -151,7 +159,8 @@ $(document).ready(function() {
       "sublibrary[]" : sublibrary,
       "begin"        : startdate,
       "end"          : enddate,
-      "range[]"      : cnranges
+      "range[]"      : cnranges,
+      "periodSplit"  : $("#periodSplit").val() ? 'Y' : 'N'
     };
 
     novanet.fn.loadResults(report, data);
