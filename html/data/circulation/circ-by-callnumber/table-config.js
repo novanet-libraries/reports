@@ -1,7 +1,13 @@
 novanet.datatableInitObject = {
-  order: [[0,"asc"]],
+  order: [[0,"asc"],[1,"asc"]],
   columns: [
     {
+      data : "PERIOD",
+      title: "Period",
+      render: novanet.fn.render.period(),
+      type: "string",
+      excelType: "s"
+    },{
       data : "CNRANGE",
       title: "Call Number Range"
     },{
