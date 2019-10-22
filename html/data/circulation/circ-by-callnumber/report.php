@@ -94,12 +94,12 @@ try{
     }
     $cnRanges[$rangeString]['bounds'] = $pair;
     foreach($dateRanges as $period){
-      $cnRanges[$rangeString][$period['label']] = $events;
+      $cnRanges[$rangeString]['events'][$period['label']] = $events;
     }
   }
   foreach($dateRanges as $period){
-    $cnRanges['Other LC'][$period['label']] = $events;
-    $cnRanges['Non LC'][$period['label']]   = $events;
+    $cnRanges['Other LC']['events'][$period['label']] = $events;
+    $cnRanges['Non LC']['events'][$period['label']]   = $events;
   }
 }
 catch (Exception $ex){
