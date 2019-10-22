@@ -10,7 +10,7 @@ header("Content-type: application/json");
 $startDate    = null;
 $endDate      = null;
 $sublibraries = [];
-$cnranges     = [];
+$cnRanges     = [];
 
 //these names must match events returned by query.sql
 $events = array(
@@ -60,16 +60,16 @@ try{
   $startDate = $startDate->format('Ymd');
   $endDate   = $endDate->format('Ymd');
 
-  foreach($_GET['range'] as $cnrange){
-    $pair = parseCNInput($cnrange);
+  foreach($_GET['range'] as $rangeString){
+    $pair = parseCNInput($rangeString);
     if (empty($pair)){
       throw new Exception("Invalid callnumber range");
     }
-    $cnranges[$cnrange]['bounds'] = $pair;
-    $cnranges[$cnrange]['events'] = $events;
+    $cnRanges[$rangeString]['bounds'] = $pair;
+    $cnRanges[$rangeString]['events'] = $events;
   }
-  $cnranges['Other LC']['events'] = $events;
-  $cnranges['Non LC']['events']   = $events;
+  $cnRanges['Other LC']['events'] = $events;
+  $cnRanges['Non LC']['events']   = $events;
 }
 catch (Exception $ex){
   header("HTTP/1.1 400 Bad Request");
@@ -96,25 +96,25 @@ try{
       try {
         $cn = new CallNumber($row['CALLNUMBER']);
         $counted = false;
-        foreach($cnranges as $label => $rangeInfo){
+        foreach($cnRanges as $label => $rangeInfo){
           if (isset($rangeInfo['bounds'])){
             if ($cn->compareTo($rangeInfo['bounds'][0]) > -1 && $cn->compareTo($rangeInfo['bounds'][1]) < 1){
-              $cnranges[$label]['events'][$row['EVENT']]++;
+              $cnRanges[$label]['events'][$row['EVENT']]++;
               $counted = true;
             }
           }
         }
         if (!$counted){
-          $cnranges['Other LC']['events'][$row['EVENT']]++;
+          $cnRanges['Other LC']['events'][$row['EVENT']]++;
         }
       }
       catch (Exception $ex){
-        $cnranges['Non LC']['events'][$row['EVENT']]++;
+        $cnRanges['Non LC']['events'][$row['EVENT']]++;
       }
     }
 
     $data = [];
-    foreach($cnranges as $label => $rangeInfo){
+    foreach($cnRanges as $label => $rangeInfo){
       $row = array("CNRANGE" => $label, "CNRANGE2" => "");
       if (isset($rangeInfo['bounds'])){
         $row["CNRANGE2"] = $rangeInfo['bounds'][0] . " - " . $rangeInfo['bounds'][1];
