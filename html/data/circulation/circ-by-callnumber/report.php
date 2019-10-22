@@ -12,6 +12,7 @@ $endDate      = null;
 $sublibraries = [];
 $cnRanges     = [];
 $dateRanges   = [];
+$periodSplit  = false;
 
 //these names must match events returned by query.sql
 $events = array(
@@ -66,6 +67,7 @@ try{
   }
   
   if (isset($_GET['periodSplit']) && $_GET['periodSplit'] != 'N'){
+    $periodSplit = true;
     $yearType = 'C';
     if ($startDate->format('n') == '4'){
       $yearType = 'F';
@@ -80,6 +82,10 @@ try{
   $startDate = $startDate->format('Ymd');
   $endDate   = $endDate->format('Ymd');
 
+  if ($periodSplit === false){
+    $dateRanges = array(array('start' => $startDate, 'end' => $endDate, 'label' => "$startDate-$endDate"));
+  }
+  
   foreach($_GET['range'] as $rangeString){
     $pair = parseCNInput($rangeString);
     if (empty($pair)){
@@ -110,6 +116,19 @@ try{
     $sql = str_replace(":SUBLIBRARIES", join(",", array_keys($bind)), $sql);
     $bind[":STARTDATE"] = $startDate;
     $bind[":ENDDATE"]   = $endDate;
+
+    if ($periodSplit){
+      $caseParts = array("CASE");
+      foreach($dateRanges as $r){
+        $caseParts[] = "WHEN Z35_EVENT_DATE BETWEEN {$r['start']} AND {$r['end']} THEN '{$r['label']}'";
+      }
+      $caseParts[] = "ELSE 'Other' END AS PERIOD";
+      $period = join(" ", $caseParts);
+    }
+    else{
+      $period = $dateRanges[0]['label'] . " AS PERIOD";
+    }
+    $sql = str_replace(":PERIOD", $period, $sql);
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
     foreach($aleph->query($sql, $bind) as $row){
