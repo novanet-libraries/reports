@@ -12,6 +12,7 @@ $endDate      = null;
 $sublibraries = [];
 $cnranges     = [];
 
+//these names must match events returned by query.sql
 $events = array(
   'LOAN'      => 0,
   'RENEWAL'   => 0,
@@ -39,7 +40,7 @@ try{
   if (empty($_GET['range'])){
     throw new Exception('Must provide callnumber range(s)');
   }
-  
+
   $validCodes = array_keys($validSublibraries);
   foreach($_GET['sublibrary'] as $input){
     $sublibrary = strtoupper($input);
@@ -55,10 +56,10 @@ try{
   if ($endDate->diff($startDate) > (new DateInterval('P1Y'))){
     throw new Exception("Date range too large");
   }
-  
+
   $startDate = $startDate->format('Ymd');
   $endDate   = $endDate->format('Ymd');
-  
+
   foreach($_GET['range'] as $cnrange){
     $pair = parseCNInput($cnrange);
     if (empty($pair)){
@@ -80,7 +81,7 @@ try{
 
   $cache = new ReportsCache(basename(__DIR__));
   if ($cache->isStale()){
-    
+
     $sql  = file_get_contents('./query.sql');
     $bind = array();
     foreach($sublibraries as $idx => $code){
@@ -130,7 +131,7 @@ try{
       }
       $data[] = $row;
     }
-      
+
     $cache->refresh($data);
   }
 
@@ -158,25 +159,25 @@ function parseCNInput($input){
     $parts = array_splice($match, -2);
     $parts[0] = preg_replace('/[^A-Z0-9\.]/', '', $parts[0]);
     $parts[1] = preg_replace('/[^A-Z0-9\.]/', '', $parts[1]);
-    
+
     if (ctype_digit($parts[1])){
       //prepend the letters in $parts[0] to $parts[1]
       $alpha = substr($parts[0], 0, strcspn($parts[0], '1234567890. '));
       $parts[1] = $alpha . $parts[1];
     }
-    
+
     if (ctype_upper($parts[1]) && strlen($parts[1]) < 2){
       $parts[1] .= "Z";
-    }    
+    }
     if (ctype_upper($parts[1])){
       $parts[1] .= '99999.9999';
     }
     else if (ctype_alnum($parts[1])){
       $parts[1] .= '.99999';
     }
-    
+
     $parts[1] .= ' .ZZ99999';
-    
+
     if (ctype_upper($parts[0])){
       $parts[0] .= '1';
     }
@@ -184,7 +185,7 @@ function parseCNInput($input){
 
     //this might throw; it will result in HTTP/1.1 400 Bad Request.
     $parts[0] = new CallNumber($parts[0]);
-    $parts[1] = new CallNumber($parts[1]);    
+    $parts[1] = new CallNumber($parts[1]);
     return $parts;
   }
   else{
