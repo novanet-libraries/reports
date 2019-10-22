@@ -274,8 +274,7 @@ novanet.fn = (function(){
               filterFmt  = "YYYY";
             }
             else {
-              console.warn("Encountered invalid period: " + data);
-              m = m.invalid();
+              return data;
             }
 
             if (type == "filter"){
