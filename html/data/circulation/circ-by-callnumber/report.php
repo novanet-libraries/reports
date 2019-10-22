@@ -11,6 +11,7 @@ $startDate    = null;
 $endDate      = null;
 $sublibraries = [];
 $cnRanges     = [];
+$dateRanges   = [];
 
 //these names must match events returned by query.sql
 $events = array(
@@ -53,10 +54,18 @@ try{
   //DateTime constructor will throw if we receive invalid date strings.
   $startDate = new DateTime($_GET['begin']);
   $endDate   = new DateTime($_GET['end']);
-  if ($endDate->diff($startDate) > (new DateInterval('P1Y'))){
-    throw new Exception("Date range too large");
+  if (isset($_GET['splitDateRange']) && $_GET['splitDateRange'] != 'N'){
+    $yearType = 'C';
+    if ($startDate->format('n') == '4'){
+      $yearType = 'F';
+    }
+    if ($startDate->format('n') == '9'){
+      $yearType = 'A';
+    }
+    $dateRanges = categorizeDateRange($startDate, $endDate, $yearType);
   }
-
+  
+  //we just need the string from now on, not the DateTime object.
   $startDate = $startDate->format('Ymd');
   $endDate   = $endDate->format('Ymd');
 
@@ -191,4 +200,95 @@ function parseCNInput($input){
   else{
     return false;
   }
+}
+
+//subdivide date range into 'buckets'
+function categorizeDateRange($start, $end, $yearType = 'C'){
+  try{ //parse arguments
+
+    $startDate = new DateTime($start);
+    $endDate   = new DateTime($end);
+    if ($endDate < $startDate){
+      //$swap      = $endDate;
+      //$endDate   = $startDate;
+      //$startDate = $endDate;
+      throw new Exception('End date was before start date');
+    }
+
+    $yearType = strtoupper(substr(ltrim($yearType)), 0, 1);
+    if ($yearType != 'C' && $yearType != 'F' && $yearType != 'A'){
+      //$yearType = 'C';
+      throw new Exception('Invalid year type');
+    }
+
+  }catch(Exception $ex){
+    throw new InvalidArgumentException($ex->getMessage());
+  }
+
+  $ranges = array(); //return value
+  $oneDay = new DateInterval('P1D');
+  $ymdFmt = 'Ymd';
+
+  $diff  = $startDate->diff($endDate)->days;
+
+  if ($diff < 15){
+    $interval   = $oneDay;
+    $labelFmt   = 'M j Y';
+    $rangeStart = $startDate;
+  }
+  else if ($diff < 100){
+    $interval   = new DateInterval('P1W');
+    $labelFmt   = '\W\e\e\k \o\f M j Y';
+    $rangeStart = clone $startDate;
+    $rangeStart->modify('monday this week');
+  }
+  else if ($diff < 500){
+    $interval   = new DateInterval('P1M');
+    $labelFmt   = 'M Y';
+    $rangeStart = clone $startDate;
+    $rangeStart->modify('first day of this month');
+  }
+  else{
+    switch($yearType){
+      case 'F':
+        $labelFmt  = '\F\YY';
+        $monthName = 'april';
+        $mod       = ($startDate->format('n') >= 4) ? 'this' : 'last';
+      break;
+      case 'A':
+        $labelFmt  = '\A\YY';
+        $monthName = 'september';
+        $mod       = ($startDate->format('n') >= 9) ? 'this' : 'last';
+      break;
+      case 'C':
+      default:
+        $labelFmt  = 'Y';
+        $monthName = 'january';
+        $mod       = 'this';
+      break;
+    }
+    $interval   = new DateInterval('P1Y');
+    $rangeStart = clone $startDate;
+    $rangeStart->modify("$monthName $mod year");
+    $rangeStart->modify('first day of this month');
+  }
+
+  while ($rangeStart <= $endDate){
+
+    $rangeEnd = clone $rangeStart;
+    $rangeEnd->add($interval)->sub($oneDay);
+
+    $maxStart = ($startDate > $rangeStart) ? $startDate : $rangeStart;
+    $minEnd   = ($endDate   < $rangeEnd  ) ? $endDate   : $rangeEnd;
+
+    $ranges[] = array(
+      'label' => $rangeStart->format($labelFmt),
+      'start' => $maxStart->format($ymdFmt),
+      'end'   => $minEnd->format($ymdFmt)
+    );
+
+    $rangeStart->add($interval);
+  }
+
+  return $ranges;
 }
