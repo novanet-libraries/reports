@@ -174,8 +174,8 @@ try{
         foreach(array_keys($events) as $eventName){
           $row[$eventName] = $eventCounts[$eventName];
         }
+        $data[] = $row;
       }
-      $data[] = $row;
     }
 
     $cache->refresh($data);
