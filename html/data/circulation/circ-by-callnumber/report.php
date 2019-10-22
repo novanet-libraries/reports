@@ -243,7 +243,7 @@ function parseCNInput($input){
 function subdivideDateRange($startDate, $endDate, $yearType = 'C'){
   try{ //parse arguments
 
-    $yearType = strtoupper(substr(ltrim($yearType)), 0, 1);
+    $yearType = strtoupper(substr(ltrim($yearType), 0, 1));
     if ($yearType != 'C' && $yearType != 'F' && $yearType != 'A'){
       //$yearType = 'C';
       throw new Exception('Invalid year type');
