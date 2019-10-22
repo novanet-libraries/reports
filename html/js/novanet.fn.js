@@ -280,9 +280,6 @@ novanet.fn = (function(){
             if (type == "filter"){
               return m.format(filterFmt);
             }
-            else if (type == "sort"){
-              return data;
-            }
             else{
               var output, match;
               output = m.format(displayFmt);
