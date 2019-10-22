@@ -67,9 +67,8 @@ try{
     throw new Exception("Date range out of bounds");
   }
 
-  //we just need the string from now on, not the DateTime object.
-  $startDate = $startDate->format('Ymd');
-  $endDate   = $endDate->format('Ymd');
+  $startYmd = $startDate->format('Ymd');
+  $endYmd   = $endDate->format('Ymd');
 
   //set $dateRanges
   if (isset($_GET['periodSplit']) && $_GET['periodSplit'] != 'N'){
@@ -84,7 +83,7 @@ try{
     $dateRanges = subdivideDateRange($startDate, $endDate, $yearType);
   }
   else{
-    $dateRanges = array(array('start' => $startDate, 'end' => $endDate, 'label' => "$startDate-$endDate"));
+    $dateRanges = array(array('start' => $startYmd, 'end' => $endYmd, 'label' => "$startYmd-$endYmd"));
   }
   
   foreach($_GET['range'] as $rangeString){
@@ -119,8 +118,8 @@ try{
       $bind[":SUBLIB$idx"] = $code;
     }
     $sql = str_replace(":SUBLIBRARIES", join(",", array_keys($bind)), $sql);
-    $bind[":STARTDATE"] = $startDate;
-    $bind[":ENDDATE"]   = $endDate;
+    $bind[":STARTDATE"] = $startYmd;
+    $bind[":ENDDATE"]   = $endYmd;
 
     if ($periodSplit){
       $caseParts = array("CASE");
