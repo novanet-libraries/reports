@@ -254,7 +254,7 @@ novanet.fn = (function(){
               filterFmt  = "[Week of] MMMM Do YYYY";
             }
             else if (data.match(/^\d{6}$/)){
-              m = moment(data + "01", "YYYYMMDD").format("MMM YYYY");
+              m = moment(data + "01", "YYYYMMDD");
               displayFmt = "MMM YYYY";
               filterFmt  = "MMMM YYYY";
             }
