@@ -54,7 +54,18 @@ try{
   //DateTime constructor will throw if we receive invalid date strings.
   $startDate = new DateTime($_GET['begin']);
   $endDate   = new DateTime($_GET['end']);
-  if (isset($_GET['splitDateRange']) && $_GET['splitDateRange'] != 'N'){
+  if ($endDate < $startDate){
+    $swap = $endDate;
+    $endDate = $startDate;
+    $startDate = $swap;
+  }
+  $now = new DateTime();
+  $sixYearsAgo = (new DateTime())->sub(new DateInterval('P6Y'));
+  if ($startDate < $sixYearsAgo || $endDate > $now){
+    throw new Exception("Date range out of bounds");
+  }
+  
+  if (isset($_GET['periodSplit']) && $_GET['periodSplit'] != 'N'){
     $yearType = 'C';
     if ($startDate->format('n') == '4'){
       $yearType = 'F';
@@ -209,9 +220,6 @@ function subdivideDateRange($start, $end, $yearType = 'C'){
     $startDate = new DateTime($start);
     $endDate   = new DateTime($end);
     if ($endDate < $startDate){
-      //$swap      = $endDate;
-      //$endDate   = $startDate;
-      //$startDate = $endDate;
       throw new Exception('End date was before start date');
     }
 
