@@ -3,23 +3,20 @@
     <div class="col-md-4 col-sm-6">
       <div class="form-horizontal">
         <div class="form-group">
-          <label for="sublibrary" class="col-sm-4">Sublibrary</label>
-          <div class="col-sm-8">
+          <label class="col-sm-4" for="sublibrary">Sublibrary</label>
+          <div   class="col-sm-8">
             <select id="sublibrary" class="form-control" data-placeholder="Sublibrar(ies)" multiple><option></option></select>
           </div>
         </div>
         <div id="date-group-element" class="form-group">
-          <div class="col-sm-4">
-            <label for="period">Period</label>
-            <span class="text-muted">(max 1 year)</span>
-          </div>
+          <div class="col-sm-4"><label for="period">Period</label> <span class="text-muted">(max 1 year)</span></div>
           <div class="col-sm-8">
             <input id="startdate" type="hidden">
             <input id="enddate" type="hidden">
             <div id="period" style="padding:0.7em; border:#ccc 1px solid; border-radius:0.3em;">
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
               <span class="date-display"></span>
-              <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
             </div>
           </div>
         </div>
@@ -29,7 +26,7 @@
       <div id="cnranges" class="form-horizontal">
         <div class="form-group">
           <label class="col-sm-4">Call Number Range</label>
-          <div class="col-sm-8">
+          <div   class="col-sm-8">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="e.g. D or D1-9999" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
               <span class="delete input-group-addon" role="button">
@@ -41,13 +38,15 @@
         </div>
         <div class="form-group">
           <label class="col-sm-4">Call Number Range</label>
-          <div class="input-group col-sm-8">
-            <input type="text" class="form-control" placeholder="e.g. D - DF or D-F" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
-            <span class="delete input-group-addon" role="button">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-              <span class="sr-only">Remove this row</span>
-            </span>
-          </div>
+          <div   class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="e.g. D - DF or D-F" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
+              <span class="delete input-group-addon" role="button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <span class="sr-only">Remove this row</span>
+              </span>
+            </div>
+          </div>  
         </div>
         <div class="col-sm-offset-4 col-sm-8">
           <button type="button" class="add btn btn-default" title="Add a row">
