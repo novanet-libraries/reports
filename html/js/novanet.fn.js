@@ -248,8 +248,8 @@ novanet.fn = (function(){
               displayFmt = "MMM Do YYYY";
               filterFmt  = "dddd MMMM Do YYYY";
             }
-            else if (data.match(/^\d{4}W\d{2}$/)){
-              m = moment().isoWeekYear(data.substr(0,4)).isoWeek(data.substr(-2)).isoWeekday(1);
+            else if (data.match(/^\d{4}W\d{1,2}$/)){
+              m = moment().isoWeekYear(data.substr(0,4)).isoWeek(data.substr(data.indexOf('W')+1)).isoWeekday(1);
               displayFmt = "[Week of] MMM Do YYYY";
               filterFmt  = "[Week of] MMMM Do YYYY";
             }
