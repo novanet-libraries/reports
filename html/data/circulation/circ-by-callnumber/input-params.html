@@ -71,6 +71,21 @@
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 col-sm-6">
+      <ul class="list-group text-muted">
+        <li class="list-group-item list-group-item-warning"><strong>Field Info</strong></li> 
+        <li class="list-group-item"><strong>Sublibrary</strong> - Pick one or more Novanet libraries.</li>
+        <li class="list-group-item"><strong>Period</strong> - Pick the start and end dates during which circulation will be counted.</li>
+        <li class="list-group-item"><strong>Subdivide Selected Period</strong> - If 'no', you will get a total count for the entire period.  If 'yes', then you will get counts for individual months or years or days within the period.</li>
+        <li class="list-group-item"><strong>Call Number Range</strong> - Enter one or more LC call number subject areas, e.g. H1-99 or D-F or HG.  You will get circ counts for each subject area you enter, as well as a count of items outside of your LC ranges and a count of items that have non-LC callnumbers.  If your ranges overlap with each other, some circulation events will be counted multiple times (e.g. "H" is interepreted as all social sciences, H-HX, so "H" on one line and "HF" on the next counts HF twice).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <script>
 $(document).ready(function() {
   var report = novanet.allreports['circ-by-callnumber'];
