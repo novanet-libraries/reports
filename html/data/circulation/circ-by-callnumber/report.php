@@ -261,18 +261,21 @@ function subdivideDateRange($startDate, $endDate, $yearType = 'C'){
 
   if ($diff < 15){
     $interval   = $oneDay;
-    $labelFmt   = 'M j Y';
+    //$labelFmt   = 'M j Y';
+    $labelFmt   = $ymdFmt;
     $rangeStart = $startDate;
   }
   else if ($diff < 100){
     $interval   = new DateInterval('P1W');
-    $labelFmt   = '\W\e\e\k \o\f M j Y';
+    //$labelFmt   = '\W\e\e\k \o\f M j Y';
+    $labelFmt   = 'o\WW';
     $rangeStart = clone $startDate;
     $rangeStart->modify('monday this week');
   }
   else if ($diff < 500){
     $interval   = new DateInterval('P1M');
-    $labelFmt   = 'M Y';
+    //$labelFmt   = 'M Y';
+    $labelFmt   = 'Ym';
     $rangeStart = clone $startDate;
     $rangeStart->modify('first day of this month');
   }
