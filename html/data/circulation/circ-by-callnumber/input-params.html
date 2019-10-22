@@ -163,7 +163,7 @@ $(document).ready(function() {
     var sublibrary = $sublibSelect.val(),
         startdate = $start.val(),
         enddate  = $end.val(),
-        cnranges = $cnranges.find("input").map(function(){ return $(this).val() || null; }).get();
+        cnranges = $cnranges.find("input").map(function(){ return $(this).val().replace('/\s*/g','') || null; }).get();
     
     if (!startdate || !enddate || !sublibrary || sublibrary === [] || !cnranges || cnranges === []){
       //more fully validate start date
