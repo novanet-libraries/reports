@@ -83,7 +83,7 @@ try{
     }
     $dateRanges = subdivideDateRange($startDate, $endDate, $yearType);
   }
-  else
+  else{
     $dateRanges = array(array('start' => $startDate, 'end' => $endDate, 'label' => "$startDate-$endDate"));
   }
   
