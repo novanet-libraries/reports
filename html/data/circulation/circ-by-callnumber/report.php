@@ -66,7 +66,12 @@ try{
   if ($startDate < $sixYearsAgo || $endDate > $now){
     throw new Exception("Date range out of bounds");
   }
-  
+
+  //we just need the string from now on, not the DateTime object.
+  $startDate = $startDate->format('Ymd');
+  $endDate   = $endDate->format('Ymd');
+
+  //set $dateRanges
   if (isset($_GET['periodSplit']) && $_GET['periodSplit'] != 'N'){
     $periodSplit = true;
     $yearType = 'C';
@@ -78,12 +83,7 @@ try{
     }
     $dateRanges = subdivideDateRange($startDate, $endDate, $yearType);
   }
-  
-  //we just need the string from now on, not the DateTime object.
-  $startDate = $startDate->format('Ymd');
-  $endDate   = $endDate->format('Ymd');
-
-  if ($periodSplit === false){
+  else
     $dateRanges = array(array('start' => $startDate, 'end' => $endDate, 'label' => "$startDate-$endDate"));
   }
   
