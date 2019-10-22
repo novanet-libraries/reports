@@ -240,14 +240,8 @@ function parseCNInput($input){
 }
 
 //subdivide date range into 'buckets'
-function subdivideDateRange($start, $end, $yearType = 'C'){
+function subdivideDateRange($startDate, $endDate, $yearType = 'C'){
   try{ //parse arguments
-
-    $startDate = new DateTime($start);
-    $endDate   = new DateTime($end);
-    if ($endDate < $startDate){
-      throw new Exception('End date was before start date');
-    }
 
     $yearType = strtoupper(substr(ltrim($yearType)), 0, 1);
     if ($yearType != 'C' && $yearType != 'F' && $yearType != 'A'){
