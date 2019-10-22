@@ -23,6 +23,7 @@ $events = array(
   'RESHELF'   => 0,
   'BOOKING'   => 0
 );
+
 $validSublibraries = AlephData::sublibraries();
 $prohibited = '/^NOVA|WWW|.+NET|.+BK$/';
 if (empty($validSublibraries)){
@@ -92,10 +93,14 @@ try{
       throw new Exception("Invalid callnumber range");
     }
     $cnRanges[$rangeString]['bounds'] = $pair;
-    $cnRanges[$rangeString]['events'] = $events;
+    foreach($dateRanges as $period){
+      $cnRanges[$rangeString][$period['label']] = $events;
+    }
   }
-  $cnRanges['Other LC']['events'] = $events;
-  $cnRanges['Non LC']['events']   = $events;
+  foreach($dateRanges as $period){
+    $cnRanges['Other LC'][$period['label']] = $events;
+    $cnRanges['Non LC'][$period['label']]   = $events;
+  }
 }
 catch (Exception $ex){
   header("HTTP/1.1 400 Bad Request");
@@ -138,17 +143,17 @@ try{
         foreach($cnRanges as $label => $rangeInfo){
           if (isset($rangeInfo['bounds'])){
             if ($cn->compareTo($rangeInfo['bounds'][0]) > -1 && $cn->compareTo($rangeInfo['bounds'][1]) < 1){
-              $cnRanges[$label]['events'][$row['EVENT']]++;
+              $cnRanges[$label]['events'][$row['PERIOD']][$row['EVENT']]++;
               $counted = true;
             }
           }
         }
         if (!$counted){
-          $cnRanges['Other LC']['events'][$row['EVENT']]++;
+          $cnRanges['Other LC']['events'][$row['PERIOD']][$row['EVENT']]++;
         }
       }
       catch (Exception $ex){
-        $cnRanges['Non LC']['events'][$row['EVENT']]++;
+        $cnRanges['Non LC']['events'][$row['PERIOD']][$row['EVENT']]++;
       }
     }
 
@@ -165,8 +170,11 @@ try{
         $row["CNRANGE2"] = "Items with LC callnumbers outside the specified ranges";
       }
 
-      foreach(array_keys($events) as $evt){
-        $row[$evt] = $rangeInfo['events'][$evt];
+      foreach($rangeInfo['events'] as $period => $eventCounts){
+        $row['PERIOD'] = $period;
+        foreach(array_keys($events) as $eventName){
+          $row[$eventName] = $eventCounts[$eventName];
+        }
       }
       $data[] = $row;
     }
