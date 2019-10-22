@@ -21,6 +21,7 @@
     "base": "/circulation/",
     "filename": "circ-by-callnumber",
     "req-params": ["sublibrary[]", "range[]", "begin", "end"],
+    "opt-params": ["periodSplit"],
     "max-age": "P1Y"
   },
   "shelf-list" : {
