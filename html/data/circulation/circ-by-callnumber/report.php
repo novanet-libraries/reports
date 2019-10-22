@@ -62,7 +62,7 @@ try{
     if ($startDate->format('n') == '9'){
       $yearType = 'A';
     }
-    $dateRanges = categorizeDateRange($startDate, $endDate, $yearType);
+    $dateRanges = subdivideDateRange($startDate, $endDate, $yearType);
   }
   
   //we just need the string from now on, not the DateTime object.
@@ -203,7 +203,7 @@ function parseCNInput($input){
 }
 
 //subdivide date range into 'buckets'
-function categorizeDateRange($start, $end, $yearType = 'C'){
+function subdivideDateRange($start, $end, $yearType = 'C'){
   try{ //parse arguments
 
     $startDate = new DateTime($start);
