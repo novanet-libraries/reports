@@ -131,7 +131,7 @@ try{
       $period = join(" ", $caseParts);
     }
     else{
-      $period = $dateRanges[0]['label'] . " AS PERIOD";
+      $period = "'{$dateRanges[0]['label']}' AS PERIOD";
     }
     $sql = str_replace(":PERIOD", $period, $sql);
 
