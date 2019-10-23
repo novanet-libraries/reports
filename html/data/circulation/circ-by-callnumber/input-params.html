@@ -175,7 +175,7 @@ $(document).ready(function() {
       "begin"        : startdate,
       "end"          : enddate,
       "range[]"      : cnranges,
-      "periodSplit"  : $("#periodSplit").val() ? 'Y' : 'N'
+      "periodSplit"  : $("#periodSplit").prop("checked") ? 'Y' : 'N'
     };
 
     novanet.fn.loadResults(report, data);
