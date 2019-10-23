@@ -37,7 +37,8 @@ novanet.datatableInitObject = {
     },{
       data : "BOOKING",
       title: "Bookings",
-      excelType: "n"
+      excelType: "n",
+      visible: false
     }
   ]
 };
