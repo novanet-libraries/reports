@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-4 col-sm-6">
       <div id="cnranges" class="form-horizontal">
-        <div class="form-group">
+        <div class="form-group cnrange">
           <label class="col-sm-4">Call Number Range</label>
           <div   class="col-sm-8">
             <div class="input-group">
@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group cnrange">
           <label class="col-sm-4">Call Number Range</label>
           <div   class="col-sm-8">
             <div class="input-group">
@@ -150,12 +150,12 @@ $(document).ready(function() {
   //set up the callnumber range input
   $cnranges.on("click", ".delete", function(evt){
     evt.preventDefault();
-    if ($cnranges.find(".form-group").length > 1){  
-      $(this).parents(".form-group").remove();
+    if ($cnranges.find(".cnrange").length > 1){  
+      $(this).parents(".cnrange").remove();
     }
   }).on("click", ".add", function(evt){
     evt.preventDefault();
-    var $last  = $cnranges.find(".form-group").last()
+    var $last  = $cnranges.find(".cnrange").last()
         $clone = $last.clone();
     $last.after($clone);
   });
