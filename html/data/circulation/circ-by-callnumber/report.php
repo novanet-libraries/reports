@@ -138,8 +138,8 @@ try{
     foreach($cnRanges as $label => $rangeInfo){
       if (isset($rangeInfo['bounds'])){
         $alphabeticalBounds = array(
-          strcspn($rangeInfo['bounds'][0], '1234567890. '),
-          strcspn($rangeInfo['bounds'][1], '1234567890. ').'Z'
+          substr($rangeInfo['bounds'][0], 0, strcspn($rangeInfo['bounds'][0], '1234567890. ')),
+          substr($rangeInfo['bounds'][1], 0, strcspn($rangeInfo['bounds'][1], '1234567890. ')).'Z'
         );
         $orParts[] = "(CALLNUMBER >= '{$alphabeticalBounds[0]}' AND CALLNUMBER <= '{$alphabeticalBounds[1]}')";
       }
