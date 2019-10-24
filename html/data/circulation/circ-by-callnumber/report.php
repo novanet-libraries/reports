@@ -97,7 +97,7 @@ try{
     }
   }
   foreach($dateRanges as $period){
-    $cnRanges['Other LC']['events'][$period['label']] = $events;
+    //$cnRanges['Other LC']['events'][$period['label']] = $events;
     $cnRanges['Non LC']['events'][$period['label']]   = $events;
   }
 }
@@ -134,22 +134,34 @@ try{
     }
     $sql = str_replace(":PERIOD", $period, $sql);
 
+    $orParts = array();
+    foreach($cnRanges as $label => $rangeInfo){
+      if (isset($rangeInfo['bounds'])){
+        $alphabeticalBounds = array(
+          strcspn($rangeInfo['bounds'][0], '1234567890. '),
+          strcspn($rangeInfo['bounds'][1], '1234567890. ').'Z'
+        );
+        $orParts[] = "(CALLNUMBER >= '{$alphabeticalBounds[0]}' AND CALLNUMBER <= '{$alphabeticalBounds[1]}')";
+      }
+    }
+    $sql = str_replace(":ANDCN", "AND (" . join(" OR ", $orParts) . ")", $sql);
+    
     $aleph = new AlephOracle(AlephOracle::LIVE);
     foreach($aleph->query($sql, $bind) as $row){
       try {
         $cn = new CallNumber($row['CALLNUMBER']);
-        $counted = false;
+        //$counted = false;
         foreach($cnRanges as $label => $rangeInfo){
           if (isset($rangeInfo['bounds'])){
             if ($cn->compareTo($rangeInfo['bounds'][0]) > -1 && $cn->compareTo($rangeInfo['bounds'][1]) < 1){
               $cnRanges[$label]['events'][$row['PERIOD']][$row['EVENT']]++;
-              $counted = true;
+              //$counted = true;
             }
           }
         }
-        if (!$counted){
-          $cnRanges['Other LC']['events'][$row['PERIOD']][$row['EVENT']]++;
-        }
+        //if (!$counted){
+        //  $cnRanges['Other LC']['events'][$row['PERIOD']][$row['EVENT']]++;
+        //}
       }
       catch (Exception $ex){
         $cnRanges['Non LC']['events'][$row['PERIOD']][$row['EVENT']]++;
@@ -165,9 +177,9 @@ try{
       else if ($label == 'Non LC'){
         $row["CNRANGE2"] = "Items with non-LC callnumbers";
       }
-      else if ($label == 'Other LC'){
-        $row["CNRANGE2"] = "Items with LC callnumbers outside the specified ranges";
-      }
+      //else if ($label == 'Other LC'){
+      //  $row["CNRANGE2"] = "Items with LC callnumbers outside the specified ranges";
+      //}
 
       foreach($rangeInfo['events'] as $period => $eventCounts){
         $row['PERIOD'] = $period;
