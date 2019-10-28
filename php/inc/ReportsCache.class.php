@@ -121,8 +121,17 @@ class ReportsCache {
       $this->db->beginTransaction();
       $cacheStmt->execute(array($this->paramString, $lastUpdate));
       if (!empty($data)){
-        foreach($data as $row){
-          $row["param_string"] = $this->paramString;
+        if (count($this->columns) != count($data[0]) + 1){
+          error_log("Column count mismatch when refreshing cache for " . $this->table);
+        }
+        $row = array();
+        $row["param_string"] = $this->paramString;
+        foreach($data as $d){
+          foreach($this->columns as $col){
+            if ($col != 'param_string'){
+              $row[$col] = isset($d[$col]) ? $d[$col] : null;
+            }
+          }
           $insertStmt->execute($row);
         }
       }
