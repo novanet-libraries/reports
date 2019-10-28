@@ -73,7 +73,6 @@ try{
 
   if ($cache->isStale()){
     $sql  = file_get_contents("./query.sql");
-    $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql, 1);
 
     //replace IN ( :COLLECTION ) with in IN (:COL0, :COL1, :COL2, etc.)
     $bind = array();
@@ -81,12 +80,12 @@ try{
       $bind[":COL$idx"] = $code;
     }
     $sql  = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
-    $csql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $csql);
 
     $bind[":SUBLIB"] = $sublibrary;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
 
+    $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql, 1);
     $count = $aleph->querySingle($csql, $bind);
     if ($count >= 50000){
       throw new Exception("This query resulted in more than 50,000 items.  Add more filters, or contact the office for longer lists.");
