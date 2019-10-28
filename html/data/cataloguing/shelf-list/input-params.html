@@ -53,9 +53,10 @@ $(document).ready(function() {
   
   //make the sublibrary/collection chooser controls:
   
-  var $sublibSelect = $('#sublibrary'),
+  var $sublibSelect  = $('#sublibrary'),
       $collectSelect = $("#collections"),
-      prohibited = /^(AUOLS|AUOLB|.+NET|.+RES|NOVA|WWW)$/;
+      $cnranges      = $("#cnranges"),
+      prohibited     = /^(.+NET|.+RES)$/;
   
   //add options to $sublibSelect
   $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
