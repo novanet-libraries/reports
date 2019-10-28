@@ -10,7 +10,7 @@ header('Content-type: application/json; charset=utf-8');
 $sublibrary  = null;
 $collections = array();
 $inputErrors = array();
-$prohibited  = '/^(AUOLB|AUOLS|.+NET|.+RES|NOVA|WWW)$/';
+$prohibited  = '/^(.+NET|.+RES)$/';
 $validSublibraries = AlephData::sublibraries();
 $validCollections  = AlephData::collections();
 if (empty($validSublibraries) || empty($validCollections)){
@@ -49,11 +49,6 @@ foreach($input as $code){
     $collections[] = $code;
   }
 }
-
-//if (count($collections) > 5){
-//  $inputErrors[] = "too many collection codes";
-//  $collections = array();
-//}
 
 if (empty($collections)){
   header('HTTP/1.1 400 Bad Request');
