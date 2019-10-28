@@ -31,6 +31,7 @@
     "base": "/cataloguing/",
     "filename": "shelf-list",
     "req-params": ["sublibrary", "collection[]"],
+    "opt-params": ["range[]"],
     "max-age": "P1M"
   },
   "items-with-pstatus" : {
