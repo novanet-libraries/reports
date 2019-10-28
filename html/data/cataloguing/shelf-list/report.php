@@ -96,8 +96,7 @@ try{
     if (!empty($cnRanges)){
       $orParts = array();
       foreach($cnRanges as $label => $rangeInfo){
-          $orParts[] = "(CALLNUMBER >= '{$rangeInfo['alpha'][0]}' AND CALLNUMBER <= '{$rangeInfo['alpha'][1]}')";
-        }
+        $orParts[] = "(CALLNUMBER >= '{$rangeInfo['alpha'][0]}' AND CALLNUMBER <= '{$rangeInfo['alpha'][1]}')";
       }
       $sql = str_replace(":ANDCN", "AND (" . join(" OR ", $orParts) . ")", $sql);        
     }
