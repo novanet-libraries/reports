@@ -45,7 +45,8 @@ novanet.datatableInitObject = {
       type: "natural"
     },{
       data: "MATERIAL_TYPE",
-      title: "Material"
+      title: "Material",
+      visible: false
     },{
       data: "BARCODE",
       title: "Barcode",
