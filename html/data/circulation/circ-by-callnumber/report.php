@@ -175,7 +175,7 @@ try{
         $row["CNRANGE2"] = $rangeInfo['bounds'][0] . " - " . $rangeInfo['bounds'][1];
       }
       else if ($label == 'Non LC'){
-        $row["CNRANGE2"] = "Items with non-LC callnumbers";
+        $row["CNRANGE2"] = "Callnumber matched alphabetically, but is not LC.";
       }
       //else if ($label == 'Other LC'){
       //  $row["CNRANGE2"] = "Items with LC callnumbers outside the specified ranges";
