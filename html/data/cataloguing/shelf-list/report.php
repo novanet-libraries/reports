@@ -73,7 +73,7 @@ try{
 
   if ($cache->isStale()){
     $sql  = file_get_contents("./query.sql");
-    $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql);
+    $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql, 1);
 
     //replace IN ( :COLLECTION ) with in IN (:COL0, :COL1, :COL2, etc.)
     $bind = array();
