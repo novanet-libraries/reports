@@ -1,6 +1,6 @@
 novanet.datatableInitObject = {
   //ordering: false,
-  order: [[6,"asc"],[7,"asc"]],
+  order: [[7,"asc"],[8,"asc"]],
   deferRender: true,
   columns: [
     {
@@ -31,6 +31,10 @@ novanet.datatableInitObject = {
       type: "string",
       excelType: "s"
     },{
+      data: "COLLECTION",
+      title: "Collection",
+      visible: false
+    },{
       data: "CALLNUMBER",
       title: "Callnumber",
       className: "text-nowrap",
@@ -40,9 +44,8 @@ novanet.datatableInitObject = {
       title: "Item Description",
       type: "natural"
     },{
-      data: "COLLECTION",
-      title: "Collection",
-      visible: false
+      data: "MATERIAL_TYPE",
+      title: "Material"
     },{
       data: "BARCODE",
       title: "Barcode",
