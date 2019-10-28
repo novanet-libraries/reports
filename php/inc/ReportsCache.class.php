@@ -124,9 +124,10 @@ class ReportsCache {
         $row = array();
         $row["param_string"] = $this->paramString;
         $colCount = count($this->columns) - 1; //-1 for param_string
+        $colCountErr = false;
         foreach($data as $d){
           if ($colCount != count($d)){
-            error_log("Column count mismatch when refreshing cache for " . $this->table);
+            $colCountErr = true;
           }
           foreach($this->columns as $col){
             if ($col != 'param_string'){
@@ -134,6 +135,9 @@ class ReportsCache {
             }
           }
           $insertStmt->execute($row);
+        }
+        if ($colCountErr){
+          error_log("Column count mismatch when refreshing cache for " . $this->table);
         }
       }
       $this->db->commit();
