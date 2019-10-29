@@ -100,11 +100,15 @@ try{
     if ($count >= 50000){
       throw new Exception("This query resulted in more than 50,000 items.  Add more filters, or contact the office for longer lists.");
     }
-    
+
     $cache->refresh(
-      $aleph->query($sql, $bind),
+      ( empty($bounds) ?
+          $aleph->query($sql, $bind) :
+          filterRowsByCallNumber($aleph->query($sql, $bind), $bounds)
+      ),
       $aleph->querySingle("SELECT TO_CHAR(MAX(last_mviews_refresh), 'YYYY-MM-DD HH24:MI:SS') FROM webreport.last_mviews_refresh")
     );
+
   }
 
   $cache->writeJSON();
@@ -118,6 +122,19 @@ catch (Exception $ex){
 
 
 
+function filterRowsByCallNumber($rows, $bounds){
+  foreach($rows as $row){
+    try{
+      $cn = new CallNumber($row["CALLNUMBER"]);
+      if ($cn.compareTo($bounds[0]) >= 0 && $cn.compareTo($bounds[1]) <= 0){
+        yield $row;
+      }
+    }
+    catch(Exception $ex){
+      ;
+    }
+  }
+}
 
 //accept the way librarians write CN ranges
 // return an actual CN range understandable by the program.
