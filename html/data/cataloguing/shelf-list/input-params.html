@@ -37,7 +37,7 @@ $(document).ready(function() {
   
   var $sublibSelect  = $('#sublibrary'),
       $collectSelect = $("#collections"),
-      $ranges        = $("#range"),
+      $rangeInput    = $("#range"),
       prohibited     = /^(.+NET|.+RES)$/;
   
   //add options to $sublibSelect
@@ -80,7 +80,7 @@ $(document).ready(function() {
   //submitting the form loads the results.
   $("#submit").on('click', function(evt){
     var collections = $collectSelect.val(),
-        range       = $range.is(":valid") ? $range.val().replace('/\s*/g','') : null;
+        range       = $rangeInput.is(":valid") ? $rangeInput.val().replace('/\s*/g','') : null;
         data        = {
           "sublibrary": $sublibSelect.val(),
           "collection[]": collections
