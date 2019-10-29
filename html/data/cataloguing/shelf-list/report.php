@@ -10,7 +10,9 @@ header('Content-type: application/json; charset=utf-8');
 //validate input
 $sublibrary  = null;
 $collections = array();
-$cnRanges    = array();
+$bounds      = array();
+$rangeStart  = ' '; //very low sorting ASCII sequence
+$rangeEnd    = '~~~~~~~~'; //very high sorting ASCII sequence
 $inputErrors = array();
 $prohibited  = '/^(.+NET|.+RES)$/';
 $validSublibraries = AlephData::sublibraries();
@@ -66,17 +68,12 @@ if (empty($collections)){
 }
 
 if (!empty($_GET['range'])){
-  foreach($_GET['range'] as $rangeString){
-    $pair = parseCNInput($rangeString);
-    if (empty($pair)){
-      throw new Exception("Invalid callnumber range");
-    }
-    $cnRanges[$rangeString]['bounds'] = $pair;
-    $cnRanges[$rangeString]['alpha']  = array(
-      substr($pair[0], 0, strcspn($pair[0], '1234567890. ')),
-      substr($pair[1], 0, strcspn($pair[1], '1234567890. ')).'Z'
-    );
+  $bounds = parseCNInput($_GET['range']);
+  if (empty($bounds)){
+    throw new Exception("Invalid callnumber range");
   }
+  $rangeStart = substr($bounds[0], 0, strcspn($bounds[0], '1234567890. '));
+  $rangeEnd   = substr($bounds[1], 0, strcspn($bounds[1], '1234567890. ')).'Z';
 }
 
 try{
@@ -92,18 +89,9 @@ try{
     }
     $sql  = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
 
-    $bind[":SUBLIB"] = $sublibrary;
-    
-    if (!empty($cnRanges)){
-      $orParts = array();
-      foreach($cnRanges as $label => $rangeInfo){
-        $orParts[] = "(CALLNUMBER >= '{$rangeInfo['alpha'][0]}' AND CALLNUMBER <= '{$rangeInfo['alpha'][1]}')";
-      }
-      $sql = str_replace(":ANDCN", "AND (" . join(" OR ", $orParts) . ")", $sql);        
-    }
-    else{
-      $sql = str_replace(":ANDCN", "", $sql);
-    }
+    $bind[":SUBLIB"]  = $sublibrary;
+    $bind[":CNSTART"] = $rangeStart;
+    $bind[":CNEND"]   = $rangeEnd;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
 
