@@ -57,6 +57,7 @@ novanet.datatableInitObject = {
     },{
       data: "ITEM_STATUS",
       title: "Item Status",
+      visible: false,
       type: "string",
       excelType: "s"
     },{
