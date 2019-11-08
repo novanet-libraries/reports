@@ -7,10 +7,9 @@ require('ReportsCache.class.php');
 header('Content-type: application/json');
 
 $startdate   = null;
-$sublibrary  = null;
-$collections = array();
+$sublibrary  = array();
 
-$prohibited  = '/^(NSHA|NOVA|WWW)$/';
+$prohibited  = array('NOVA', 'WWW', 'NSHA');
 $validSublibraries = AlephData::sublibraries();
 if (empty($validSublibraries)){
   header('HTTP/1.1 500 Internal Server Error');
@@ -36,22 +35,14 @@ try{
     throw new Exception('Invalid date');
   }
 
-  //validate sublibrary
-  if (in_array($_GET['sublibrary'], array_keys($validSublibraries))){
-    $sublibrary = $_GET['sublibrary'];
-  }
-  else{
-    throw new Exception('Invalid sublibrary');
-  }
-
-  //validate collection codes
+  //validate sublibrary codes
   $validCodes = array_keys($validSublibraries);
   foreach($_GET['sublibrary'] as $code){
-    if (in_array($code, $validCodes) && !preg_match($prohibited, $code)){
-      $collections[] = $code;
+    if (in_array($code, $validCodes) && !in_array($code, $prohibited)){
+      $sublibrary[] = $code;
     }
     else{
-      throw new Exception('Invalid collection');
+      throw new Exception('Invalid sublibrary');
     }
   }
 }catch(Exception $ex){
@@ -68,12 +59,11 @@ try{
   if ($cache->isStale()){
     $sql = file_get_contents("./query.sql");
     $bind = array();
-    foreach($collections as $idx => $code){
-      $bind[":COL$idx"] = $code;
+    foreach($sublibrary as $idx => $code){
+      $bind[":LIB$idx"] = $code;
     }
-    $sql = str_replace(":COLLECTIONS", join(",", array_keys($bind)), $sql);
+    $sql = str_replace(":SUBLIBRARIES", join(",", array_keys($bind)), $sql);
     $bind[":STARTDATE"] = $startdate;
-    $bind[":SUBLIB"] = $sublibrary;
 
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
