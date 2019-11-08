@@ -58,6 +58,14 @@
     "req-params": ["start-date", "sublibrary", "collection[]"],
     "max-age": "P7D"
   },
+  "new-items" : {
+    "name": "New Items",
+    "desc": "Items added to libraries since a given date",
+    "base": "/acquisitions/",
+    "filename": "new-items",
+    "req-params": ["start-date", "sublibrary[]"],
+    "max-age": "P7D"
+  },
   "items-loaned-elsewhere" : {
     "name": "Items Loaned At Other Libraries",
     "desc": "Remote loans of a single library's items (i.e. Novanet Express <em>loaned</em>)",
