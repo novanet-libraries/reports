@@ -1,4 +1,189 @@
-<div class="form-inline">
-  <div class="alert alert-warning">This report is not currently available</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 col-sm-6">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-4" for="sublibrary">Sublibrary</label>
+          <div   class="col-sm-8">
+            <select id="sublibrary" class="form-control" data-placeholder="Sublibrar(ies)" multiple><option></option></select>
+          </div>
+        </div>
+        <div id="date-group-element" class="form-group">
+          <label class="col-sm-4" for="period">Period</label>
+          <div   class="col-sm-8">
+            <input id="startdate" type="hidden">
+            <input id="enddate" type="hidden">
+            <div id="period" style="padding:0.7em; border:#ccc 1px solid; border-radius:0.3em;">
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              <span class="date-display"></span>
+              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <label>
+              <input type="checkbox" id="periodSplit">
+              <span>Subdivide Selected Period</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <div id="cnranges" class="form-horizontal">
+        <div class="form-group cnrange">
+          <label class="col-sm-4">Call Number Range</label>
+          <div   class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="e.g. D or D1-9999" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
+              <span class="delete input-group-addon" role="button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <span class="sr-only">Remove this row</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group cnrange">
+          <label class="col-sm-4">Call Number Range</label>
+          <div   class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="e.g. D - DF or D-F" pattern="([A-Z]{1,3}\s?(?:[1-9][0-9\.]{0,8})?)(?:\s{0,3}-\s{0,3}([A-Z]{0,3}\s?(?:[1-9][0-9\.]{0,8})?))?" />
+              <span class="delete input-group-addon" role="button">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <span class="sr-only">Remove this row</span>
+              </span>
+            </div>
+          </div>  
+        </div>
+        <div class="col-sm-offset-4 col-sm-8">
+          <div class="form-group">
+            <button type="button" class="add btn btn-default" title="Add a row">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              <span class="sr-only">Add a row</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <div class="form-group">
+        <button class="btn btn-primary" id="submit">Go</button>
+      </div>
+    </div>
+  </div>
 </div>
+<div style="height:5em;">&nbsp;</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 col-sm-6">
+      <ul class="list-group text-muted">
+        <li class="list-group-item list-group-item-warning"><strong>Field Info</strong></li> 
+        <li class="list-group-item"><strong>Sublibrary</strong> - Pick one or more Novanet libraries.</li>
+        <li class="list-group-item"><strong>Period</strong> - Pick the start and end dates during which circulation will be counted.</li>
+        <li class="list-group-item"><strong>Subdivide Selected Period</strong> - If 'no', you will get a total count for the entire period.  If 'yes', then you will get counts for individual months or years or days within the period.</li>
+        <li class="list-group-item"><strong>Call Number Range</strong> - Enter one or more LC call number subject areas, e.g. <span class="text-nowrap">D-F</span> or <span class="text-nowrap">H1-99</span> or HG.  You will get circ counts for each subject area you enter, as well as a count of <span class="text-nowrap">"Non LC"</span> circulation &mdash; circulation of callnumbers that match your ranges alphabetically, but are not LC callnumbers. <br> If your LC ranges overlap with each other, some circulation events will be counted multiple times (e.g. "H" by itself is interepreted as all social sciences, H-HX, so "H" on one line and "HF" on the next counts HF twice).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  var report = novanet.allreports['circ-by-callnumber'];
+
+  var $sublibSelect = $('#sublibrary'),
+      prohibited    = /^(.+NET|NSHA|NOVA|WWW)$/,
+      $start        = $("#startdate"),
+      $end          = $("#enddate"),
+      $dateDisplay  = $("#period .date-display"),
+      $cnranges     = $("#cnranges");
+
+  //add options to $sublibSelect
+  $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
+    var text = novanet.data.sublibraries[code],
+        $opt = $("<option>").attr("value", code).html(text + "(" + code + ")");
+    
+    if (code.match(prohibited)){
+      $opt.prop("disabled", true);
+    }
+    $sublibSelect.append($opt);
+  });
+
+  //make it nice:
+  $sublibSelect.chosen({
+    no_results_text: "No matching sublibrary",
+    search_contains: true,
+    label_with_value_only: true,
+    width: '100%'
+  });
+
+  //set up daterangepicker
+  var writeDatesCallback = function(s,e){
+    $dateDisplay.html(s.format('MMMM D, YYYY') + ' - ' + e.format('MMMM D, YYYY'));
+    $start.val(s.format('YYYY-MM-DD'));
+    $end.val(e.format('YYYY-MM-DD'));
+  }, sept1st = moment();
+  while (sept1st.month() != 8){
+    sept1st.subtract(1,'month');
+  }
+  sept1st.startOf('month');
+  writeDatesCallback(sept1st,moment());
+  
+  $('#period').daterangepicker({
+    startDate: moment($start.val()),
+    endDate: moment($end.val()),
+    minDate: moment().subtract(6, 'years'),
+    maxDate: moment(),
+    showDropdowns: true,
+    linkedCalendars: false,
+    ranges: {
+      'Last 30 Days': [moment().subtract(29,'days'), moment()],
+      'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
+      'This Academic Year': [sept1st, moment()],
+      'Last Academic Year': novanet.fn.prevYearStartingAt(8),
+      'This Calendar Year': [moment().startOf('year'),moment()],
+      'Last Calendar Year': novanet.fn.prevYearStartingAt(0)
+    }
+  }, writeDatesCallback);
+
+  //set up the callnumber range input
+  $cnranges.on("click", ".delete", function(evt){
+    evt.preventDefault();
+    if ($cnranges.find(".cnrange").length > 1){  
+      $(this).parents(".cnrange").remove();
+    }
+  }).on("click", ".add", function(evt){
+    evt.preventDefault();
+    var $last  = $cnranges.find(".cnrange").last()
+        $clone = $last.clone();
+    $last.after($clone);
+  });
+
+  //submitting the form loads the results.
+  $("#submit").on('click', function(evt){
+    var sublibrary = $sublibSelect.val(),
+        startdate = $start.val(),
+        enddate  = $end.val(),
+        cnranges = $cnranges.find("input:valid").map(function(){ return $(this).val().replace('/\s*/g','') || null; }).get();
+    
+    if (!startdate || !enddate || !sublibrary || sublibrary === [] || !cnranges || cnranges === []){
+      alert("The form is not entirely filled out.");
+      return false;
+    }
+
+    var data = {
+      "sublibrary[]" : sublibrary,
+      "begin"        : startdate,
+      "end"          : enddate,
+      "range[]"      : cnranges,
+      "periodSplit"  : $("#periodSplit").prop("checked") ? 'Y' : 'N'
+    };
+
+    novanet.fn.loadResults(report, data);
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>
 

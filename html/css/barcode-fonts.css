@@ -1,6 +1,8 @@
 
 /* Hopefully, most Aleph users will have CarolinaBar fonts installed locally.
-   This is a fallback font for when that is not the case */
+   This is a fallback font for when that is not the case 
+   There is also a barcode font pulled from Google fonts   
+ */
 @font-face {
   font-family: Code39Azalea;
   /* numeric barcodes only */
@@ -12,19 +14,9 @@
   font-style : normal;
 }
 
-/* font-size / line-height of this one is a mess. Not using it 
-@font-face {
-  font-family: IDA39Free;
-  src: url('/fonts/IDAutomationHC39M.woff2') format('woff2'),
-       url('/fonts/IDAutomationHC39M.woff')  format('woff'),
-       url('/fonts/IDAutomationHC39M.otf')   format('opentype'),
-       url('/fonts/IDAutomationHC39M.ttf')   format('truetype');
-  font-weight: normal;
-  font-style : normal;       
-*/
 
 tbody .barcode {
-  font-family: 'CarolinaBar-B39-2.5-22x158x720', Code39Azalea, Source Code Pro, Consolas, monospace; */
+  font-family: 'CarolinaBar-B39-2.5-22x158x720', 'Libre Barcode 39', Code39Azalea, Source Code Pro, Consolas, monospace;
 }
 tbody .barcode.readable {
   font-family: inherit;

@@ -8,9 +8,9 @@ novanet.callNumberRegExp = /^([A-Za-z]{1,3})(?:\/|\s{0,3})([1-9]\d{0,4}(?:\s{0,3
 $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
 
   //enforce string type and trim
-  a = ('' + a).replace(/^\s*|\s*$/g);
-  b = ('' + b).replace(/^\s*|\s*$/g);
-  
+  a = ('' + a).replace(/^\s*|\s*$/g, '');
+  b = ('' + b).replace(/^\s*|\s*$/g, '');
+
   var amatch = a.match(novanet.callNumberRegExp),
       bmatch = b.match(novanet.callNumberRegExp),
       abs, bbs, asc, bsc, adc, bdc, ac1, bc1, ac2, bc2, aext, bext, cmp,
@@ -20,8 +20,8 @@ $.fn.dataTable.ext.type.order['callnumber-asc'] = function(a,b){
   if (!amatch) { return (bmatch ? 1 : a.localeCompare(b, opt_ci)); }
   if (!bmatch) { return -1; }
 
-  abs = amatch[1].toUpperCase();
-  bbs = bmatch[1].toUpperCase();
+  abs = amatch[1];
+  bbs = bmatch[1];
   cmp = abs.localeCompare(bbs, opt_ci);
   if (cmp) { return cmp;  };
 

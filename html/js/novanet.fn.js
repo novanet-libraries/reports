@@ -248,13 +248,13 @@ novanet.fn = (function(){
               displayFmt = "MMM Do YYYY";
               filterFmt  = "dddd MMMM Do YYYY";
             }
-            else if (data.match(/^\d{4}W\d{2}$/)){
-              m = moment().isoWeekYear(data.substr(0,4)).isoWeek(data.substr(-2)).isoWeekday(1);
+            else if (data.match(/^\d{4}W\d{1,2}$/)){
+              m = moment().isoWeekYear(data.substr(0,4)).isoWeek(data.substr(data.indexOf('W')+1)).isoWeekday(1);
               displayFmt = "[Week of] MMM Do YYYY";
               filterFmt  = "[Week of] MMMM Do YYYY";
             }
             else if (data.match(/^\d{6}$/)){
-              m = moment(data + "01", "YYYYMMDD").format("MMM YYYY");
+              m = moment(data + "01", "YYYYMMDD");
               displayFmt = "MMM YYYY";
               filterFmt  = "MMMM YYYY";
             }
@@ -274,8 +274,7 @@ novanet.fn = (function(){
               filterFmt  = "YYYY";
             }
             else {
-              console.warn("Encountered invalid period: " + data);
-              m = m.invalid();
+              return data;
             }
 
             if (type == "filter"){
@@ -413,7 +412,7 @@ novanet.fn = (function(){
         setTitle("", "", "");
         $("#current-report > section").hide();
         hideProgress();
-        
+
         //reclaim memory (destroy "chosen" objects and "DataTable" objects)
         novanet.page.$params.find("select").chosen("destroy");
         novanet.page.$params.find(".panel-body").empty();

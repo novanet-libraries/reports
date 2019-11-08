@@ -16,12 +16,13 @@
     "max-age": "P3M"
   },
   "circ-by-callnumber": {
-    "name": "Circ Totals by Subject",
-    "desc": "Number of circ events by subject",
+    "name": "Circulation by Callnumber",
+    "desc": "Number of circ events in a given subject area",
     "base": "/circulation/",
     "filename": "circ-by-callnumber",
-    "req-params": ["sublibrary[]", "range[]", "start-date", "end-date"],
-    "max-age": "P7D"
+    "req-params": ["sublibrary[]", "range[]", "begin", "end"],
+    "opt-params": ["periodSplit"],
+    "max-age": "P1Y"
   },
   "shelf-list" : {
     "name": "Shelf List",
@@ -30,6 +31,7 @@
     "base": "/cataloguing/",
     "filename": "shelf-list",
     "req-params": ["sublibrary", "collection[]"],
+    "opt-params": ["range"],
     "max-age": "P1M"
   },
   "items-with-pstatus" : {

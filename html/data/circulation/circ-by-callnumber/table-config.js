@@ -1,58 +1,44 @@
 novanet.datatableInitObject = {
-  order: [[9,"desc"]],
-  deferRender: true,
+  order: [[0,"asc"],[1,"asc"]],
   columns: [
     {
-      data : "BARCODE",
-      title: "Barcode",
+      data : "PERIOD",
+      title: "Period",
+      render: novanet.fn.render.period(),
       type: "string",
-      className: "text-nowrap",
-      render: novanet.fn.render.barcode(),
       excelType: "s"
     },{
-      data : "INST_ID",
-      title: "Inst ID",
-      type: "string",
-      visible: false,
-      excelType: "s"
+      data : "CNRANGE",
+      title: "Call Number Range"
     },{
-      data : "Z303_NAME",
-      title: "Name",
-      className: "text-nowrap"
-    },{
-      data : "Z303_HOME_LIBRARY",
-      title: "Home Library",
+      data: "CNRANGE2",
+      title: "Call Number Range",
       visible: false
     },{
-      data : "Z305_BOR_STATUS",
-      title: "Patron Status",
-      visible: false
-    },{
-      data : "LOANS",
+      data : "LOAN",
       title: "Loans",
       excelType: "n"
     },{
-      data : "RENEWALS",
+      data : "RENEWAL",
       title: "Renewals",
       excelType: "n"
     },{
-      data : "HOLDS",
+      data : "HOLD",
       title: "Holds",
       excelType: "n"
     },{
-      data : "PHOTOCOPIES",
+      data : "PHOTOCOPY",
       title: "Photocopies",
-      visible: false,
       excelType: "n"
     },{
-      data : "BOOKINGS",
+      data : "RESHELF",
+      title: "Reshelved",
+      excelType: "n"
+    },{
+      data : "BOOKING",
       title: "Bookings",
-      visible: false,
-      excelType: "n"
-    },{
-      data : "TOTAL",
-      title: "Total",
-      excelType: "n"
+      excelType: "n",
+      visible: false
     }
   ]
 };
