@@ -32,10 +32,15 @@ foreach($validBudgets[$orderUnit][$year] as $budget => $name){
 try{
   $cache = new ReportsCache(basename(__DIR__));
   $maxAge = $year < date('Y')-1 ? 'P1Y' : 'P7D';
-  if ($cache->isStale($maxAge)){
 
-    $budgetString = "('" . join("','", $budgetNumbers) . "')";
-    $sql = str_replace(":BUDGETS", $budgetString, file_get_contents('./query.sql'));
+  if ($cache->isStale($maxAge)){
+    $sql = file_get_contents('./query.sql');
+    $bind = array();
+    foreach($budgetNumbers as $idx => $b){
+      $bind[':B' . $idx] = $b;
+    }
+    $sql = str_replace(":BUDGETS", join(",", array_keys($bind)), $sql);
+
     $aleph = new AlephOracle(AlephOracle::LIVE);
     $cache->refresh(
       $aleph->query($sql, $bind),
