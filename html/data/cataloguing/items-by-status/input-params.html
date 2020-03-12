@@ -68,14 +68,16 @@ $(document).ready(function() {
 
   //submitting the form loads the results.
   $("#submit").on('click', function(evt){
-    var status  = $statusSelect.val(),
+    var lib    = $sublibSelect.val(),
+        col    = $collectSelect.val(),
+        status = $statusSelect.val(),
         data    = {
-          "sublibrary": $sublibSelect.val(),
-          "collection": $collectSelect.val(),
+          "sublibrary": lib,
+          "collection": col,
           "status[]": status
         };
     
-    if (status === null || status === []){
+    if (!lib || !col || status === null || status === []){
       alert("You must fill out all the fields.");
       return false;
     }
