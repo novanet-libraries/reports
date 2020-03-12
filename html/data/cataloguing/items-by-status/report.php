@@ -8,7 +8,7 @@ header('Content-type: application/json; charset=utf-8');
 
 $validation = array();
 $validation[":SUBLIBRARY"] = array_keys(AlephData::sublibraries());
-$validation[":COLLECTION"] = array_keys(AlephData::collections());
+$validation[":COLLECTION"] = AlephData::collections();
 $validation[":STATUS"]    = array_keys(AlephData::itemStatuses());
 foreach($validation as $key => $data){
   if (empty($data)){
@@ -28,11 +28,12 @@ if (!in_array($_GET["sublibrary"], $validation[":SUBLIBRARY"])){
 }
 
 //collection is required
+$validation[":COLLECTION"] = array_keys($validation[":COLLECTION"][$_GET["sublibrary"]]);
 if (empty($_GET["collection"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Must supply at least one collection code.')));
 }
-if (!in_array($c, $validation[":COLLECTION"][$_GET["sublibrary"]])){
+if (!in_array($_GET["collection"], $validation[":COLLECTION"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Invalid collection code.')));
 }
