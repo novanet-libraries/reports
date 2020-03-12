@@ -6,11 +6,11 @@ require('ReportsCache.class.php');
 
 header('Content-type: application/json; charset=utf-8');
 
-$configData = array();
-$configData[":SUBLIBRARY"] = array_keys(AlephData::sublibraries());
-$configData[":COLLECTION"] = array_keys(AlephData::collections());
-$configData[":STATUS"]    = array_keys(AlephData::itemStatuses());
-foreach($configData as $key => $data){
+$validation = array();
+$validation[":SUBLIBRARY"] = array_keys(AlephData::sublibraries());
+$validation[":COLLECTION"] = array_keys(AlephData::collections());
+$validation[":STATUS"]    = array_keys(AlephData::itemStatuses());
+foreach($validation as $key => $data){
   if (empty($data)){
     header('HTTP/1.1 500 Internal Server Error');
     die(json_encode(array('error' => 'Fetching init data failed.')));
@@ -22,7 +22,7 @@ if (empty($_GET["sublibrary"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Must supply sublibrary.')));
 }
-if (!in_array($_GET["sublibrary"], $configData[":SUBLIBRARY"])){
+if (!in_array($_GET["sublibrary"], $validation[":SUBLIBRARY"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Invalid sublibrary.')));
 }
@@ -32,11 +32,9 @@ if (empty($_GET["collection"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Must supply at least one collection code.')));
 }
-foreach($_GET["collection"] as $c){
-  if (!in_array($c, $configData[":COLLECTION"])){
-    header('HTTP/1.1 400 Bad Request');
-    die(json_encode(array('error'=>'Invalid collection code.')));
-  }
+if (!in_array($c, $validation[":COLLECTION"][$_GET["sublibrary"])){
+  header('HTTP/1.1 400 Bad Request');
+  die(json_encode(array('error'=>'Invalid collection code.')));
 }
 
 //pstatus is required
@@ -45,7 +43,7 @@ if (empty($_GET["status"])){
   die(json_encode(array('error'=>'Must supply at least one item status.')));
 }
 foreach($_GET["status"] as $s){
-  if (!in_array($s, $configData[":STATUS"])){
+  if (!in_array($s, $validation[":STATUS"])){
     header('HTTP/1.1 400 Bad Request');
     die(json_encode(array('error'=>'Invalid item status.')));
   }
