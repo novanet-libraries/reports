@@ -3,7 +3,6 @@
   <option></option>
 </select>
 <hr>
-<select id="collection" class="form-control" data-placeholder="Collection(s)" multiple>
   <option></option>
 </select>
 <hr>
@@ -69,15 +68,14 @@ $(document).ready(function() {
 
   //submitting the form loads the results.
   $("#submit").on('click', function(evt){
-    var collect = $collectSelect.val(),
-        status  = $statusSelect.val(),
+    var status  = $statusSelect.val(),
         data    = {
           "sublibrary": $sublibSelect.val(),
-          "collection[]": collect,
+          "collection": $collectSelect.va(),
           "status[]": status
         };
     
-    if (collect === null || collect === [] || status === null || status === []){
+    if (status === null || status === []){
       alert("You must fill out all the fields.");
       return false;
     }

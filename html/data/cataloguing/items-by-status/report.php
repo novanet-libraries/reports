@@ -56,23 +56,16 @@ try{
 
   if ($cache->isStale()){
     $sql = file_get_contents("./query.sql");
+
     $bind = array();
-    $bind[":SUBLIBRARY"] = $_GET["sublibrary"];
-
-    $tmpBind = array();
-    foreach($_GET["collection"] as $idx => $coll){
-      $tmpBind[":COL" . $idx] = $coll;
-    }
-    $sql = str_replace(":COLLECTIONS", join(",", array_keys($tmpBind)), $sql);
-    $bind = array_merge($bind, $tmpBind);
-
-    $tmpBind = array();
     foreach($_GET["status"] as $idx => $s){
-      $tmpBind[":ST" . $idx] = $s;
+      $bind[":ST" . $idx] = $s;
     }
-    $sql = str_replace(":STATUS", join(",", array_keys($tmpBind)), $sql);
-    $bind = array_merge($bind, $tmpBind);
+    $sql = str_replace(":STATUS", join(",", array_keys($bind)), $sql);
 
+    $bind[":SUBLIBRARY"] = $_GET["sublibrary"];
+    $bind[":COLLECTION"] = $_GET["collection"];
+    
     $aleph = new AlephOracle(AlephOracle::LIVE);
 
     $csql = preg_replace('/\bSELECT\b.+?\bFROM\b/is', 'SELECT count(*) FROM', $sql);
