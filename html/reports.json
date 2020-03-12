@@ -47,7 +47,7 @@
     "desc": "List of items by Collection and Item Status",
     "base": "/cataloguing/",
     "filename": "items-by-status",
-    "req-params": ["sublibrary[]", "collection[]", "status[]"],
+    "req-params": ["sublibrary", "collection", "status[]"],
     "max-age": "P1M"
   },
   "items-per-collection": {
