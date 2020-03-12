@@ -32,7 +32,7 @@ if (empty($_GET["collection"])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Must supply at least one collection code.')));
 }
-if (!in_array($c, $validation[":COLLECTION"][$_GET["sublibrary"])){
+if (!in_array($c, $validation[":COLLECTION"][$_GET["sublibrary"]])){
   header('HTTP/1.1 400 Bad Request');
   die(json_encode(array('error'=>'Invalid collection code.')));
 }
