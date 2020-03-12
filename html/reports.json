@@ -42,6 +42,14 @@
     "req-params": ["sublibrary[]", "process-status[]"],
     "max-age": "P1M"
   },
+  "items-by-status" : {
+    "name": "Item Status Report",
+    "desc": "List of items by Collection and Item Status",
+    "base": "/cataloguing/",
+    "filename": "items-by-status",
+    "req-params": ["sublibrary[]", "collection[]", "status[]"],
+    "max-age": "P1M"
+  },
   "items-per-collection": {
     "name": "Items per Collection",
     "desc": "Item count broken down by collection code",
