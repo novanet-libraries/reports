@@ -51,9 +51,6 @@ $(document).ready(function() {
     $.each(Object.keys(novanet.data.collections[sublibrary]).sort(), function(idx, code){
       var text = novanet.data.collections[sublibrary][code],
           $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");
-      if (code.match(prohibited)){
-        $opt.prop("disabled", true);
-      }
       $collectSelect.append($opt);
     });
     $collectSelect.prop("disabled", false).trigger("chosen:updated");
