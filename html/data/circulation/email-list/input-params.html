@@ -1,0 +1,41 @@
+
+<select id="sublibrary" class="form-control" data-placeholder="Sublibrary">
+  <option></option>
+</select>
+
+<script>
+
+$(document).ready(function() {
+  var report = novanet.allreports["email-list"],
+      $sublibSelect = $("#sublibrary"),
+      prohibited = /^NSHA|NOVA|WWW|.+NET|.+BK$/;
+
+  //add options
+  $.each(Object.keys(novanet.data.sublibraries).sort(), function(idx, code){
+    var $opt, text = novanet.data.sublibraries[code];
+
+    $opt = $("<option>").attr("value", code).html(text + " (" + code + ")");
+    if (code.match(prohibited)){
+      $opt.prop("disabled", true);
+    }
+
+    $sublibSelect.append($opt);
+  });
+
+  //make it nice:
+  $sublibSelect.chosen({
+    no_results_text: "No matching sublibrary",
+    search_contains: true,
+    width: "25em"
+  });
+
+  //submit on change:
+  $sublibSelect.on("change", function(){
+    var data = { sublibrary: $sublibSelect.val() };
+
+    novanet.fn.loadResults(report, data);
+    novanet.fn.pushState(report, data);
+  });
+});
+
+</script>

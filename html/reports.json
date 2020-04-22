@@ -7,6 +7,14 @@
     "req-params": ["sublibrary"],
     "max-age": "P7D"
   },
+  "email-list" : {
+    "name": "Email List",
+    "desc": "Patron email addresses per library",
+    "base": "/circulation/",
+    "filename": "email-list",
+    "req-params": ["sublibrary"],
+    "max-age": "P1M"
+  },
   "small-old-fines" : {
     "name": "Old fines under $10",
     "desc": "A list of patrons who have accrued small fines, and have not accrued any new fines in the past 5 years.",
