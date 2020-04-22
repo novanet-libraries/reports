@@ -30,8 +30,10 @@ else{
     $cache = new ReportsCache(basename(__DIR__));
 
     if ($cache->isStale()){
-      $sql     = file_get_contents("./query.sql");
-      $bind    = array(":SUBLIBRARY" => $sublibrary);
+      $sql  = file_get_contents("./query.sql");
+      $bind = array();
+      $bind[':SUBLIBRARY'] = $sublibrary;
+      $bind[':TODAY'] = date('Ymd');
 
       $aleph = new AlephOracle(AlephOracle::LIVE);
       $cache->refresh(
