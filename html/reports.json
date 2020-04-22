@@ -10,6 +10,7 @@
   "email-list" : {
     "name": "Email List",
     "desc": "Patron email addresses per library",
+    "note": "This lists the 'type 2' email address for all patrons from one home library, so long as their local record that corresponds to their home library is not expired.",
     "base": "/circulation/",
     "filename": "email-list",
     "req-params": ["sublibrary"],
