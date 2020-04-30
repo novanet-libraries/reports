@@ -200,6 +200,26 @@ novanet.fn = (function(){
             }
           };
         },
+        lookup: function(datasource, sortmode){
+          //return the text label for a given status code (like bor_status, item_status, etc.)
+          return function(data, type, row, meta){
+            if (!data) return data;
+            if (!novanet.data[datasource]) return data;
+            if (!novanet.data[datasource][data] return data;
+            if (! typeof (novanet.data[datasource][data]) == 'string') return data;
+            
+            if (type == "display" || type == "filter"){
+              return novanet.data[datasource][data] +  ' (' + data + ')'; 
+            }
+            else if (type == "sort"){
+              //@todo, check sortmode -- either sort by code (default) or sort by label text
+              return data;
+            }
+            else
+              return data;
+            }
+          }
+        },
         number: function(precision, prefix, suffix){
           return function(data, type, row, meta){
             var parts, d = parseFloat(data);
