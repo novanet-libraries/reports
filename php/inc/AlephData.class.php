@@ -74,6 +74,10 @@ class AlephData {
 
     return $data;
   }
+  
+  public static function collectionsFlat(){
+    return self::collections(true);
+  }
 
   public static function institutionSublibraries(){
     $rv = [];
