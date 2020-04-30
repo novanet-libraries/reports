@@ -58,11 +58,13 @@ novanet.datatableInitObject = {
       data: "ITEM_STATUS",
       title: "Item Status",
       visible: false,
+      render: novanet.fn.render.lookup("itemStatuses"),
       type: "string",
       excelType: "s"
     },{
       data: "PROCESS_STATUS",
-      title: "Item Process Status"
+      title: "Item Process Status",
+      render: novanet.fn.render.lookup("itemStatuses")      
     },{
       data: "DUEDATE",
       title: "Due Date",
