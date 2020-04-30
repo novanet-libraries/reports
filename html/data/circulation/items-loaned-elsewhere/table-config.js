@@ -33,7 +33,7 @@ novanet.datatableInitObject = {
     },{
       data: "SUB_LIBRARY",
       title: "Owning Library",
-      render: novanet.fn.render.lookup("sublibraries")
+      render: novanet.fn.render.lookup("sublibraries"),
       visible: false
     },{
       data: "COLLECTION",
