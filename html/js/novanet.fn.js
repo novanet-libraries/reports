@@ -215,10 +215,10 @@ novanet.fn = (function(){
               //@todo, check sortmode -- either sort by code (default) or sort by label text
               return data;
             }
-            else
+            else{
               return data;
             }
-          }
+          };
         },
         number: function(precision, prefix, suffix){
           return function(data, type, row, meta){
