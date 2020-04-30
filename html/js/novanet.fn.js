@@ -203,10 +203,10 @@ novanet.fn = (function(){
         lookup: function(datasource, sortmode){
           //return the text label for a given status code (like bor_status, item_status, etc.)
           return function(data, type, row, meta){
-            if (!data) return data;
-            if (!novanet.data[datasource]) return data;
-            if (!novanet.data[datasource][data] return data;
-            if (! typeof (novanet.data[datasource][data]) == 'string') return data;
+            if (!data) { return data; }
+            if (!novanet.data[datasource]) { return data; }
+            if (!novanet.data[datasource][data]) { return data; }
+            if (! typeof (novanet.data[datasource][data]) == 'string') { return data; }
             
             if (type == "display" || type == "filter"){
               return novanet.data[datasource][data] +  ' (' + data + ')'; 
