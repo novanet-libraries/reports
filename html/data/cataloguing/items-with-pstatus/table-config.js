@@ -31,7 +31,8 @@ novanet.datatableInitObject = {
       excelType: "s"
     },{
       data: "COLLECTION",
-      title: "Collection"
+      title: "Collection",
+      render: novanet.fn.render.lookup("collectionsFlat")
     },{
       data: "CALLNUMBER",
       title: "Callnumber",
@@ -51,11 +52,15 @@ novanet.datatableInitObject = {
     },{
       data: "ITEM_STATUS",
       title: "Item Status",
+      render: novanet.fn.render.lookup("itemStatuses"),
+      className: "text-nowrap",
       type: "string",
       excelType: "s"
     },{
       data: "PROCESS_STATUS",
-      title: "Item Process Status"
+      title: "Item Process Status",
+      render: novanet.fn.render.lookup("itemProcessStatuses"),
+      className: "text-nowrap"
    },{
      data: "PROCESS_STATUS_DATE",
      title: "Process Status Date",

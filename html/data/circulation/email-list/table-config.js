@@ -8,6 +8,7 @@ novanet.datatableInitObject = {
     },{
       data : 'BOR_STATUS',
       title: 'Patron Status',
+      render: novanet.fn.render.lookup("patronStatuses"),
       type: 'string',
       excelType: 's'
     }

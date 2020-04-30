@@ -34,7 +34,6 @@ novanet.datatableInitObject = {
       data: "COLLECTION",
       title: "Collection",
       render: novanet.fn.render.lookup("collectionsFlat"),
-      className: "text-nowrap",
       visible: false
     },{
       data: "CALLNUMBER",
