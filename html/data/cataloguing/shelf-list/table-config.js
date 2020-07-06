@@ -75,7 +75,7 @@ novanet.datatableInitObject = {
       render: novanet.fn.render.date("MMM Do"),
       excelType: "d",
       excelFmt: "mmm d"
-    }/*,{
+    },{
       data: "LAST_EDIT",
       title: "Last Edit",
       className: "text-nowrap",
@@ -83,6 +83,6 @@ novanet.datatableInitObject = {
       render: novanet.fn.render.date("YYYY-MM-DD"),
       excelType: "d",
       excelFmt: "yyyy-mm-dd"
-    }*/
+    }
   ]
 };
