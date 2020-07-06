@@ -1,6 +1,6 @@
 novanet.datatableInitObject = {
   //ordering: false,
-  order: [[7,"asc"],[8,"asc"]],
+  order: [[8,"asc"],[9,"asc"]],
   deferRender: true,
   columns: [
     {
