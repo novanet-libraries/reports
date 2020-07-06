@@ -27,7 +27,13 @@ novanet.datatableInitObject = {
       excelType: "s"
     },{
       data: "BIB_NUMBER",
-      title: "BIB number",
+      title: "BIB Number",
+      type: "string",
+      excelType: "s"
+    },{
+      data: "HOL_NUMBER",
+      title: "HOL Number",
+      visible: false,
       type: "string",
       excelType: "s"
     },{
@@ -55,6 +61,14 @@ novanet.datatableInitObject = {
       className: "text-nowrap",
       render: novanet.fn.render.barcode(),
       excelType: "s"
+    },{
+      data: "OPEN_DATE",
+      title: "Date Added",
+      className: "text-nowrap",
+      render: novanet.fn.render.date("YYYY-MM-DD"),
+      visible: false,
+      excelType: "d",
+      excelFmt: "yyyy-mm-dd"
     },{
       data: "ITEM_STATUS",
       title: "Item Status",
